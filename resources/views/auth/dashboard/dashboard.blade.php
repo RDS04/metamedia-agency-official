@@ -58,7 +58,7 @@
 
             <div class="card-body text-center">
                 <h4 class="fw-bold">
-                    Halo, {{ $mahasiswa->name ?? 'Pengguna' }}
+                    Halo, {{ $user->name ?? 'Pengguna' }}
                 </h4>
 
                 <p class="text-muted">
@@ -75,7 +75,7 @@
                     <div class="card-body text-center">
                         <h2>👨‍🎓</h2>
                         <h5>Data Mahasiswa</h5>
-                        <a href="{{ route('edit', $mahasiswa->id) }}" class="btn btn-primary mt-2">
+                        <a href="" class="btn btn-primary mt-2">
                             Kelola Data
                         </a>
                     </div>
