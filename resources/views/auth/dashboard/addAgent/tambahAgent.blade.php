@@ -11,7 +11,7 @@
 
         <div>
             <h1 class="text-3xl font-bold text-black">
-                Tambah Agent
+                Tambah Calon Mahasiwsa
             </h1>
 
             <p class="text-gray-400 mt-1">
@@ -19,7 +19,7 @@
             </p>
         </div>
 
-        <a href="{{ route('Add.agent') }}"
+        <a href="{{ route('agen.Create') }}"
             class="bg-gray-700 hover:bg-gray-600 text-white px-4 py-2 rounded-lg transition">
             ← Kembali
         </a>
@@ -32,7 +32,7 @@
         <div class="border-b border-gray-200 px-6 py-5 bg-gradient-to-r from-[#018FD7] to-[#0177BB]">
 
             <h2 class="text-white text-lg font-semibold">
-                Form Tambah Agent Baru
+                Form Tambah Calon Mahasiswa
             </h2>
 
         </div>
@@ -230,7 +230,7 @@
 
                 <button type="submit"
                     class="px-6 py-2 bg-[#018FD7] hover:bg-[#0177BB] text-white rounded-lg font-medium shadow transition">
-                    Simpan Agent
+                    Simpan
                 </button>
 
             </div>
