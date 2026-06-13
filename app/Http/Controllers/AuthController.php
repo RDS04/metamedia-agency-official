@@ -61,11 +61,16 @@ class AuthController extends Controller
             'password' => $validated['password'],
         ];
 
-        if (Auth::attempt($credentials)) {
+        // Support remember me
+        $remember = $request->has('remember');
+
+        if (Auth::attempt($credentials, $remember)) {
 
             $request->session()->regenerate();
 
-            return redirect()->route('dashboard');
+            return redirect()
+                ->intended(route('dashboard'))
+                ->with('success', 'Selamat datang kembali!');
         }
 
         return back()
@@ -81,6 +86,6 @@ class AuthController extends Controller
         Auth::logout();
         $request->session()->invalidate();
         $request->session()->regenerateToken();
-        return redirect()->route('login');
+        return redirect()->route('auth.login');
     }
 }

@@ -5,41 +5,39 @@ use App\Http\Controllers\DashboardController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\FormController;
 
-// Route::controller(FormController::class)->prefix('form')->group(function () {
+// Public Routes
+Route::controller(DashboardController::class)->group(function () {
+    Route::get('/', 'informasi')->name('informasi');
+});
 
-//     Route::get('/', 'index')->name('showName');
-
-//     Route::post('/', 'store')->name('forms.store');
-
-//     Route::get('/dashboard', 'dashboard')->name('dashboard');
-
-//     Route::get('/selamat', 'selamat')->name('selamat');
-
-//     Route::get('/show', 'show')->name('show');
-
-//     Route::get('/edit', 'edit')->name('edit');
-
-//     Route::put('/mahasiswa/update', 'update')->name('form.update');
-// });
-Route::controller(AuthController::class)->prefix('auth')->group(function () {
-
+// Authentication Routes (Guest Only)
+Route::controller(AuthController::class)->prefix('auth')->middleware('guest')->group(function () {
     Route::get('/login', 'login')->name('auth.login');
     Route::get('/register', 'register')->name('auth.register');
     Route::post('/login', 'loginProcess')->name('login.proses');
     Route::post('/register', 'registerStore')->name('register.store');
-    Route::put('/logout', 'logout')->name('auth.logout');
-    Route::get('/logout','logout')->name('logout');
 });
 
-Route::controller(DashboardController::class)->group(function () {
-    Route::get('/', 'informasi')->name('informasi');
-    Route::get('/dashboard', 'dashboard')->name('dashboard');
-    Route::get('/tambahAgent','tambahAgent')->name('Add.agent');
-    Route::post('/tambahAgent','agenStore')->name('agen.Store');
-    Route::get('/create', 'tambahAgent')->name('agen.Create');
-    Route::post('/store', 'agenStore')->name('agen.Store');
-    Route::get('/show', 'agenShow')->name('agen.Show');
-    Route::get('/{id}/edit', 'agenEdit')->name('agen.Edit');
-    Route::put('/{id}', 'agenUpdate')->name('agen.Update');
-    Route::delete('/{id}', 'agenDestroy')->name('agen.Destroy');
+// Authenticated Routes
+Route::middleware('auth')->group(function () {
+    
+    // Auth Logout
+    Route::controller(AuthController::class)->prefix('auth')->group(function () {
+        Route::put('/logout', 'logout')->name('auth.logout');
+        Route::get('/logout', 'logout')->name('logout');
+    });
+
+    // Dashboard & Agent Management
+    Route::controller(DashboardController::class)->group(function () {
+        Route::get('/dashboard', 'dashboard')->name('dashboard');
+        
+        // Agent Routes
+        Route::get('/create', 'tambahAgent')->name('agen.Create');
+        Route::post('/store', 'agenStore')->name('agen.Store');
+        Route::get('/show', 'agenShow')->name('agen.Show');
+        Route::get('/{id}/edit', 'agenEdit')->name('agen.Edit');
+        Route::put('/{id}', 'agenUpdate')->name('agen.Update');
+        Route::delete('/{id}', 'agenDestroy')->name('agen.Destroy');
+    });
 });
+

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Agent;
+use App\Models\User;
 use Auth;
 use Illuminate\Http\Request;
 
@@ -13,10 +14,11 @@ class DashboardController extends Controller
         return view('informasi');
     }
 
-    public function dashboard()
+    public function dashboard(Request $request)
     {
-        $user = Auth::user();
-        return view('auth.dashboard.dashboard', ['user' => $user]);
+        $agents = User::latest()->get();
+
+        return view('auth.dashboard.dashboard', compact('agents'));
     }
 
     public function app()
