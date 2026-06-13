@@ -1,149 +1,169 @@
-<!DOCTYPE html>
-<html lang="id">
+@extends('auth.layout.app')
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dashboard</title>
+@section('title', 'Dashboard')
 
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+@section('page-title', 'Dashboard')
 
-    <style>
-        body {
-            background: #f5f7fa;
-        }
+@section('content')
 
-        .welcome-card {
-            border-radius: 20px;
-            overflow: hidden;
-        }
+<!-- Statistik -->
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
 
-        .header-bg {
-            background: linear-gradient(135deg, #0d6efd, #0dcaf0);
-            color: white;
-            padding: 50px 30px;
-        }
+    <!-- Total User -->
+    <div class="bg-white rounded-2xl shadow-sm p-6 border-l-4 border-[#018FD7]">
 
-        .menu-card {
-            transition: 0.3s;
-        }
+        <div class="flex justify-between items-center">
 
-        .menu-card:hover {
-            transform: translateY(-5px);
-        }
-    </style>
-</head>
-
-<body>
-
-    <div class="container py-5">
-
-        <!-- Welcome Section -->
-        <div class="card shadow border-0 welcome-card mb-4">
-            <div class="header-bg text-center">
-                @if(session('success'))
-                    <div class="alert alert-success">
-                        {{ session('success') }}
-                    </div>
-                @endif
-                <h1 class="fw-bold">
-                    Selamat Datang 👋
-                </h1>
-
-                <p class="mb-0 fs-5">
-                    Anda berhasil masuk ke sistem.
+            <div>
+                <p class="text-gray-500 text-sm">
+                    Total User
                 </p>
 
+                <h2 class="text-3xl font-bold mt-2">
+                    1.250
+                </h2>
             </div>
 
-            <div class="card-body text-center">
-                <h4 class="fw-bold">
-                    Halo, {{ $user->name ?? 'Pengguna' }}
-                </h4>
-
-                <p class="text-muted">
-                    Selamat bekerja dan semoga aktivitas Anda hari ini berjalan lancar.
-                </p>
-            </div>
-        </div>
-
-        <!-- Menu Dashboard -->
-        <div class="row g-4">
-
-            <div class="col-md-4">
-                <div class="card shadow-sm border-0 menu-card">
-                    <div class="card-body text-center">
-                        <h2>👨‍🎓</h2>
-                        <h5>Data Mahasiswa</h5>
-                        <a href="" class="btn btn-primary mt-2">
-                            Kelola Data
-                        </a>
-                    </div>
-                </div>
-            </div>
-
-            <div class="col-md-4">
-                <div class="card shadow-sm border-0 menu-card">
-                    <div class="card-body text-center">
-                        <h2>📚</h2>
-                        <h5>Data Akademik</h5>
-                        <a href="#" class="btn btn-success mt-2">
-                            Lihat Data
-                        </a>
-                    </div>
-                </div>
-            </div>
-
-            <div class="col-md-4">
-                <div class="card shadow-sm border-0 menu-card">
-                    <div class="card-body text-center">
-                        <h2>⚙️</h2>
-                        <h5>Pengaturan</h5>
-                        <a href="#" class="btn btn-warning mt-2">
-                            Kelola
-                        </a>
-                    </div>
-                </div>
+            <div class="text-4xl">
+                👥
             </div>
 
         </div>
 
-        <!-- Statistik -->
-        <div class="row mt-5">
+    </div>
 
-            <div class="col-md-3">
-                <div class="card border-0 shadow-sm">
-                    <div class="card-body text-center">
-                        <h3 class="text-primary">150</h3>
-                        <p>Total Mahasiswa</p>
-                    </div>
+    <!-- Mahasiswa -->
+    <div class="bg-white rounded-2xl shadow-sm p-6 border-l-4 border-green-500">
+
+        <div class="flex justify-between items-center">
+
+            <div>
+                <p class="text-gray-500 text-sm">
+                    Mahasiswa
+                </p>
+
+                <h2 class="text-3xl font-bold mt-2">
+                    850
+                </h2>
+            </div>
+
+            <div class="text-4xl">
+                🎓
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- Alumni -->
+    <div class="bg-white rounded-2xl shadow-sm p-6 border-l-4 border-yellow-500">
+
+        <div class="flex justify-between items-center">
+
+            <div>
+                <p class="text-gray-500 text-sm">
+                    Alumni
+                </p>
+
+                <h2 class="text-3xl font-bold mt-2">
+                    280
+                </h2>
+            </div>
+
+            <div class="text-4xl">
+                🏆
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- Referral -->
+    <div class="bg-white rounded-2xl shadow-sm p-6 border-l-4 border-red-500">
+
+        <div class="flex justify-between items-center">
+
+            <div>
+                <p class="text-gray-500 text-sm">
+                    Referral
+                </p>
+
+                <h2 class="text-3xl font-bold mt-2">
+                    120
+                </h2>
+            </div>
+
+            <div class="text-4xl">
+                🔗
+            </div>
+
+        </div>
+
+    </div>
+
+</div>
+
+<!-- Grafik dan Aktivitas -->
+<div class="grid lg:grid-cols-3 gap-6 mt-6">
+
+    <!-- Grafik -->
+    <div class="lg:col-span-2 bg-white rounded-2xl shadow-sm p-6">
+
+        <div class="flex justify-between mb-4">
+
+            <h2 class="font-bold text-lg">
+                Statistik Pendaftaran
+            </h2>
+
+            <span class="text-sm text-gray-500">
+                Tahun 2026
+            </span>
+
+        </div>
+
+        <canvas id="registrationChart" height="100"></canvas>
+
+    </div>
+
+    <!-- Ringkasan -->
+    <div class="bg-white rounded-2xl shadow-sm p-6">
+
+        <h2 class="font-bold text-lg mb-5">
+            Ringkasan
+        </h2>
+
+        <div class="space-y-5">
+
+            <div>
+                <div class="flex justify-between">
+                    <span>Pendaftar</span>
+                    <span class="font-bold">850</span>
+                </div>
+
+                <div class="w-full bg-gray-200 rounded-full h-2 mt-2">
+                    <div class="bg-[#018FD7] h-2 rounded-full w-[85%]"></div>
                 </div>
             </div>
 
-            <div class="col-md-3">
-                <div class="card border-0 shadow-sm">
-                    <div class="card-body text-center">
-                        <h3 class="text-success">25</h3>
-                        <p>Dosen</p>
-                    </div>
+            <div>
+                <div class="flex justify-between">
+                    <span>Diterima</span>
+                    <span class="font-bold">700</span>
+                </div>
+
+                <div class="w-full bg-gray-200 rounded-full h-2 mt-2">
+                    <div class="bg-green-500 h-2 rounded-full w-[70%]"></div>
                 </div>
             </div>
 
-            <div class="col-md-3">
-                <div class="card border-0 shadow-sm">
-                    <div class="card-body text-center">
-                        <h3 class="text-warning">10</h3>
-                        <p>Kelas</p>
-                    </div>
+            <div>
+                <div class="flex justify-between">
+                    <span>Registrasi Ulang</span>
+                    <span class="font-bold">620</span>
                 </div>
-            </div>
 
-            <div class="col-md-3">
-                <div class="card border-0 shadow-sm">
-                    <div class="card-body text-center">
-                        <h3 class="text-danger">5</h3>
-                        <p>Pengumuman</p>
-                    </div>
+                <div class="w-full bg-gray-200 rounded-full h-2 mt-2">
+                    <div class="bg-yellow-500 h-2 rounded-full w-[62%]"></div>
                 </div>
             </div>
 
@@ -151,6 +171,128 @@
 
     </div>
 
-</body>
+</div>
 
-</html>
+<!-- Tabel -->
+<div class="bg-white rounded-2xl shadow-sm mt-6">
+
+    <div class="p-6 border-b">
+
+        <h2 class="font-bold text-lg">
+            Pendaftaran Terbaru
+        </h2>
+
+    </div>
+
+    <div class="overflow-x-auto">
+
+        <table class="w-full">
+
+            <thead class="bg-gray-50">
+
+                <tr>
+
+                    <th class="p-4 text-left">Nama</th>
+                    <th class="p-4 text-left">Status</th>
+                    <th class="p-4 text-left">No HP</th>
+                    <th class="p-4 text-left">Tanggal</th>
+
+                </tr>
+
+            </thead>
+
+            <tbody>
+
+                <tr class="border-t hover:bg-gray-50">
+
+                    <td class="p-4">Andi Saputra</td>
+
+                    <td class="p-4">
+                        <span class="bg-green-100 text-green-700 px-3 py-1 rounded-full text-sm">
+                            Mahasiswa
+                        </span>
+                    </td>
+
+                    <td class="p-4">081234567890</td>
+
+                    <td class="p-4">13 Juni 2026</td>
+
+                </tr>
+
+                <tr class="border-t hover:bg-gray-50">
+
+                    <td class="p-4">Budi Santoso</td>
+
+                    <td class="p-4">
+                        <span class="bg-blue-100 text-blue-700 px-3 py-1 rounded-full text-sm">
+                            Alumni
+                        </span>
+                    </td>
+
+                    <td class="p-4">081234567891</td>
+
+                    <td class="p-4">12 Juni 2026</td>
+
+                </tr>
+
+            </tbody>
+
+        </table>
+
+    </div>
+
+</div>
+
+@endsection
+
+@push('scripts')
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<script>
+
+new Chart(document.getElementById('registrationChart'), {
+
+    type: 'line',
+
+    data: {
+
+        labels: [
+            'Jan',
+            'Feb',
+            'Mar',
+            'Apr',
+            'Mei',
+            'Jun'
+        ],
+
+        datasets: [{
+
+            label: 'Pendaftaran',
+
+            data: [
+                50,
+                120,
+                180,
+                250,
+                350,
+                450
+            ],
+
+            borderColor: '#018FD7',
+
+            backgroundColor: 'rgba(1,143,215,0.1)',
+
+            fill: true,
+
+            tension: 0.4
+
+        }]
+
+    }
+
+});
+
+</script>
+
+@endpush

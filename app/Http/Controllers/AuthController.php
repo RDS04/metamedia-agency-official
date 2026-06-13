@@ -73,15 +73,8 @@ class AuthController extends Controller
             ->with('error', 'Nomor WhatsApp atau Password salah');
     }
 
-    public function dashboard()
-    {
-        $user = Auth::user();
-        return view('auth.dashboard.dashboard', ['user' => $user]);
-    }
-    public function informasi(){
-        return view('informasi');
-    }
-
+   
+  
  
     public function logout(Request $request)
     {
