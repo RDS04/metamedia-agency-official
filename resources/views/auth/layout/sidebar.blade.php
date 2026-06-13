@@ -90,13 +90,44 @@
 
         </div>
 
-        <!-- Referral -->
-        <a href="{{route('Add.agent') }}" class="flex items-center px-4 py-3 mt-3 rounded-lg text-gray-300 hover:bg-gray-800 transition font-medium">
-            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
-                <path d="M16.5 12c1.38 0 2.49-1.12 2.49-2.5S17.88 7 16.5 7 14 8.12 14 9.5s1.12 2.5 2.5 2.5zm-9-2c1.66 0 2.99-1.34 2.99-3S8.66 4 7 4 4 5.34 4 7s1.34 3 3 3zm0 2c-2.33 0-7 1.17-7 3.5V19h14v-2.5c0-2.33-4.67-3.5-7-3.5zm9 0c-.29 0-.62.02-.97.05 1.16.89 1.97 2.47 1.97 4.45V19h6v-2.5c0-2.33-4.67-3.5-7-3.5z"/>
-            </svg>
-            <span class="ml-3">Tambah Agent</span>
-        </a>
+        <!-- Agent Management -->
+        <div x-data="{ open: false }" class="mt-3">
+
+            <button @click="open = !open"
+                class="w-full flex items-center justify-between px-4 py-3 rounded-lg text-gray-300 hover:bg-gray-800 transition font-medium">
+
+                <div class="flex items-center">
+                    <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                        <path d="M16.5 12c1.38 0 2.49-1.12 2.49-2.5S17.88 7 16.5 7 14 8.12 14 9.5s1.12 2.5 2.5 2.5zm-9-2c1.66 0 2.99-1.34 2.99-3S8.66 4 7 4 4 5.34 4 7s1.34 3 3 3zm0 2c-2.33 0-7 1.17-7 3.5V19h14v-2.5c0-2.33-4.67-3.5-7-3.5zm9 0c-.29 0-.62.02-.97.05 1.16.89 1.97 2.47 1.97 4.45V19h6v-2.5c0-2.33-4.67-3.5-7-3.5z"/>
+                    </svg>
+                    <span class="ml-3">Agent</span>
+                </div>
+
+                <svg class="w-4 h-4 transition-transform" :class="open ? 'rotate-180' : ''" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3"/>
+                </svg>
+
+            </button>
+
+            <div x-show="open" x-transition class="mt-2 space-y-1 bg-gray-800 rounded-lg p-2 ml-2">
+
+                <a href="{{ route('agen.Create') }}" class="block py-2 px-4 rounded text-gray-300 hover:bg-gray-700 hover:text-white transition text-sm">
+                    <span class="flex items-center">
+                        <span class="inline-block w-1.5 h-1.5 bg-[#018FD7] rounded-full mr-2"></span>
+                        Tambah Agent
+                    </span>
+                </a>
+
+                <a href="{{ route('agen.Show') }}" class="block py-2 px-4 rounded text-gray-300 hover:bg-gray-700 hover:text-white transition text-sm">
+                    <span class="flex items-center">
+                        <span class="inline-block w-1.5 h-1.5 bg-[#018FD7] rounded-full mr-2"></span>
+                        Daftar Agent
+                    </span>
+                </a>
+
+            </div>
+
+        </div>
 
         <!-- Komisi -->
         <a href="#" class="flex items-center px-4 py-3 mt-2 rounded-lg text-gray-300 hover:bg-gray-800 transition font-medium">

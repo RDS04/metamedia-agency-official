@@ -35,4 +35,11 @@ Route::controller(DashboardController::class)->group(function () {
     Route::get('/', 'informasi')->name('informasi');
     Route::get('/dashboard', 'dashboard')->name('dashboard');
     Route::get('/tambahAgent','tambahAgent')->name('Add.agent');
+    Route::post('/tambahAgent','agenStore')->name('agen.Store');
+    Route::get('/create', 'tambahAgent')->name('agen.Create');
+    Route::post('/store', 'agenStore')->name('agen.Store');
+    Route::get('/show', 'agenShow')->name('agen.Show');
+    Route::get('/{id}/edit', 'agenEdit')->name('agen.Edit');
+    Route::put('/{id}', 'agenUpdate')->name('agen.Update');
+    Route::delete('/{id}', 'agenDestroy')->name('agen.Destroy');
 });
