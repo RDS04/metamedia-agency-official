@@ -91,9 +91,17 @@ class AuthController extends Controller
     public function adminregisterStore(Request $request)
     {
         $validated = $request->validate([
-            'name' => 'required|max:255',
+            'name' => 'required|string|max:255',
             'email' => 'required|email|unique:admins,email',
             'password' => 'required|min:8|confirmed',
+        ], [
+            'name.required' => 'Nama harus diisi',
+            'email.required' => 'Email harus diisi',
+            'email.email' => 'Format email tidak valid',
+            'email.unique' => 'Email admin sudah terdaftar',
+            'password.required' => 'Password harus diisi',
+            'password.min' => 'Password minimal 8 karakter',
+            'password.confirmed' => 'Konfirmasi password tidak sesuai',
         ]);
 
         Admin::create([
@@ -111,6 +119,10 @@ class AuthController extends Controller
         $validated = $request->validate([
             'email' => 'required|email',
             'password' => 'required',
+        ], [
+            'email.required' => 'Email harus diisi',
+            'email.email' => 'Format email tidak valid',
+            'password.required' => 'Password harus diisi',
         ]);
 
         $remember = $request->has('remember');
@@ -119,12 +131,30 @@ class AuthController extends Controller
 
             $request->session()->regenerate();
 
-            return redirect()->route('dashboard.auth');
+            return redirect()
+                ->intended(route('dashboard.auth'))
+                ->with('success', 'Selamat datang, admin!');
         }
 
         return back()
             ->withInput()
             ->with('error', 'Email atau Password salah');
+    }
+
+    public function adminDashboard()
+    {
+        $agents = User::latest()->get();
+
+        return view('auth.admin.dasboard.dashboard', compact('agents'));
+    }
+
+    public function adminLogout(Request $request)
+    {
+        Auth::guard('admin')->logout();
+        $request->session()->invalidate();
+        $request->session()->regenerateToken();
+
+        return redirect()->route('login.admin');
     }
 
 

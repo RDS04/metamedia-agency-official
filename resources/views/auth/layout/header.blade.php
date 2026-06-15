@@ -17,7 +17,7 @@
             <div>
 
                 <div class="font-semibold">
-                    {{ Auth::user()->name ?? 'Admin' }}
+                    {{ Auth::guard('admin')->user()->name ?? Auth::user()->name ?? 'Admin' }}
                 </div>
 
                 <div class="text-xs text-gray-500">

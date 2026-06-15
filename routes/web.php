@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AdminController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\DashboardController;
 use Illuminate\Support\Facades\Route;
@@ -18,7 +19,7 @@ Route::controller(AuthController::class)->prefix('auth')->middleware('guest')->g
     Route::post('/register', 'registerStore')->name('register.store');
     Route::get('/loginAdmin', 'loginAdmin')->name('login.admin');
     Route::get('/registerAdmin', 'registerAdmin')->name('register.admin');
-    Route::post('/loginAdmin', 'adminlogin')->name('login.admin');
+    Route::post('/loginAdmin', 'adminlogin')->name('login.admin.process');
     Route::post('/registerAdmin', 'adminregisterStore')->name('adminregisterStore');
 
 });
@@ -48,9 +49,9 @@ Route::middleware('auth')->group(function () {
 });
 Route::middleware('auth:admin')->group(function () {
 
-    Route::get('/dashboard', [AuthController::class, 'dashboard'])
+    Route::get('/admin/dashboard', [AdminController::class, 'adminDashboard'])
         ->name('dashboard.auth');
-    Route::post('/logout', [AuthController::class, 'logout'])
+    Route::post('/admin/logout', [AdminController::class, 'adminLogout'])
         ->name('logout.admin');
 
 });

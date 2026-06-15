@@ -41,6 +41,23 @@
                 <!-- Form -->
                 <form action="{{ route('adminregisterStore') }}" method="POST" class="p-8">
                     @csrf
+
+                    @if(session('success'))
+                        <div class="mb-4 bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded-xl">
+                            {{ session('success') }}
+                        </div>
+                    @endif
+
+                    @if ($errors->any())
+                        <div class="mb-4 bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded-xl">
+                            <ul class="list-disc list-inside">
+                                @foreach ($errors->all() as $error)
+                                    <li>{{ $error }}</li>
+                                @endforeach
+                            </ul>
+                        </div>
+                    @endif
+
                     <!-- Nama -->
                     <div class="mb-5">
 
@@ -48,7 +65,7 @@
                             Nama Lengkap
                         </label>
 
-                        <input type="text" name="name" placeholder="Masukkan nama lengkap"
+                        <input type="text" name="name" value="{{ old('name') }}" placeholder="Masukkan nama lengkap"
                             class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:border-[#018FD7] focus:ring-4 focus:ring-blue-100 outline-none transition">
                     </div>
                     <!-- Email -->
@@ -56,7 +73,7 @@
                         <label class="block text-sm font-medium text-gray-700 mb-2">
                             Email
                         </label>
-                        <input type="email" name="email" placeholder="admin@email.com"
+                        <input type="email" name="email" value="{{ old('email') }}" placeholder="admin@email.com"
                             class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:border-[#018FD7] focus:ring-4 focus:ring-blue-100 outline-none transition">
                     </div>
                     <!-- Password -->
@@ -70,6 +87,7 @@
 
                             <button type="button" onclick="togglePassword('password')"
                                 class="absolute right-4 top-3 text-gray-500">
+                                Lihat
                             </button>
                         </div>
                     </div>
@@ -84,6 +102,7 @@
                                 class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:border-[#018FD7] focus:ring-4 focus:ring-blue-100 outline-none transition">
                             <button type="button" onclick="togglePassword('password_confirmation')"
                                 class="absolute right-4 top-3 text-gray-500">
+                                Lihat
                             </button>
                         </div>
                     </div>
@@ -154,8 +173,6 @@
         }
 
     </script>
-    ```
-
 </body>
 
 </html>
