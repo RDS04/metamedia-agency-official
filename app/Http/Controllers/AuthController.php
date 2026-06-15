@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Admin;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -78,9 +79,56 @@ class AuthController extends Controller
             ->with('error', 'Nomor WhatsApp atau Password salah');
     }
 
-   
-  
- 
+    public function loginAdmin(Request $request)
+    {
+        return view('auth.admin.login');
+    }
+
+    public function registerAdmin(Request $request)
+    {
+        return view('auth.admin.register');
+    }
+    public function adminregisterStore(Request $request)
+    {
+        $validated = $request->validate([
+            'name' => 'required|max:255',
+            'email' => 'required|email|unique:admins,email',
+            'password' => 'required|min:8|confirmed',
+        ]);
+
+        Admin::create([
+            'name' => $validated['name'],
+            'email' => $validated['email'],
+            'password' => Hash::make($validated['password']),
+        ]);
+
+        return redirect()
+            ->route('login.admin')
+            ->with('success', 'Registrasi berhasil, silakan login.');
+    }
+    public function adminlogin(Request $request)
+    {
+        $validated = $request->validate([
+            'email' => 'required|email',
+            'password' => 'required',
+        ]);
+
+        $remember = $request->has('remember');
+
+        if (Auth::guard('admin')->attempt($validated, $remember)) {
+
+            $request->session()->regenerate();
+
+            return redirect()->route('dashboard.auth');
+        }
+
+        return back()
+            ->withInput()
+            ->with('error', 'Email atau Password salah');
+    }
+
+
+
     public function logout(Request $request)
     {
         Auth::logout();
