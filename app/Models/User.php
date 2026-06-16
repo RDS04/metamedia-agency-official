@@ -24,6 +24,8 @@ class User extends Authenticatable
         'status',
         'phone',
         'password',
+        'kode_referral',
+        'is_active',
     ];
 
     /**

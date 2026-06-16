@@ -36,6 +36,7 @@ Route::middleware('auth')->group(function () {
     // Dashboard & Agent Management
     Route::controller(DashboardController::class)->group(function () {
         Route::get('/dashboard', 'dashboard')->name('dashboard');
+        Route::get('/laporan', 'laporanAgent')->name('laporan');
 
         // Agent Routes
         Route::get('/create', 'tambahAgent')->name('agen.Create');
@@ -47,12 +48,26 @@ Route::middleware('auth')->group(function () {
     });
 
 });
+
+// Admin Routes (Separate from auth middleware)
 Route::middleware('auth:admin')->group(function () {
 
-    Route::get('/admin/dashboard', [AdminController::class, 'adminDashboard'])
-        ->name('dashboard.auth');
-    Route::post('/admin/logout', [AdminController::class, 'adminLogout'])
-        ->name('logout.admin');
+    Route::controller(AuthController::class)->group(function () {
+        Route::get('/admin/dashboard', 'adminDashboard')
+            ->name('dashboard.auth');
+        Route::post('/admin/logout', 'adminLogout')
+            ->name('logout.admin');
+    });
+
+    Route::controller(DashboardController::class)->group(function () {
+
+        Route::get('/admin/listAgent', 'listAgent')
+            ->name('listAgent');
+
+        Route::patch('/agent/{id}/toggle', 'toggleAgent')
+            ->name('agent.toggle');
+
+    });
 
 });
 

@@ -30,7 +30,9 @@ return new class extends Migration {
             $table->enum('sistem_kuliah', [
                 'Reguler',
                 'Mandiri',
-                'RPL'
+                'RPL',
+                'Kelas Karyawan',
+                'Executive Class',
             ]);
             $table->string('periode');
             $table->timestamps();

@@ -21,7 +21,7 @@
                 </div>
 
                 <div class="text-xs text-gray-500">
-                    Administrator
+                    {{ \App\Helpers\StatusHelper::formatStatus(Auth::user()->status ?? 'User') }}
                 </div>
 
             </div>

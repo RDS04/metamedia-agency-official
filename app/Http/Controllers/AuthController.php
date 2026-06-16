@@ -20,7 +20,7 @@ class AuthController extends Controller
     {
         $validated = $request->validate([
             'name' => 'required|string|max:255',
-            'status' => 'required|in:mahasiswa,orang_tua,alumni',
+            'status' => 'required|in:mahasiswa,alumni,orang_tua,dosen_karyawan,mitra',
             'phone' => 'required|string|unique:users,phone',
             'password' => 'required|string|min:6|confirmed',
         ], [
@@ -145,7 +145,7 @@ class AuthController extends Controller
     {
         $agents = User::latest()->get();
 
-        return view('auth.admin.dasboard.dashboard', compact('agents'));
+        return view('auth.admin.dashboard.dashboard', compact('agents'));
     }
 
     public function adminLogout(Request $request)

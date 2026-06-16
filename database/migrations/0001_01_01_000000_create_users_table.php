@@ -15,9 +15,11 @@ return new class extends Migration
             $table->id();
             $table->string('name');
             $table->string('phone');
-            $table->enum('status', ['mahasiswa','orang_tua','alumni'])->default('mahasiswa');
+            $table->enum('status', ['mahasiswa','orang_tua','alumni','dosen_karyawan','mitra'])->default('mahasiswa');
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
+            $table->string('kode_referral')->unique()->nullable();
+            $table->boolean('is_active')->default(true);
             $table->rememberToken();
             $table->timestamps();
         });

@@ -62,11 +62,7 @@
                             Nama Lengkap
                         </label>
 
-                        <input
-                            type="text"
-                            name="name"
-                            value="{{ old('name') }}"
-                            placeholder="Masukkan nama lengkap"
+                        <input type="text" name="name" value="{{ old('name') }}" placeholder="Masukkan nama lengkap"
                             class="w-full px-4 py-3 rounded-xl border border-gray-300 focus:border-[#018FD7] focus:ring-4 focus:ring-blue-100 outline-none transition">
                     </div>
 
@@ -76,28 +72,40 @@
                             Status
                         </label>
 
-                        <select
-                            name="status"
+                        <select name="status"
                             class="w-full px-4 py-3 rounded-xl border border-gray-300 focus:border-[#018FD7] focus:ring-4 focus:ring-blue-100 outline-none">
 
-                            <option value="">Pilih Status</option>
+                            <option value="">
+                                -- Pilih Status Agent --
+                            </option>
 
-                            <option value="mahasiswa"
-                                {{ old('status') == 'mahasiswa' ? 'selected' : '' }}>
+                            <option value="mahasiswa" {{ old('status') == 'mahasiswa' ? 'selected' : '' }}>
                                 Mahasiswa
                             </option>
 
-                            <option value="orang_tua"
-                                {{ old('status') == 'orang_tua' ? 'selected' : '' }}>
-                                Orang Tua
-                            </option>
-
-                            <option value="alumni"
-                                {{ old('status') == 'alumni' ? 'selected' : '' }}>
+                            <option value="alumni" {{ old('status') == 'alumni' ? 'selected' : '' }}>
                                 Alumni
                             </option>
 
+                            <option value="orang_tua" {{ old('status') == 'orang_tua' ? 'selected' : '' }}>
+                                Orang Tua
+                            </option>
+
+                            <option value="dosen_karyawan" {{ old('status') == 'dosen_karyawan' ? 'selected' : '' }}>
+                                Dosen/karyawan
+                            </option>
+
+                            <option value="mitra" {{ old('status') == 'mitra' ? 'selected' : '' }}>
+                                Instansi / Mitra
+                            </option>
+
                         </select>
+
+                        @error('status')
+                            <small class="text-red-500">
+                                {{ $message }}
+                            </small>
+                        @enderror
                     </div>
 
                     <!-- WhatsApp -->
@@ -106,11 +114,7 @@
                             Nomor WhatsApp
                         </label>
 
-                        <input
-                            type="text"
-                            name="phone"
-                            value="{{ old('phone') }}"
-                            placeholder="08xxxxxxxxxx"
+                        <input type="text" name="phone" value="{{ old('phone') }}" placeholder="08xxxxxxxxxx"
                             class="w-full px-4 py-3 rounded-xl border border-gray-300 focus:border-[#018FD7] focus:ring-4 focus:ring-blue-100 outline-none transition">
                     </div>
 
@@ -120,10 +124,7 @@
                             Password
                         </label>
 
-                        <input
-                            type="password"
-                            name="password"
-                            placeholder="Masukkan password"
+                        <input type="password" name="password" placeholder="Masukkan password"
                             class="w-full px-4 py-3 rounded-xl border border-gray-300 focus:border-[#018FD7] focus:ring-4 focus:ring-blue-100 outline-none transition">
                     </div>
 
@@ -133,16 +134,12 @@
                             Konfirmasi Password
                         </label>
 
-                        <input
-                            type="password"
-                            name="password_confirmation"
-                            placeholder="Ulangi password"
+                        <input type="password" name="password_confirmation" placeholder="Ulangi password"
                             class="w-full px-4 py-3 rounded-xl border border-gray-300 focus:border-[#018FD7] focus:ring-4 focus:ring-blue-100 outline-none transition">
                     </div>
 
                     <!-- Button -->
-                    <button
-                        type="submit"
+                    <button type="submit"
                         class="w-full bg-[#018FD7] hover:bg-[#017bb8] text-white font-semibold py-3 rounded-xl transition duration-300 shadow-lg">
 
                         Daftar Sekarang
@@ -155,8 +152,7 @@
                     <p class="text-gray-500 text-sm">
                         Sudah memiliki akun?
 
-                        <a href="{{ route('auth.login') }}"
-                            class="text-[#018FD7] font-semibold hover:underline">
+                        <a href="{{ route('auth.login') }}" class="text-[#018FD7] font-semibold hover:underline">
                             Masuk
                         </a>
                     </p>
