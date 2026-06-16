@@ -55,7 +55,7 @@
 
         <div class="bg-slate-50 rounded-lg px-4 py-3 mb-4">
             <p class="text-xs text-slate-400 mb-1">Kode aktif Anda</p>
-            <p class="text-lg font-semibold text-slate-800 tracking-widest">AGT2026001</p>
+            <p class="text-lg font-semibold text-slate-800 tracking-widest">{{ $agent->kode_referral ?? 'Belum ada' }}</p>
             <button id="copyBtn" onclick="copyCode()"
                 class="mt-3 flex items-center gap-1.5 text-xs text-slate-500 border border-slate-200 bg-white px-3 py-1.5 rounded-md hover:bg-slate-50 transition-colors">
                 <i class="ti ti-copy text-sm" aria-hidden="true"></i>
@@ -276,7 +276,8 @@
 
         // ── Copy referral code ──
         function copyCode() {
-            navigator.clipboard.writeText('AGT2026001').catch(() => { });
+            const code = '{{ $agent->kode_referral ?? "" }}';
+            navigator.clipboard.writeText(code).catch(() => { });
             const btn = document.getElementById('copyBtn');
             btn.innerHTML = '<i class="ti ti-check text-sm"></i> Tersalin';
             btn.classList.add('text-teal-600', 'border-teal-200');

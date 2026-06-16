@@ -34,12 +34,28 @@ class AuthController extends Controller
         ]);
 
         $validated['password'] = Hash::make($validated['password']);
+        
+        // Generate unique referral code
+        $validated['kode_referral'] = $this->generateUniqueReferralCode();
 
         User::create($validated);
 
         return redirect()
             ->route('auth.login')
             ->with('success', 'Selamat! Anda berhasil mendaftar');
+    }
+
+    /**
+     * Generate unique referral code
+     */
+    private function generateUniqueReferralCode()
+    {
+        do {
+            // Format: REF-XXXXXXXX (REF- prefix + 8 random alphanumeric)
+            $code = 'REF-' . strtoupper(\Illuminate\Support\Str::random(8));
+        } while (User::where('kode_referral', $code)->exists());
+        
+        return $code;
     }
 
     public function login()
@@ -132,7 +148,7 @@ class AuthController extends Controller
             $request->session()->regenerate();
 
             return redirect()
-                ->intended(route('dashboard.auth'))
+                ->intended(route('dashboard.admin'))
                 ->with('success', 'Selamat datang, admin!');
         }
 

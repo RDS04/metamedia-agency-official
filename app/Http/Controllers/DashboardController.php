@@ -4,9 +4,10 @@ namespace App\Http\Controllers;
 
 use App\Helpers\StatusHelper;
 use App\Models\Agent;
+use App\Models\Periode;
 use App\Models\User;
-use Auth;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class DashboardController extends Controller
 {
@@ -17,9 +18,8 @@ class DashboardController extends Controller
 
     public function dashboard(Request $request)
     {
-        $agents = User::latest()->get();
-
-        return view('auth.agent.dashboard', compact('agents'));
+        $agent = Auth::user();
+        return view('auth.agent.dashboard', compact('agent'));
     }
 
     public function app()
@@ -31,6 +31,71 @@ class DashboardController extends Controller
     {
         $status = StatusHelper::formatStatus(Auth::user()->status ?? 'User');
         return view('dashboard', compact('status'));
+    }
+    public function priode()
+    {
+        $periodes = Periode::latest()->get();
+
+        return view('auth.admin.dashboard.priode', compact('periodes'));
+    }
+
+    public function periodeStore(Request $request)
+    {
+        $validated = $request->validate([
+            'nama_periode' => 'required|string|max:255',
+            'tahun' => 'required|digits:4|integer|min:2000|max:2100',
+            'tanggal_mulai' => 'required|date',
+            'tanggal_selesai' => 'required|date|after_or_equal:tanggal_mulai',
+            'is_active' => 'nullable|boolean',
+        ]);
+
+        $validated['is_active'] = $request->boolean('is_active');
+
+        if ($validated['is_active']) {
+            Periode::query()->update(['is_active' => false]);
+        }
+
+        Periode::create($validated);
+
+        return redirect()->route('priode')
+            ->with('success', 'Periode berhasil ditambahkan');
+    }
+
+    public function periodeEdit(Periode $periode)
+    {
+        $periodes = Periode::latest()->get();
+
+        return view('auth.admin.dashboard.priode', compact('periodes', 'periode'));
+    }
+
+    public function periodeUpdate(Request $request, Periode $periode)
+    {
+        $validated = $request->validate([
+            'nama_periode' => 'required|string|max:255',
+            'tahun' => 'required|digits:4|integer|min:2000|max:2100',
+            'tanggal_mulai' => 'required|date',
+            'tanggal_selesai' => 'required|date|after_or_equal:tanggal_mulai',
+            'is_active' => 'nullable|boolean',
+        ]);
+
+        $validated['is_active'] = $request->boolean('is_active');
+
+        if ($validated['is_active']) {
+            Periode::whereKeyNot($periode->id)->update(['is_active' => false]);
+        }
+
+        $periode->update($validated);
+
+        return redirect()->route('priode')
+            ->with('success', 'Periode berhasil diperbarui');
+    }
+
+    public function periodeDestroy(Periode $periode)
+    {
+        $periode->delete();
+
+        return redirect()->route('priode')
+            ->with('success', 'Periode berhasil dihapus');
     }
 
     public function sidebar()
@@ -46,7 +111,12 @@ class DashboardController extends Controller
     // Tampilkan form tambah agent
     public function tambahAgent()
     {
-        return view("auth.agent.addAgent.tambahAgent");
+        $periodes = Periode::orderByDesc('is_active')
+            ->orderByDesc('tahun')
+            ->orderBy('nama_periode')
+            ->get();
+
+        return view("auth.agent.addAgent.tambahAgent", compact('periodes'));
     }
     public function laporanAgent()
     {
@@ -56,6 +126,7 @@ class DashboardController extends Controller
     public function listAgent()
     {
         $agents = User::latest()->get();
+
         return view('auth.admin.dashboard.listAgent', compact('agents'));
     }
 
@@ -64,7 +135,7 @@ class DashboardController extends Controller
     {
         $validated = $request->validate([
             'nama_lengkap' => 'required|string|max:255',
-            'nik' => 'required|string|unique:agents,nik',
+            'nik' => 'required|string|unique:camabas,nik',
             'nomor_hp' => 'required|string',
             'jenis_kelamin' => 'required|in:Laki-Laki,Perempuan',
             'program_studi' => 'required|string',
@@ -104,7 +175,12 @@ class DashboardController extends Controller
                 ->with('error', 'Agent tidak ditemukan');
         }
 
-        return view("auth.agent.addAgent.editAgent", ['agent' => $agent]);
+        $periodes = Periode::orderByDesc('is_active')
+            ->orderByDesc('tahun')
+            ->orderBy('nama_periode')
+            ->get();
+
+        return view("auth.agent.addAgent.editAgent", compact('agent', 'periodes'));
     }
 
     // Update agent
@@ -122,7 +198,7 @@ class DashboardController extends Controller
 
         $validated = $request->validate([
             'nama_lengkap' => 'required|string|max:255',
-            'nik' => 'required|string|unique:agents,nik,' . $id,
+            'nik' => 'required|string|unique:camabas,nik,' . $id,
             'nomor_hp' => 'required|string',
             'jenis_kelamin' => 'required|in:Laki-Laki,Perempuan',
             'program_studi' => 'required|string',

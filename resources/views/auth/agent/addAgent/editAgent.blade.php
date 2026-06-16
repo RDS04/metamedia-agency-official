@@ -180,10 +180,13 @@
                             class="w-full rounded-lg border @error('periode') border-red-300 bg-red-50 @else border-gray-300 @enderror px-4 py-3 text-gray-800 bg-white focus:border-[#018FD7] focus:ring-2 focus:ring-blue-100 outline-none transition">
 
                             <option value="">-- Pilih Periode --</option>
-                            <option value="2026 Ganjil" {{ old('periode', $agent->periode) == '2026 Ganjil' ? 'selected' : '' }}>2026 Ganjil</option>
-                            <option value="2026 Genap" {{ old('periode', $agent->periode) == '2026 Genap' ? 'selected' : '' }}>2026 Genap</option>
-                            <option value="2027 Ganjil" {{ old('periode', $agent->periode) == '2027 Ganjil' ? 'selected' : '' }}>2027 Ganjil</option>
-                            <option value="2027 Genap" {{ old('periode', $agent->periode) == '2027 Genap' ? 'selected' : '' }}>2027 Genap</option>
+                            @foreach($periodes as $periode)
+                                <option value="{{ $periode->nama_periode }}"
+                                    {{ old('periode', $agent->periode) == $periode->nama_periode ? 'selected' : '' }}>
+                                    {{ $periode->nama_periode }} - {{ $periode->tahun }}
+                                    {{ $periode->is_active ? '(Aktif)' : '' }}
+                                </option>
+                            @endforeach
 
                         </select>
 

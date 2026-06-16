@@ -191,23 +191,21 @@
                                     -- Pilih Periode --
                                 </option>
 
-                                <option value="2026 Ganjil">
-                                    2026 Ganjil
-                                </option>
-
-                                <option value="2026 Genap">
-                                    2026 Genap
-                                </option>
-
-                                <option value="2027 Ganjil">
-                                    2027 Ganjil
-                                </option>
-
-                                <option value="2027 Genap">
-                                    2027 Genap
-                                </option>
+                                @foreach($periodes as $periode)
+                                    <option value="{{ $periode->nama_periode }}"
+                                        {{ old('periode') == $periode->nama_periode ? 'selected' : '' }}>
+                                        {{ $periode->nama_periode }} - {{ $periode->tahun }}
+                                        {{ $periode->is_active ? '(Aktif)' : '' }}
+                                    </option>
+                                @endforeach
 
                             </select>
+
+                            @error('periode')
+                                <p class="mt-2 text-sm text-red-500">
+                                    {{ $message }}
+                                </p>
+                            @enderror
 
                         </div>
 

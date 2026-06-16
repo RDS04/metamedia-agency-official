@@ -42,9 +42,9 @@ Route::middleware('auth')->group(function () {
         Route::get('/create', 'tambahAgent')->name('agen.Create');
         Route::post('/store', 'agenStore')->name('agen.Store');
         Route::get('/show', 'agenShow')->name('agen.Show');
-        Route::get('/{id}/edit', 'agenEdit')->name('agen.Edit');
-        Route::put('/{id}', 'agenUpdate')->name('agen.Update');
-        Route::delete('/{id}', 'agenDestroy')->name('agen.Destroy');
+        Route::get('/agent/{id}/edit', 'agenEdit')->name('agen.Edit')->whereNumber('id');
+        Route::put('/agent/{id}', 'agenUpdate')->name('agen.Update')->whereNumber('id');
+        Route::delete('/agent/{id}', 'agenDestroy')->name('agen.Destroy')->whereNumber('id');
     });
 
 });
@@ -54,7 +54,7 @@ Route::middleware('auth:admin')->group(function () {
 
     Route::controller(AuthController::class)->group(function () {
         Route::get('/admin/dashboard', 'adminDashboard')
-            ->name('dashboard.auth');
+            ->name('dashboard.admin');
         Route::post('/admin/logout', 'adminLogout')
             ->name('logout.admin');
     });
@@ -65,9 +65,14 @@ Route::middleware('auth:admin')->group(function () {
             ->name('listAgent');
 
         Route::patch('/agent/{id}/toggle', 'toggleAgent')
-            ->name('agent.toggle');
+            ->name('agent.toggle')
+            ->whereNumber('id');
+        Route::get('/admin/priode', 'priode')->name('priode');
+        Route::post('/admin/priode', 'periodeStore')->name('periode.store');
+        Route::get('/admin/priode/{periode}/edit', 'periodeEdit')->name('periode.edit')->whereNumber('periode');
+        Route::put('/admin/priode/{periode}', 'periodeUpdate')->name('periode.update')->whereNumber('periode');
+        Route::delete('/admin/priode/{periode}', 'periodeDestroy')->name('periode.destroy')->whereNumber('periode');
 
     });
 
 });
-

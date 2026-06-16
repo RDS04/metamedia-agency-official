@@ -46,21 +46,36 @@
     </div>
 
     <nav class="mt-4 px-3">
+        @if(!$isAdmin)
+            {{-- DASHBOARD --}}
+            <a href="{{ route('dashboard') }}"
+                class="flex items-center px-4 py-3 rounded-lg bg-[#018FD7] text-white font-medium">
 
-        {{-- DASHBOARD --}}
-        <a href="{{ route('dashboard') }}"
-            class="flex items-center px-4 py-3 rounded-lg bg-[#018FD7] text-white font-medium">
+                <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                    <path d="M3 13h2v8H3zm4-8h2v16H7zm4-2h2v18h-2zm4 4h2v14h-2zm4-2h2v16h-2z" />
+                </svg>
 
-            <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
-                <path d="M3 13h2v8H3zm4-8h2v16H7zm4-2h2v18h-2zm4 4h2v14h-2zm4-2h2v16h-2z" />
-            </svg>
+                <span class="ml-3">
+                    Dashboard
+                </span>
 
-            <span class="ml-3">
-                Dashboard
-            </span>
+            </a>
+        @endif
+        @if($isAdmin)
+            {{-- DASHBOARD --}}
+            <a href="{{ route('dashboard.admin') }}"
+                class="flex items-center px-4 py-3 rounded-lg bg-[#018FD7] text-white font-medium">
 
-        </a>
+                <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                    <path d="M3 13h2v8H3zm4-8h2v16H7zm4-2h2v18h-2zm4 4h2v14h-2zm4-2h2v16h-2z" />
+                </svg>
 
+                <span class="ml-3">
+                    Dashboard
+                </span>
+
+            </a>
+        @endif
         {{-- MASTER DATA (ADMIN ONLY) --}}
         @if($isAdmin)
 
@@ -90,8 +105,8 @@
                     <a href="{{ route('listAgent') }}" class="block py-2 px-4 rounded hover:bg-gray-700">
                         Agent
                     </a>
-                    <a href="#" class="block py-2 px-4 rounded hover:bg-gray-700">
-                        Mahasiswa
+                    <a href="{{ route('priode') }}" class="block py-2 px-4 rounded hover:bg-gray-700">
+                        Priode PMB
                     </a>
 
                     <a href="#" class="block py-2 px-4 rounded hover:bg-gray-700">
@@ -155,7 +170,8 @@
             <a href="#" class="flex items-center px-4 py-3 mt-3 rounded-lg hover:bg-gray-800">
 
                 <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
-                    <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm3.5-9c.83 0 1.5-.67 1.5-1.5S16.33 8 15.5 8 14 8.67 14 9.5s.67 1.5 1.5 1.5zm-7 0c.83 0 1.5-.67 1.5-1.5S9.33 8 8.5 8 7 8.67 7 9.5 7.67 11 8.5 11zm3.5 6.5c2.33 0 4.31-1.46 5.11-3.5H6.89c.8 2.04 2.78 3.5 5.11 3.5z" />
+                    <path
+                        d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm3.5-9c.83 0 1.5-.67 1.5-1.5S16.33 8 15.5 8 14 8.67 14 9.5s.67 1.5 1.5 1.5zm-7 0c.83 0 1.5-.67 1.5-1.5S9.33 8 8.5 8 7 8.67 7 9.5 7.67 11 8.5 11zm3.5 6.5c2.33 0 4.31-1.46 5.11-3.5H6.89c.8 2.04 2.78 3.5 5.11 3.5z" />
                 </svg>
 
                 <span class="ml-3">
@@ -170,7 +186,8 @@
         <a href="{{ route('laporan') }}" class="flex items-center px-4 py-3 mt-3 rounded-lg hover:bg-gray-800">
 
             <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
-                <path d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 16H5V5h14v14zm-5.04-6.71l-2.75 3.54-1.3-1.54-4.5 5.71h12l-3.45-4.71z" />
+                <path
+                    d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 16H5V5h14v14zm-5.04-6.71l-2.75 3.54-1.3-1.54-4.5 5.71h12l-3.45-4.71z" />
             </svg>
 
             <span class="ml-3">
@@ -185,7 +202,8 @@
             <a href="#" class="flex items-center px-4 py-3 mt-3 rounded-lg hover:bg-gray-800">
 
                 <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
-                    <path d="M19.14 12.94c.04-.3.06-.61.06-.94 0-.32-.02-.64-.07-.94l1.72-1.34c.15-.12.19-.34.1-.51l-1.63-2.83c-.12-.22-.39-.3-.61-.22l-2.03.81c-.42-.32-.86-.58-1.35-.78l-.31-2.15c-.04-.24-.24-.41-.48-.41h-3.26c-.24 0-.43.17-.47.41l-.31 2.15c-.48.2-.93.46-1.35.78l-2.03-.81c-.22-.09-.49 0-.61.22L2.86 8.86c-.1.16-.06.39.1.51l1.72 1.34c-.05.3-.07.62-.07.94s.02.64.07.94l-1.72 1.34c-.16.12-.2.35-.1.51l1.63 2.83c.12.22.39.3.61.22l2.03-.81c.42.32.86.58 1.35.78l.31 2.15c.05.24.24.41.48.41h3.26c.24 0 .44-.17.47-.41l.31-2.15c.49-.2.94-.47 1.35-.78l2.03.81c.22.09.49 0 .61-.22l1.63-2.83c.1-.16.06-.39-.1-.51l-1.72-1.34zM12 15.6c-1.98 0-3.6-1.62-3.6-3.6s1.62-3.6 3.6-3.6 3.6 1.62 3.6 3.6-1.62 3.6-3.6 3.6z" />
+                    <path
+                        d="M19.14 12.94c.04-.3.06-.61.06-.94 0-.32-.02-.64-.07-.94l1.72-1.34c.15-.12.19-.34.1-.51l-1.63-2.83c-.12-.22-.39-.3-.61-.22l-2.03.81c-.42-.32-.86-.58-1.35-.78l-.31-2.15c-.04-.24-.24-.41-.48-.41h-3.26c-.24 0-.43.17-.47.41l-.31 2.15c-.48.2-.93.46-1.35.78l-2.03-.81c-.22-.09-.49 0-.61.22L2.86 8.86c-.1.16-.06.39.1.51l1.72 1.34c-.05.3-.07.62-.07.94s.02.64.07.94l-1.72 1.34c-.16.12-.2.35-.1.51l1.63 2.83c.12.22.39.3.61.22l2.03-.81c.42.32.86.58 1.35.78l.31 2.15c.05.24.24.41.48.41h3.26c.24 0 .44-.17.47-.41l.31-2.15c.49-.2.94-.47 1.35-.78l2.03.81c.22.09.49 0 .61-.22l1.63-2.83c.1-.16.06-.39-.1-.51l-1.72-1.34zM12 15.6c-1.98 0-3.6-1.62-3.6-3.6s1.62-3.6 3.6-3.6 3.6 1.62 3.6 3.6-1.62 3.6-3.6 3.6z" />
                 </svg>
 
                 <span class="ml-3">
