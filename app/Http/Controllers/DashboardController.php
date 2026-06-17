@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Helpers\StatusHelper;
 use App\Models\Agent;
+use App\Models\Komisi;
 use App\Models\Periode;
 use App\Models\User;
 use Illuminate\Http\Request;
@@ -19,7 +20,38 @@ class DashboardController extends Controller
     public function dashboard(Request $request)
     {
         $agent = Auth::user();
-        return view('auth.agent.dashboard', compact('agent'));
+        $totalCamaba = Agent::count();
+        $sudahDaftar = 0;
+        $registrasiUlang = 0;
+        $bonusPerRegistrasi = $this->bonusPerRegistrasi($agent->status ?? null);
+        $totalBonus = $registrasiUlang * $bonusPerRegistrasi;
+        $camabaTerbaru = Agent::latest()->take(5)->get();
+
+        $chartStart = now()->startOfMonth()->subMonths(5);
+        $camabaPerBulan = Agent::where('created_at', '>=', $chartStart)
+            ->get()
+            ->groupBy(fn ($camaba) => $camaba->created_at->format('Y-m'));
+
+        $chartLabels = [];
+        $chartData = [];
+
+        for ($i = 0; $i < 6; $i++) {
+            $month = $chartStart->copy()->addMonths($i);
+            $chartLabels[] = $month->format('M Y');
+            $chartData[] = $camabaPerBulan->get($month->format('Y-m'), collect())->count();
+        }
+
+        return view('auth.agent.dashboard', compact(
+            'agent',
+            'totalCamaba',
+            'sudahDaftar',
+            'registrasiUlang',
+            'bonusPerRegistrasi',
+            'totalBonus',
+            'camabaTerbaru',
+            'chartLabels',
+            'chartData'
+        ));
     }
 
     public function app()
@@ -118,10 +150,81 @@ class DashboardController extends Controller
 
         return view("auth.agent.addAgent.tambahAgent", compact('periodes'));
     }
-    public function laporanAgent()
+    public function laporanAgent(Request $request)
     {
         $agent = Auth::user();
-        return view('auth.agent.laporan', compact('agent'));
+
+        $camabaQuery = Agent::query()
+            ->when($request->filled('search'), function ($query) use ($request) {
+                $search = $request->input('search');
+
+                $query->where(function ($query) use ($search) {
+                    $query->where('nama_lengkap', 'like', '%' . $search . '%')
+                        ->orWhere('nik', 'like', '%' . $search . '%')
+                        ->orWhere('program_studi', 'like', '%' . $search . '%')
+                        ->orWhere('sistem_kuliah', 'like', '%' . $search . '%');
+                });
+            });
+
+        $totalCamaba = (clone $camabaQuery)->count();
+        $sudahDaftar = 0;
+        $registrasiUlang = 0;
+        $bonusPerRegistrasi = $this->bonusPerRegistrasi($agent->status ?? null);
+        $totalBonus = $registrasiUlang * $bonusPerRegistrasi;
+
+        $camaba = $camabaQuery
+            ->latest()
+            ->paginate(10)
+            ->withQueryString();
+
+        $progress = [
+            'prospek' => [
+                'count' => $totalCamaba,
+                'percent' => $totalCamaba > 0 ? 100 : 0,
+            ],
+            'sudah_daftar' => [
+                'count' => $sudahDaftar,
+                'percent' => $totalCamaba > 0 ? round(($sudahDaftar / $totalCamaba) * 100) : 0,
+            ],
+            'registrasi_ulang' => [
+                'count' => $registrasiUlang,
+                'percent' => $totalCamaba > 0 ? round(($registrasiUlang / $totalCamaba) * 100) : 0,
+            ],
+        ];
+
+        $tingkatDaftar = $totalCamaba > 0 ? round(($sudahDaftar / $totalCamaba) * 100, 1) : 0;
+        $tingkatRegistrasi = $sudahDaftar > 0 ? round(($registrasiUlang / $sudahDaftar) * 100, 1) : 0;
+        $konversiTotal = $totalCamaba > 0 ? round(($registrasiUlang / $totalCamaba) * 100, 1) : 0;
+
+        return view('auth.agent.laporan', compact(
+            'agent',
+            'camaba',
+            'totalCamaba',
+            'sudahDaftar',
+            'registrasiUlang',
+            'bonusPerRegistrasi',
+            'totalBonus',
+            'progress',
+            'tingkatDaftar',
+            'tingkatRegistrasi',
+            'konversiTotal'
+        ));
+    }
+
+    private function bonusPerRegistrasi(?string $status): int
+    {
+        $kategori = match ($status) {
+            'dosen_karyawan' => 'dosen_karyawan',
+            'mitra' => 'mitra',
+            default => 'mao',
+        };
+
+        $komisi = Komisi::where('kategori', $kategori)
+            ->where('is_active', true)
+            ->orderByDesc('bonus_per_mahasiswa')
+            ->first();
+
+        return (int) ($komisi?->bonus_per_mahasiswa ?: $komisi?->bonus_lanjutan ?: $komisi?->bonus_pertama ?: 0);
     }
     public function listAgent()
     {

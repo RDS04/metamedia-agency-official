@@ -12,25 +12,25 @@
     <!-- Prospek -->
     <div class="bg-white rounded-xl border border-slate-100 px-5 py-4">
         <p class="text-xs text-slate-400 font-medium mb-2">Prospek Camaba</p>
-        <p class="text-3xl font-semibold text-slate-800 leading-none">24</p>
+        <p class="text-3xl font-semibold text-slate-800 leading-none">{{ $totalCamaba }}</p>
         <p class="text-xs text-slate-400 mt-2">Total calon mahasiswa</p>
     </div>
     <!-- Daftar -->
     <div class="bg-white rounded-xl border border-slate-100 px-5 py-4">
         <p class="text-xs text-slate-400 font-medium mb-2">Sudah Daftar</p>
-        <p class="text-3xl font-semibold text-teal-600 leading-none">15</p>
+        <p class="text-3xl font-semibold text-teal-600 leading-none">{{ $sudahDaftar }}</p>
         <p class="text-xs text-slate-400 mt-2">Mengisi formulir PMB</p>
     </div>
     <!-- Registrasi -->
     <div class="bg-white rounded-xl border border-slate-100 px-5 py-4">
         <p class="text-xs text-slate-400 font-medium mb-2">Registrasi Ulang</p>
-        <p class="text-3xl font-semibold text-amber-600 leading-none">8</p>
+        <p class="text-3xl font-semibold text-amber-600 leading-none">{{ $registrasiUlang }}</p>
         <p class="text-xs text-slate-400 mt-2">Mahasiswa aktif</p>
     </div>
     <!-- Bonus -->
     <div class="bg-white rounded-xl border border-slate-100 px-5 py-4">
         <p class="text-xs text-slate-400 font-medium mb-2">Bonus Berjalan</p>
-        <p class="text-xl font-semibold text-violet-600 leading-none mt-1">Rp 2.000.000</p>
+        <p class="text-xl font-semibold text-violet-600 leading-none mt-1">Rp {{ number_format($totalBonus, 0, ',', '.') }}</p>
         <p class="text-xs text-slate-400 mt-2">Periode aktif</p>
     </div>
 </div>
@@ -42,7 +42,7 @@
     <div class="xl:col-span-2 bg-white rounded-xl border border-slate-100 p-5">
         <div class="flex items-center justify-between mb-4">
             <p class="text-sm font-medium text-slate-800">Progress Camaba</p>
-            <span class="text-xs text-slate-400">Januari – Juni 2026</span>
+            <span class="text-xs text-slate-400">{{ $chartLabels[0] ?? '-' }} - {{ $chartLabels[count($chartLabels) - 1] ?? '-' }}</span>
         </div>
         <div class="h-44">
             <canvas id="agentChart"></canvas>
@@ -66,17 +66,17 @@
         <div class="space-y-3">
             <div class="flex justify-between items-center text-sm">
                 <span class="text-slate-400">Total referral</span>
-                <span class="font-medium text-slate-800">24</span>
+                <span class="font-medium text-slate-800">{{ $totalCamaba }}</span>
             </div>
             <hr class="border-slate-100">
             <div class="flex justify-between items-center text-sm">
                 <span class="text-slate-400">Registrasi ulang</span>
-                <span class="font-medium text-teal-600">8</span>
+                <span class="font-medium text-teal-600">{{ $registrasiUlang }}</span>
             </div>
             <hr class="border-slate-100">
             <div class="flex justify-between items-center text-sm">
                 <span class="text-slate-400">Total bonus</span>
-                <span class="font-medium text-violet-600">Rp 2.000.000</span>
+                <span class="font-medium text-violet-600">Rp {{ number_format($totalBonus, 0, ',', '.') }}</span>
             </div>
         </div>
     </div>
@@ -86,11 +86,11 @@
 <div class="bg-white rounded-xl border border-slate-100 overflow-hidden">
     <div class="flex items-center justify-between px-5 py-4 border-b border-slate-100">
         <p class="text-sm font-medium text-slate-800">Camaba terbaru</p>
-        <button
+        <a href="{{ route('agen.Create') }}"
             class="flex items-center gap-1.5 text-xs text-slate-500 border border-slate-200 px-3 py-1.5 rounded-md hover:bg-slate-50 transition-colors">
             <i class="ti ti-plus text-sm" aria-hidden="true"></i>
             Tambah camaba
-        </button>
+        </a>
     </div>
 
     <div class="overflow-x-auto">
@@ -115,106 +115,38 @@
                 </tr>
             </thead>
             <tbody class="divide-y divide-slate-50">
+                @forelse ($camabaTerbaru as $maba)
                 <tr class="hover:bg-slate-50 transition-colors">
-                    <td class="px-5 py-3.5 text-slate-800 font-medium">Andi Saputra</td>
-                    <td class="px-5 py-3.5 text-slate-600">Informatika</td>
-                    <td class="px-5 py-3.5 text-slate-600">Reguler</td>
+                    <td class="px-5 py-3.5 text-slate-800 font-medium">{{ $maba->nama_lengkap }}</td>
+                    <td class="px-5 py-3.5 text-slate-600">{{ $maba->program_studi }}</td>
+                    <td class="px-5 py-3.5 text-slate-600">{{ $maba->sistem_kuliah }}</td>
                     <td class="px-5 py-3.5">
-                        <span
-                            class="inline-flex items-center text-xs font-medium px-2.5 py-1 rounded-full bg-amber-50 text-amber-700">Prospek</span>
+                        <span class="inline-flex items-center text-xs font-medium px-2.5 py-1 rounded-full bg-amber-50 text-amber-700">Prospek</span>
                     </td>
                     <td class="px-5 py-3.5">
-                        <button
+                        <a href="{{ route('agen.Edit', $maba->id) }}"
                             class="text-xs text-slate-400 hover:text-slate-600 flex items-center gap-1">
                             <i class="ti ti-eye text-sm" aria-hidden="true"></i> Lihat
-                        </button>
+                        </a>
                     </td>
                 </tr>
-                <tr class="hover:bg-slate-50 transition-colors">
-                    <td class="px-5 py-3.5 text-slate-800 font-medium">Rina Putri</td>
-                    <td class="px-5 py-3.5 text-slate-600">Sistem Informasi</td>
-                    <td class="px-5 py-3.5 text-slate-600">RPL</td>
-                    <td class="px-5 py-3.5">
-                        <span
-                            class="inline-flex items-center text-xs font-medium px-2.5 py-1 rounded-full bg-teal-50 text-teal-700">Registrasi
-                            ulang</span>
-                    </td>
-                    <td class="px-5 py-3.5">
-                        <button
-                            class="text-xs text-slate-400 hover:text-slate-600 flex items-center gap-1">
-                            <i class="ti ti-eye text-sm" aria-hidden="true"></i> Lihat
-                        </button>
+                @empty
+                <tr>
+                    <td colspan="5" class="px-5 py-8 text-center text-slate-400">
+                        Belum ada data camaba.
                     </td>
                 </tr>
-                <tr class="hover:bg-slate-50 transition-colors">
-                    <td class="px-5 py-3.5 text-slate-800 font-medium">Budi Santoso</td>
-                    <td class="px-5 py-3.5 text-slate-600">Manajemen</td>
-                    <td class="px-5 py-3.5 text-slate-600">Reguler</td>
-                    <td class="px-5 py-3.5">
-                        <span
-                            class="inline-flex items-center text-xs font-medium px-2.5 py-1 rounded-full bg-brand-50 text-brand-600">Sudah
-                            daftar</span>
-                    </td>
-                    <td class="px-5 py-3.5">
-                        <button
-                            class="text-xs text-slate-400 hover:text-slate-600 flex items-center gap-1">
-                            <i class="ti ti-eye text-sm" aria-hidden="true"></i> Lihat
-                        </button>
-                    </td>
-                </tr>
-                <tr class="hover:bg-slate-50 transition-colors">
-                    <td class="px-5 py-3.5 text-slate-800 font-medium">Dewi Lestari</td>
-                    <td class="px-5 py-3.5 text-slate-600">Akuntansi</td>
-                    <td class="px-5 py-3.5 text-slate-600">Reguler</td>
-                    <td class="px-5 py-3.5">
-                        <span
-                            class="inline-flex items-center text-xs font-medium px-2.5 py-1 rounded-full bg-amber-50 text-amber-700">Prospek</span>
-                    </td>
-                    <td class="px-5 py-3.5">
-                        <button
-                            class="text-xs text-slate-400 hover:text-slate-600 flex items-center gap-1">
-                            <i class="ti ti-eye text-sm" aria-hidden="true"></i> Lihat
-                        </button>
-                    </td>
-                </tr>
-                <tr class="hover:bg-slate-50 transition-colors">
-                    <td class="px-5 py-3.5 text-slate-800 font-medium">Yoga Pratama</td>
-                    <td class="px-5 py-3.5 text-slate-600">Teknik Industri</td>
-                    <td class="px-5 py-3.5 text-slate-600">RPL</td>
-                    <td class="px-5 py-3.5">
-                        <span
-                            class="inline-flex items-center text-xs font-medium px-2.5 py-1 rounded-full bg-teal-50 text-teal-700">Registrasi
-                            ulang</span>
-                    </td>
-                    <td class="px-5 py-3.5">
-                        <button
-                            class="text-xs text-slate-400 hover:text-slate-600 flex items-center gap-1">
-                            <i class="ti ti-eye text-sm" aria-hidden="true"></i> Lihat
-                        </button>
-                    </td>
-                </tr>
+                @endforelse
             </tbody>
         </table>
     </div>
 
     <!-- Table footer -->
     <div class="px-5 py-3 border-t border-slate-100 flex items-center justify-between">
-        <p class="text-xs text-slate-400">Menampilkan 5 dari 24 camaba</p>
-        <div class="flex items-center gap-1">
-            <button
-                class="text-xs text-slate-500 border border-slate-200 px-2.5 py-1 rounded hover:bg-slate-50 transition-colors">
-                <i class="ti ti-chevron-left text-sm" aria-hidden="true"></i>
-            </button>
-            <button class="text-xs bg-brand-600 text-white px-2.5 py-1 rounded">1</button>
-            <button
-                class="text-xs text-slate-500 border border-slate-200 px-2.5 py-1 rounded hover:bg-slate-50 transition-colors">2</button>
-            <button
-                class="text-xs text-slate-500 border border-slate-200 px-2.5 py-1 rounded hover:bg-slate-50 transition-colors">3</button>
-            <button
-                class="text-xs text-slate-500 border border-slate-200 px-2.5 py-1 rounded hover:bg-slate-50 transition-colors">
-                <i class="ti ti-chevron-right text-sm" aria-hidden="true"></i>
-            </button>
-        </div>
+        <p class="text-xs text-slate-400">Menampilkan {{ $camabaTerbaru->count() }} dari {{ $totalCamaba }} camaba</p>
+        <a href="{{ route('laporan') }}" class="text-xs text-blue-600 border border-blue-100 bg-blue-50 px-3 py-1.5 rounded-md hover:bg-blue-100 transition-colors">
+            Lihat laporan
+        </a>
     </div>
 </div>
 
@@ -224,10 +156,10 @@
         new Chart(ctx, {
             type: 'line',
             data: {
-                labels: ['Jan', 'Feb', 'Mar', 'Apr', 'Mei', 'Jun'],
+                labels: @json($chartLabels),
                 datasets: [{
                     label: 'Camaba',
-                    data: [2, 5, 8, 12, 18, 24],
+                    data: @json($chartData),
                     borderColor: '#378add',
                     backgroundColor: 'rgba(55,138,221,0.06)',
                     fill: true,
