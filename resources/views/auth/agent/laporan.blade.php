@@ -7,6 +7,19 @@
 @section('page-title', 'Laporan')
 
 @section('content')
+@php
+    $bonusSummary = $bonusSummary ?? [
+        'total_bonus' => $totalBonus,
+        'bonus_ukt' => false,
+        'bonus_pertama_total' => 0,
+        'bonus_lanjutan_total' => 0,
+        'bonus_per_mahasiswa_total' => $totalBonus,
+        'jumlah_bonus_pertama' => 0,
+        'jumlah_bonus_lanjutan' => 0,
+        'jumlah_bonus_per_mahasiswa' => $registrasiUlang,
+    ];
+    $bonusPerCamaba = $bonusPerCamaba ?? [];
+@endphp
 
 <!-- Metric cards -->
 <div class="grid grid-cols-2 xl:grid-cols-4 gap-4">
@@ -17,12 +30,12 @@
     </div>
     <div class="bg-white rounded-xl border border-slate-100 px-5 py-4">
         <p class="text-xs text-slate-400 font-medium mb-2">Sudah Daftar</p>
-        <p class="text-3xl font-semibold text-teal-600 leading-none">{{ $sudahDaftar }}</p>
+        <p class="text-3xl font-semibold text-blue-600 leading-none">{{ $sudahDaftar }}</p>
         <p class="text-xs text-slate-400 mt-2">Mengisi formulir PMB</p>
     </div>
     <div class="bg-white rounded-xl border border-slate-100 px-5 py-4">
         <p class="text-xs text-slate-400 font-medium mb-2">Registrasi Ulang</p>
-        <p class="text-3xl font-semibold text-amber-600 leading-none">{{ $registrasiUlang }}</p>
+        <p class="text-3xl font-semibold text-emerald-600 leading-none">{{ $registrasiUlang }}</p>
         <p class="text-xs text-slate-400 mt-2">Menjadi mahasiswa aktif</p>
     </div>
     <div class="bg-white rounded-xl border border-slate-100 px-5 py-4">
@@ -52,7 +65,7 @@
                     </div>
                 </div>
                 <div class="w-full bg-slate-100 rounded-full h-2">
-                    <div class="bg-blue-400 h-2 rounded-full" style="width:{{ $progress['prospek']['percent'] }}%"></div>
+                    <div class="bg-amber-400 h-2 rounded-full" style="width:{{ $progress['prospek']['percent'] }}%"></div>
                 </div>
             </div>
             <!-- Sudah Daftar -->
@@ -61,11 +74,11 @@
                     <span class="text-xs text-slate-500">Sudah Daftar</span>
                     <div class="flex items-center gap-2">
                         <span class="text-xs text-slate-400">{{ $progress['sudah_daftar']['percent'] }}%</span>
-                        <span class="text-xs font-medium text-teal-600">{{ $progress['sudah_daftar']['count'] }}</span>
+                        <span class="text-xs font-medium text-blue-600">{{ $progress['sudah_daftar']['count'] }}</span>
                     </div>
                 </div>
                 <div class="w-full bg-slate-100 rounded-full h-2">
-                    <div class="bg-teal-500 h-2 rounded-full" style="width:{{ $progress['sudah_daftar']['percent'] }}%"></div>
+                    <div class="bg-blue-500 h-2 rounded-full" style="width:{{ $progress['sudah_daftar']['percent'] }}%"></div>
                 </div>
             </div>
             <!-- Registrasi Ulang -->
@@ -74,11 +87,11 @@
                     <span class="text-xs text-slate-500">Registrasi Ulang</span>
                     <div class="flex items-center gap-2">
                         <span class="text-xs text-slate-400">{{ $progress['registrasi_ulang']['percent'] }}%</span>
-                        <span class="text-xs font-medium text-amber-600">{{ $progress['registrasi_ulang']['count'] }}</span>
+                        <span class="text-xs font-medium text-emerald-600">{{ $progress['registrasi_ulang']['count'] }}</span>
                     </div>
                 </div>
                 <div class="w-full bg-slate-100 rounded-full h-2">
-                    <div class="bg-amber-500 h-2 rounded-full" style="width:{{ $progress['registrasi_ulang']['percent'] }}%"></div>
+                    <div class="bg-emerald-500 h-2 rounded-full" style="width:{{ $progress['registrasi_ulang']['percent'] }}%"></div>
                 </div>
             </div>
         </div>
@@ -97,7 +110,7 @@
             <div class="w-px h-8 bg-slate-100"></div>
             <div class="text-center">
                 <p class="text-xs text-slate-400">Konversi total</p>
-                <p class="text-sm font-semibold text-teal-600 mt-0.5">{{ number_format($konversiTotal, 1, ',', '.') }}%</p>
+                <p class="text-sm font-semibold text-emerald-600 mt-0.5">{{ number_format($konversiTotal, 1, ',', '.') }}%</p>
             </div>
         </div>
     </div>
@@ -109,18 +122,57 @@
         <div class="bg-slate-50 rounded-lg px-4 py-4 mb-4">
             <p class="text-xs text-slate-400 mb-1">Total bonus berjalan</p>
             <p class="text-2xl font-semibold text-violet-600">Rp {{ number_format($totalBonus, 0, ',', '.') }}</p>
-            <p class="text-xs text-slate-400 mt-1.5">{{ $registrasiUlang }} registrasi x Rp {{ number_format($bonusPerRegistrasi, 0, ',', '.') }}</p>
+            <p class="text-xs text-slate-400 mt-1.5">
+                @if(($komisiAktif->kategori ?? null) === 'dosen_karyawan')
+                    Bonus pertama + bonus lanjutan
+                @elseif(($komisiAktif->kategori ?? null) === 'mitra')
+                    Bonus mitra berdasarkan target registrasi ulang
+                @else
+                    {{ $registrasiUlang }} registrasi x Rp {{ number_format($bonusPerRegistrasi, 0, ',', '.') }}
+                @endif
+            </p>
         </div>
 
         <div class="space-y-3">
-            <div class="flex justify-between items-center text-sm">
-                <span class="text-slate-400">Bonus per registrasi</span>
-                <span class="font-medium text-slate-800">Rp {{ number_format($bonusPerRegistrasi, 0, ',', '.') }}</span>
-            </div>
-            <hr class="border-slate-100">
+            @if(($komisiAktif->kategori ?? null) === 'dosen_karyawan')
+                <div class="flex justify-between items-center text-sm">
+                    <span class="text-slate-400">Bonus Mahasiswa Pertama</span>
+                    <span class="font-medium text-slate-800">Rp {{ number_format($bonusSummary['bonus_pertama_total'], 0, ',', '.') }}</span>
+                </div>
+                <hr class="border-slate-100">
+                <div class="flex justify-between items-center text-sm">
+                    <span class="text-slate-400">Bonus Mahasiswa Lanjutan</span>
+                    <span class="font-medium text-slate-800">Rp {{ number_format($bonusSummary['bonus_lanjutan_total'], 0, ',', '.') }}</span>
+                </div>
+                <hr class="border-slate-100">
+            @elseif(($komisiAktif->kategori ?? null) === 'mitra')
+                <div class="flex justify-between items-center text-sm">
+                    <span class="text-slate-400">Bonus Target</span>
+                    <span class="font-medium text-slate-800">Rp {{ number_format($bonusSummary['bonus_pertama_total'], 0, ',', '.') }}</span>
+                </div>
+                <hr class="border-slate-100">
+                <div class="flex justify-between items-center text-sm">
+                    <span class="text-slate-400">Bonus Per Mahasiswa</span>
+                    <span class="font-medium text-slate-800">Rp {{ number_format($bonusSummary['bonus_per_mahasiswa_total'], 0, ',', '.') }}</span>
+                </div>
+                <hr class="border-slate-100">
+            @else
+                <div class="flex justify-between items-center text-sm">
+                    <span class="text-slate-400">Bonus Per Mahasiswa</span>
+                    <span class="font-medium text-slate-800">Rp {{ number_format($bonusPerRegistrasi, 0, ',', '.') }}</span>
+                </div>
+                <hr class="border-slate-100">
+                <div class="flex justify-between items-center text-sm">
+                    <span class="text-slate-400">Potongan UKT</span>
+                    <span class="font-medium {{ $bonusSummary['bonus_ukt'] ? 'text-emerald-600' : 'text-slate-500' }}">
+                        {{ $bonusSummary['bonus_ukt'] ? (($komisiAktif->potongan_ukt_persen ?? 0) . '%') : 'Belum memenuhi' }}
+                    </span>
+                </div>
+                <hr class="border-slate-100">
+            @endif
             <div class="flex justify-between items-center text-sm">
                 <span class="text-slate-400">Registrasi ulang</span>
-                <span class="font-medium text-amber-600">{{ $registrasiUlang }} mahasiswa</span>
+                <span class="font-medium text-emerald-600">{{ $registrasiUlang }} mahasiswa</span>
             </div>
             <hr class="border-slate-100">
             <div class="flex justify-between items-center text-sm">
@@ -147,7 +199,11 @@
             </div>
             <select name="status" class="text-xs text-slate-600 border border-slate-200 rounded-md px-2.5 py-1.5 bg-white focus:outline-none">
                 <option value="">Semua status</option>
-                <option value="Prospek" selected>Prospek</option>
+                @foreach($statusOptions as $status => $class)
+                    <option value="{{ $status }}" {{ request('status') === $status ? 'selected' : '' }}>
+                        {{ $status }}
+                    </option>
+                @endforeach
             </select>
             <button type="submit" class="text-xs text-blue-600 border border-blue-100 bg-blue-50 px-3 py-1.5 rounded-md hover:bg-blue-100 transition-colors">
                 Filter
@@ -180,9 +236,18 @@
                     <td class="px-5 py-3.5 text-slate-600">{{ $maba->sistem_kuliah }}</td>
                     <td class="px-5 py-3.5 text-slate-400 text-xs">{{ $maba->created_at?->format('d M Y') ?? '-' }}</td>
                     <td class="px-5 py-3.5">
-                        <span class="inline-flex items-center text-xs font-medium px-2.5 py-1 rounded-full bg-amber-50 text-amber-700">Prospek</span>
+                        <span class="inline-flex items-center text-xs font-medium px-2.5 py-1 rounded-full {{ $statusOptions[$maba->status] ?? $statusOptions['Prospek'] }}">
+                            {{ $maba->status ?? 'Prospek' }}
+                        </span>
                     </td>
-                    <td class="px-5 py-3.5 text-slate-400 text-xs">-</td>
+                    <td class="px-5 py-3.5 text-xs {{ $maba->status === 'Registrasi Ulang' ? 'font-medium text-emerald-600' : 'text-slate-400' }}">
+                        @if($maba->status === 'Registrasi Ulang')
+                            @php($bonusMaba = $bonusPerCamaba[$maba->id] ?? $bonusPerRegistrasi)
+                            {{ $bonusMaba === null ? 'Nominal tidak dicantumkan' : 'Rp ' . number_format($bonusMaba, 0, ',', '.') }}
+                        @else
+                            -
+                        @endif
+                    </td>
                 </tr>
                 @empty
                 <tr>

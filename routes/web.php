@@ -43,6 +43,7 @@ Route::middleware('auth')->group(function () {
         Route::get('/create', 'tambahAgent')->name('agen.Create');
         Route::post('/store', 'agenStore')->name('agen.Store');
         Route::get('/show', 'agenShow')->name('agen.Show');
+        Route::get('/agent/{id}', 'agenDetail')->name('agen.Detail')->whereNumber('id');
         Route::get('/agent/{id}/edit', 'agenEdit')->name('agen.Edit')->whereNumber('id');
         Route::put('/agent/{id}', 'agenUpdate')->name('agen.Update')->whereNumber('id');
         Route::delete('/agent/{id}', 'agenDestroy')->name('agen.Destroy')->whereNumber('id');
@@ -73,6 +74,8 @@ Route::middleware('auth:admin')->group(function () {
         Route::get('/admin/priode/{periode}/edit', 'periodeEdit')->name('periode.edit')->whereNumber('periode');
         Route::put('/admin/priode/{periode}', 'periodeUpdate')->name('periode.update')->whereNumber('periode');
         Route::delete('/admin/priode/{periode}', 'periodeDestroy')->name('periode.destroy')->whereNumber('periode');
+        Route::get('/admin/data-camaba', 'dataCamaba')->name('dataCamaba');
+        Route::patch('/admin/data-camaba/{camaba}/status', 'updateCamabaStatus')->name('dataCamaba.status')->whereNumber('camaba');
 
     });
 

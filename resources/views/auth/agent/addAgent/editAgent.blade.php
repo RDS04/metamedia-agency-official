@@ -159,6 +159,7 @@
                             <option value="">-- Pilih Sistem Kuliah --</option>
                             <option value="Reguler" {{ old('sistem_kuliah', $agent->sistem_kuliah) == 'Reguler' ? 'selected' : '' }}>Reguler</option>
                             <option value="Mandiri" {{ old('sistem_kuliah', $agent->sistem_kuliah) == 'Mandiri' ? 'selected' : '' }}>Mandiri</option>
+                            <option value="Mandiri_Transfer" {{ old('sistem_kuliah', $agent->sistem_kuliah) == 'Mandiri_Transfer' ? 'selected' : '' }}>Mandiri Transfer</option>
                             <option value="RPL" {{ old('sistem_kuliah', $agent->sistem_kuliah) == 'RPL' ? 'selected' : '' }}>Rekognisi Pembelajaran Lampau</option>
 
                         </select>

@@ -12,6 +12,10 @@ return new class extends Migration {
     {
         Schema::create('camabas', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('agent_id')
+                ->nullable()
+                ->constrained('users')
+                ->nullOnDelete();
             $table->string('nama_lengkap');
             $table->string('nik', 20)->unique();
             $table->string('nomor_hp', 20);
@@ -30,11 +34,18 @@ return new class extends Migration {
             $table->enum('sistem_kuliah', [
                 'Reguler',
                 'Mandiri',
+                'Mandiri_Transfer',
                 'RPL',
-                'Kelas Karyawan',
-                'Executive Class',
             ]);
             $table->string('periode');
+            $table->enum('status', [
+                'Prospek',
+                'Dihubungi',
+                'Sudah Daftar',
+                'Registrasi',
+                'Registrasi Ulang',
+                'Batal',
+            ])->default('Prospek');
             $table->timestamps();
         });
     }

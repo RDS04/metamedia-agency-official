@@ -12,19 +12,19 @@
     <!-- Prospek -->
     <div class="bg-white rounded-xl border border-slate-100 px-5 py-4">
         <p class="text-xs text-slate-400 font-medium mb-2">Prospek Camaba</p>
-        <p class="text-3xl font-semibold text-slate-800 leading-none">{{ $totalCamaba }}</p>
+        <p class="text-3xl font-semibold text-slate-800 leading-none">{{ $prospek }}</p>
         <p class="text-xs text-slate-400 mt-2">Total calon mahasiswa</p>
     </div>
     <!-- Daftar -->
     <div class="bg-white rounded-xl border border-slate-100 px-5 py-4">
         <p class="text-xs text-slate-400 font-medium mb-2">Sudah Daftar</p>
-        <p class="text-3xl font-semibold text-teal-600 leading-none">{{ $sudahDaftar }}</p>
+        <p class="text-3xl font-semibold text-blue-600 leading-none">{{ $sudahDaftar }}</p>
         <p class="text-xs text-slate-400 mt-2">Mengisi formulir PMB</p>
     </div>
     <!-- Registrasi -->
     <div class="bg-white rounded-xl border border-slate-100 px-5 py-4">
         <p class="text-xs text-slate-400 font-medium mb-2">Registrasi Ulang</p>
-        <p class="text-3xl font-semibold text-amber-600 leading-none">{{ $registrasiUlang }}</p>
+        <p class="text-3xl font-semibold text-emerald-600 leading-none">{{ $registrasiUlang }}</p>
         <p class="text-xs text-slate-400 mt-2">Mahasiswa aktif</p>
     </div>
     <!-- Bonus -->
@@ -71,7 +71,7 @@
             <hr class="border-slate-100">
             <div class="flex justify-between items-center text-sm">
                 <span class="text-slate-400">Registrasi ulang</span>
-                <span class="font-medium text-teal-600">{{ $registrasiUlang }}</span>
+                <span class="font-medium text-emerald-600">{{ $registrasiUlang }}</span>
             </div>
             <hr class="border-slate-100">
             <div class="flex justify-between items-center text-sm">
@@ -121,10 +121,12 @@
                     <td class="px-5 py-3.5 text-slate-600">{{ $maba->program_studi }}</td>
                     <td class="px-5 py-3.5 text-slate-600">{{ $maba->sistem_kuliah }}</td>
                     <td class="px-5 py-3.5">
-                        <span class="inline-flex items-center text-xs font-medium px-2.5 py-1 rounded-full bg-amber-50 text-amber-700">Prospek</span>
+                        <span class="inline-flex items-center text-xs font-medium px-2.5 py-1 rounded-full {{ $statusOptions[$maba->status] ?? $statusOptions['Prospek'] }}">
+                            {{ $maba->status ?? 'Prospek' }}
+                        </span>
                     </td>
                     <td class="px-5 py-3.5">
-                        <a href="{{ route('agen.Edit', $maba->id) }}"
+                        <a href="{{ route('agen.Detail', $maba->id) }}"
                             class="text-xs text-slate-400 hover:text-slate-600 flex items-center gap-1">
                             <i class="ti ti-eye text-sm" aria-hidden="true"></i> Lihat
                         </a>

@@ -8,10 +8,27 @@ use App\Models\Komisi;
 use App\Models\Periode;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\Auth;
 
 class DashboardController extends Controller
 {
+    private const SISTEM_KULIAH_OPTIONS = [
+        'Reguler',
+        'Mandiri',
+        'Mandiri_Transfer',
+        'RPL',
+    ];
+
+    private const CAMABA_STATUSES = [
+        'Prospek' => 'bg-amber-50 text-amber-700',
+        'Dihubungi' => 'bg-cyan-50 text-cyan-700',
+        'Sudah Daftar' => 'bg-blue-50 text-blue-700',
+        'Registrasi' => 'bg-violet-50 text-violet-700',
+        'Registrasi Ulang' => 'bg-emerald-50 text-emerald-700',
+        'Batal' => 'bg-red-50 text-red-700',
+    ];
+
     public function informasi()
     {
         return view('informasi');
@@ -20,15 +37,22 @@ class DashboardController extends Controller
     public function dashboard(Request $request)
     {
         $agent = Auth::user();
-        $totalCamaba = Agent::count();
-        $sudahDaftar = 0;
-        $registrasiUlang = 0;
-        $bonusPerRegistrasi = $this->bonusPerRegistrasi($agent->status ?? null);
-        $totalBonus = $registrasiUlang * $bonusPerRegistrasi;
-        $camabaTerbaru = Agent::latest()->take(5)->get();
+        $camabaQuery = Agent::where('agent_id', $agent->id);
+
+        $totalCamaba = (clone $camabaQuery)->count();
+        $prospek = (clone $camabaQuery)->where('status', 'Prospek')->count();
+        $sudahDaftar = (clone $camabaQuery)->where('status', 'Sudah Daftar')->count();
+        $registrasiUlang = (clone $camabaQuery)->where('status', 'Registrasi Ulang')->count();
+        $komisiAktif = $this->komisiAktif($agent->status ?? null);
+        $bonusSummary = $komisiAktif?->hitungBonus($registrasiUlang) ?? $this->emptyBonusSummary();
+        $bonusSummary['bonus_ukt'] = $komisiAktif?->memenuhiTargetBonusUkt($totalCamaba) ?? false;
+        $bonusPerRegistrasi = $this->bonusPerRegistrasi($komisiAktif);
+        $totalBonus = (int) ($bonusSummary['total_bonus'] ?? 0);
+        $camabaTerbaru = (clone $camabaQuery)->latest()->take(5)->get();
 
         $chartStart = now()->startOfMonth()->subMonths(5);
-        $camabaPerBulan = Agent::where('created_at', '>=', $chartStart)
+        $camabaPerBulan = (clone $camabaQuery)
+            ->where('created_at', '>=', $chartStart)
             ->get()
             ->groupBy(fn ($camaba) => $camaba->created_at->format('Y-m'));
 
@@ -41,16 +65,20 @@ class DashboardController extends Controller
             $chartData[] = $camabaPerBulan->get($month->format('Y-m'), collect())->count();
         }
 
+        $statusOptions = self::CAMABA_STATUSES;
+
         return view('auth.agent.dashboard', compact(
             'agent',
             'totalCamaba',
+            'prospek',
             'sudahDaftar',
             'registrasiUlang',
             'bonusPerRegistrasi',
             'totalBonus',
             'camabaTerbaru',
             'chartLabels',
-            'chartData'
+            'chartData',
+            'statusOptions'
         ));
     }
 
@@ -148,13 +176,43 @@ class DashboardController extends Controller
             ->orderBy('nama_periode')
             ->get();
 
-        return view("auth.agent.addAgent.tambahAgent", compact('periodes'));
+        $agent = Auth::user();
+        $totalCamaba = Agent::where('agent_id', $agent->id)->count();
+        $registrasiUlang = Agent::where('agent_id', $agent->id)
+            ->where('status', 'Registrasi Ulang')
+            ->count();
+        $komisiAktif = $this->komisiAktif($agent->status ?? null);
+        $targetBonusUkt = $komisiAktif?->target_bonus_ukt;
+        $isMitra = ($komisiAktif->kategori ?? null) === 'mitra';
+        $targetProgressCount = $isMitra ? $registrasiUlang : $totalCamaba;
+        $potonganUktTercapai = $isMitra
+            ? $targetBonusUkt !== null && $targetProgressCount >= $targetBonusUkt
+            : ($komisiAktif?->memenuhiTargetBonusUkt($totalCamaba) ?? false);
+        $sisaTargetUkt = $targetBonusUkt !== null ? max(0, $targetBonusUkt - $targetProgressCount) : null;
+        $akanTercapaiSetelahSimpan = $targetBonusUkt !== null
+            && $komisiAktif
+            && !$isMitra
+            && !$potonganUktTercapai
+            && $komisiAktif->memenuhiTargetBonusUkt($totalCamaba + 1);
+
+        return view("auth.agent.addAgent.tambahAgent", compact(
+            'periodes',
+            'komisiAktif',
+            'totalCamaba',
+            'registrasiUlang',
+            'isMitra',
+            'targetProgressCount',
+            'targetBonusUkt',
+            'potonganUktTercapai',
+            'sisaTargetUkt',
+            'akanTercapaiSetelahSimpan'
+        ));
     }
     public function laporanAgent(Request $request)
     {
         $agent = Auth::user();
 
-        $camabaQuery = Agent::query()
+        $camabaQuery = Agent::where('agent_id', $agent->id)
             ->when($request->filled('search'), function ($query) use ($request) {
                 $search = $request->input('search');
 
@@ -164,13 +222,21 @@ class DashboardController extends Controller
                         ->orWhere('program_studi', 'like', '%' . $search . '%')
                         ->orWhere('sistem_kuliah', 'like', '%' . $search . '%');
                 });
+            })
+            ->when($request->filled('status'), function ($query) use ($request) {
+                $query->where('status', $request->input('status'));
             });
 
         $totalCamaba = (clone $camabaQuery)->count();
-        $sudahDaftar = 0;
-        $registrasiUlang = 0;
-        $bonusPerRegistrasi = $this->bonusPerRegistrasi($agent->status ?? null);
-        $totalBonus = $registrasiUlang * $bonusPerRegistrasi;
+        $prospek = (clone $camabaQuery)->where('status', 'Prospek')->count();
+        $sudahDaftar = (clone $camabaQuery)->where('status', 'Sudah Daftar')->count();
+        $registrasiUlang = (clone $camabaQuery)->where('status', 'Registrasi Ulang')->count();
+        $komisiAktif = $this->komisiAktif($agent->status ?? null);
+        $bonusSummary = $komisiAktif?->hitungBonus($registrasiUlang) ?? $this->emptyBonusSummary();
+        $bonusSummary['bonus_ukt'] = $komisiAktif?->memenuhiTargetBonusUkt($totalCamaba) ?? false;
+        $bonusPerRegistrasi = $this->bonusPerRegistrasi($komisiAktif);
+        $totalBonus = (int) ($bonusSummary['total_bonus'] ?? 0);
+        $bonusPerCamaba = $this->bonusPerCamaba($agent->id, $komisiAktif);
 
         $camaba = $camabaQuery
             ->latest()
@@ -179,8 +245,8 @@ class DashboardController extends Controller
 
         $progress = [
             'prospek' => [
-                'count' => $totalCamaba,
-                'percent' => $totalCamaba > 0 ? 100 : 0,
+                'count' => $prospek,
+                'percent' => $totalCamaba > 0 ? round(($prospek / $totalCamaba) * 100) : 0,
             ],
             'sudah_daftar' => [
                 'count' => $sudahDaftar,
@@ -195,23 +261,79 @@ class DashboardController extends Controller
         $tingkatDaftar = $totalCamaba > 0 ? round(($sudahDaftar / $totalCamaba) * 100, 1) : 0;
         $tingkatRegistrasi = $sudahDaftar > 0 ? round(($registrasiUlang / $sudahDaftar) * 100, 1) : 0;
         $konversiTotal = $totalCamaba > 0 ? round(($registrasiUlang / $totalCamaba) * 100, 1) : 0;
+        $statusOptions = self::CAMABA_STATUSES;
 
         return view('auth.agent.laporan', compact(
             'agent',
             'camaba',
             'totalCamaba',
+            'prospek',
             'sudahDaftar',
             'registrasiUlang',
             'bonusPerRegistrasi',
             'totalBonus',
+            'bonusSummary',
+            'bonusPerCamaba',
+            'komisiAktif',
             'progress',
             'tingkatDaftar',
             'tingkatRegistrasi',
-            'konversiTotal'
+            'konversiTotal',
+            'statusOptions'
         ));
     }
 
-    private function bonusPerRegistrasi(?string $status): int
+    public function dataCamaba(Request $request)
+    {
+        $camabas = Agent::with('agent')
+            ->when($request->filled('search'), function ($query) use ($request) {
+                $search = $request->input('search');
+
+                $query->where(function ($query) use ($search) {
+                    $query->where('nama_lengkap', 'like', '%' . $search . '%')
+                        ->orWhere('nik', 'like', '%' . $search . '%')
+                        ->orWhere('nomor_hp', 'like', '%' . $search . '%')
+                        ->orWhere('program_studi', 'like', '%' . $search . '%')
+                        ->orWhere('sistem_kuliah', 'like', '%' . $search . '%')
+                        ->orWhereHas('agent', function ($query) use ($search) {
+                            $query->where('name', 'like', '%' . $search . '%');
+                        });
+                });
+            })
+            ->when($request->filled('status'), function ($query) use ($request) {
+                $query->where('status', $request->input('status'));
+            })
+            ->when($request->filled('agent_id'), function ($query) use ($request) {
+                $query->where('agent_id', $request->input('agent_id'));
+            })
+            ->latest()
+            ->paginate(10)
+            ->withQueryString();
+
+        $statusOptions = self::CAMABA_STATUSES;
+        $agentOptions = User::whereIn('id', Agent::query()
+                ->select('agent_id')
+                ->whereNotNull('agent_id')
+            )
+            ->orderBy('name')
+            ->get(['id', 'name', 'status']);
+
+        return view('auth.admin.dashboard.dataCamaba', compact('camabas', 'statusOptions', 'agentOptions'));
+    }
+
+    public function updateCamabaStatus(Request $request, Agent $camaba)
+    {
+        $validated = $request->validate([
+            'status' => 'required|in:' . implode(',', array_keys(self::CAMABA_STATUSES)),
+        ]);
+
+        $camaba->update($validated);
+
+        return back()
+            ->with('success', 'Status camaba berhasil diperbarui');
+    }
+
+    private function komisiAktif(?string $status): ?Komisi
     {
         $kategori = match ($status) {
             'dosen_karyawan' => 'dosen_karyawan',
@@ -219,12 +341,75 @@ class DashboardController extends Controller
             default => 'mao',
         };
 
-        $komisi = Komisi::where('kategori', $kategori)
+        return Komisi::where('kategori', $kategori)
             ->where('is_active', true)
+            ->orderBy('nominal_fleksibel')
             ->orderByDesc('bonus_per_mahasiswa')
             ->first();
+    }
 
-        return (int) ($komisi?->bonus_per_mahasiswa ?: $komisi?->bonus_lanjutan ?: $komisi?->bonus_pertama ?: 0);
+    private function bonusPerRegistrasi(?Komisi $komisi): int
+    {
+        if (!$komisi || $komisi->nominal_fleksibel) {
+            return 0;
+        }
+
+        return (int) ($komisi->bonus_per_mahasiswa ?: $komisi->bonus_lanjutan ?: $komisi->bonus_pertama ?: 0);
+    }
+
+    private function bonusPerCamaba(int $agentId, ?Komisi $komisi): array
+    {
+        if (!$komisi) {
+            return [];
+        }
+
+        $registrasiUlang = Agent::where('agent_id', $agentId)
+            ->where('status', 'Registrasi Ulang')
+            ->orderBy('created_at')
+            ->orderBy('id')
+            ->get(['id'])
+            ->values();
+
+        if ($komisi->kategori === 'mitra' && !$komisi->nominal_fleksibel) {
+            $targetMitra = (int) ($komisi->target_bonus_ukt ?: 10);
+            $totalRegistrasi = $registrasiUlang->count();
+
+            return $registrasiUlang
+                ->mapWithKeys(function ($camaba, int $index) use ($komisi, $targetMitra, $totalRegistrasi) {
+                    $urutan = $index + 1;
+
+                    if ($totalRegistrasi >= $targetMitra) {
+                        $bonus = $urutan < $targetMitra
+                            ? 0
+                            : ($urutan === $targetMitra ? (int) $komisi->bonus_pertama : (int) $komisi->bonus_per_mahasiswa);
+                    } else {
+                        $bonus = (int) $komisi->bonus_per_mahasiswa;
+                    }
+
+                    return [$camaba->id => $bonus];
+                })
+                ->all();
+        }
+
+        return $registrasiUlang
+            ->mapWithKeys(fn ($camaba, int $index) => [
+                $camaba->id => $komisi->bonusUntukUrutan($index + 1),
+            ])
+            ->all();
+    }
+
+    private function emptyBonusSummary(): array
+    {
+        return [
+            'total_bonus' => 0,
+            'bonus_ukt' => false,
+            'bonus_pertama_total' => 0,
+            'bonus_lanjutan_total' => 0,
+            'bonus_per_mahasiswa_total' => 0,
+            'jumlah_bonus_pertama' => 0,
+            'jumlah_bonus_lanjutan' => 0,
+            'jumlah_bonus_per_mahasiswa' => 0,
+        ];
     }
     public function listAgent()
     {
@@ -242,7 +427,7 @@ class DashboardController extends Controller
             'nomor_hp' => 'required|string',
             'jenis_kelamin' => 'required|in:Laki-Laki,Perempuan',
             'program_studi' => 'required|string',
-            'sistem_kuliah' => 'required|string',
+            'sistem_kuliah' => ['required', Rule::in(self::SISTEM_KULIAH_OPTIONS)],
             'periode' => 'required|string',
         ], [
             'nama_lengkap.required' => 'Nama lengkap harus diisi',
@@ -255,6 +440,9 @@ class DashboardController extends Controller
             'periode.required' => 'Periode harus dipilih',
         ]);
 
+        $validated['agent_id'] = Auth::id();
+        $validated['status'] = 'Prospek';
+
         Agent::create($validated);
 
         return redirect()->route('agen.Show')
@@ -264,18 +452,29 @@ class DashboardController extends Controller
     // Tampilkan data agent
     public function agenShow()
     {
-        $agents = Agent::all();
+        $agents = Agent::where('agent_id', Auth::id())
+            ->latest()
+            ->get();
+
         return view("auth.agent.addAgent.showAgent", ['agents' => $agents]);
+    }
+
+    public function agenDetail($id)
+    {
+        $agent = Agent::where('agent_id', Auth::id())->findOrFail($id);
+        $statusOptions = self::CAMABA_STATUSES;
+
+        return view("auth.agent.addAgent.detailAgent", compact('agent', 'statusOptions'));
     }
 
     // Tampilkan form edit agent
     public function agenEdit($id)
     {
-        $agent = Agent::findOrFail($id);
+        $agent = Agent::where('agent_id', Auth::id())->findOrFail($id);
 
-        if (!$agent) {
+        if ($agent->status === 'Registrasi Ulang') {
             return redirect()->route('agen.Show')
-                ->with('error', 'Agent tidak ditemukan');
+                ->with('error', 'Calon mahasiswa yang sudah Registrasi Ulang tidak bisa diedit.');
         }
 
         $periodes = Periode::orderByDesc('is_active')
@@ -289,7 +488,7 @@ class DashboardController extends Controller
     // Update agent
     public function agenUpdate(Request $request, $id)
     {
-        $agent = Agent::find($id);
+        $agent = Agent::where('agent_id', Auth::id())->find($id);
 
         if (!$agent) {
             if ($request->expectsJson()) {
@@ -299,13 +498,22 @@ class DashboardController extends Controller
                 ->with('error', 'Agent tidak ditemukan');
         }
 
+        if ($agent->status === 'Registrasi Ulang') {
+            if ($request->expectsJson()) {
+                return response()->json(['message' => 'Calon mahasiswa yang sudah Registrasi Ulang tidak bisa diedit.'], 403);
+            }
+
+            return redirect()->route('agen.Show')
+                ->with('error', 'Calon mahasiswa yang sudah Registrasi Ulang tidak bisa diedit.');
+        }
+
         $validated = $request->validate([
             'nama_lengkap' => 'required|string|max:255',
             'nik' => 'required|string|unique:camabas,nik,' . $id,
             'nomor_hp' => 'required|string',
             'jenis_kelamin' => 'required|in:Laki-Laki,Perempuan',
             'program_studi' => 'required|string',
-            'sistem_kuliah' => 'required|string',
+            'sistem_kuliah' => ['required', Rule::in(self::SISTEM_KULIAH_OPTIONS)],
             'periode' => 'required|string',
         ], [
             'nama_lengkap.required' => 'Nama lengkap harus diisi',
@@ -331,11 +539,16 @@ class DashboardController extends Controller
     // Hapus agent
     public function agenDestroy($id)
     {
-        $agent = Agent::find($id);
+        $agent = Agent::where('agent_id', Auth::id())->find($id);
 
         if (!$agent) {
             return redirect()->route('agen.Show')
                 ->with('error', 'Agent tidak ditemukan');
+        }
+
+        if ($agent->status === 'Registrasi Ulang') {
+            return redirect()->route('agen.Show')
+                ->with('error', 'Calon mahasiswa yang sudah Registrasi Ulang tidak bisa dihapus.');
         }
 
         $agent->delete();

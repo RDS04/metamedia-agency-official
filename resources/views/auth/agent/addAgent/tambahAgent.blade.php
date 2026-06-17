@@ -11,11 +11,11 @@
 
             <div>
                 <h1 class="text-3xl font-bold text-black">
-                    Tambah Calon Mahasiwsa
+                    Tambah Calon Mahasiswa
                 </h1>
 
                 <p class="text-gray-400 mt-1">
-                    Tambahkan data agent baru ke dalam sistem
+                    Tambahkan data calon mahasiswa baru ke dalam sistem
                 </p>
             </div>
 
@@ -25,6 +25,53 @@
             </a>
 
         </div>
+
+        @if($targetBonusUkt)
+            <div class="bg-white rounded-xl border border-gray-200 shadow-sm px-6 py-5">
+                <div class="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4">
+                    <div>
+                        <p class="text-sm font-semibold text-gray-800">
+                            {{ $isMitra ? 'Progress Bonus Mitra' : 'Progress Potongan UKT' }}
+                        </p>
+                        <p class="text-sm text-gray-500 mt-1">
+                            @if($isMitra)
+                                Anda memiliki {{ $targetProgressCount }} dari target {{ $targetBonusUkt }} mahasiswa registrasi ulang.
+                            @else
+                                Anda sudah mendaftarkan {{ $targetProgressCount }} dari target {{ $targetBonusUkt }} calon mahasiswa.
+                            @endif
+                        </p>
+                    </div>
+
+                    <div class="flex flex-col sm:flex-row sm:items-center gap-3">
+                        <div class="min-w-48">
+                            <div class="h-2 bg-gray-100 rounded-full overflow-hidden">
+                                <div class="h-full bg-[#018FD7] rounded-full"
+                                    style="width: {{ min(100, round(($targetProgressCount / max(1, $targetBonusUkt)) * 100)) }}%">
+                                </div>
+                            </div>
+                        </div>
+
+                        @if($potonganUktTercapai)
+                            <span class="inline-flex items-center justify-center rounded-lg bg-emerald-50 px-4 py-2 text-sm font-semibold text-emerald-700">
+                                @if($isMitra)
+                                    Bonus Rp {{ number_format($komisiAktif->bonus_pertama, 0, ',', '.') }} tercapai
+                                @else
+                                    Potongan UKT {{ $komisiAktif->potongan_ukt_persen }}% aktif
+                                @endif
+                            </span>
+                        @elseif($akanTercapaiSetelahSimpan)
+                            <span class="inline-flex items-center justify-center rounded-lg bg-blue-50 px-4 py-2 text-sm font-semibold text-blue-700">
+                                Simpan 1 camaba lagi untuk aktif
+                            </span>
+                        @else
+                            <span class="inline-flex items-center justify-center rounded-lg bg-amber-50 px-4 py-2 text-sm font-semibold text-amber-700">
+                                Kurang {{ $sisaTargetUkt }} {{ $isMitra ? 'registrasi ulang' : 'camaba' }} lagi
+                            </span>
+                        @endif
+                    </div>
+                </div>
+            </div>
+        @endif
 
         <!-- Card Form -->
         <div class="bg-white rounded-xl border border-gray-200 shadow-lg overflow-hidden">
@@ -170,9 +217,8 @@
                                 </option>   
                                 <option value="Reguler">Reguler</option>
                                 <option value="Mandiri">Mandiri</option>
+                                <option value="Mandiri_Transfer">Mandiri Transfer</option>
                                 <option value="RPL">Rekognisi Pembelajaran Lampau (RPL)</option>
-                                <option value="Kelas Karyawan">Kelas Karyawan</option>
-                                <option value="Executive Class">Executive Class</option>
 
                             </select>
                         </div>

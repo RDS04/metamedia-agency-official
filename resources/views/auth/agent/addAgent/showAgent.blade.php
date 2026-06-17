@@ -1,6 +1,6 @@
 @extends('auth.layout.app')
 
-@section('title', 'Daftar Agent')
+@section('title', 'Daftar Calon Mahasiswa')
 
 @section('content')
 
@@ -11,17 +11,17 @@
 
         <div>
             <h1 class="text-3xl font-bold text-black">
-                Daftar Agent
+                Daftar Calon Mahasiswa
             </h1>
 
             <p class="text-gray-400 mt-1">
-                Kelola data agent di sistem
+                Kelola data calon mahasiswa yang Anda daftarkan
             </p>
         </div>
 
         <a href="{{ route('agen.Create') }}"
             class="bg-[#018FD7] hover:bg-[#0177BB] text-white px-4 py-2 rounded-lg transition font-medium">
-            + Tambah Agent
+            + Tambah Calon Mahasiswa
         </a>
 
     </div>
@@ -45,7 +45,7 @@
         <div class="border-b border-gray-200 px-6 py-5 bg-gradient-to-r from-[#018FD7] to-[#0177BB]">
 
             <h2 class="text-white text-lg font-semibold">
-                Data Agent
+                Data Calon Mahasiswa Saya
             </h2>
 
         </div>
@@ -63,6 +63,7 @@
                         <th class="px-6 py-3 text-left text-sm font-semibold text-gray-700">No. HP</th>
                         <th class="px-6 py-3 text-left text-sm font-semibold text-gray-700">Jenis Kelamin</th>
                         <th class="px-6 py-3 text-left text-sm font-semibold text-gray-700">Program Studi</th>
+                        <th class="px-6 py-3 text-left text-sm font-semibold text-gray-700">Status</th>
                         <th class="px-6 py-3 text-left text-sm font-semibold text-gray-700">Aksi</th>
                     </tr>
 
@@ -85,22 +86,33 @@
                                     </span>
                                 </td>
                                 <td class="px-6 py-4 text-sm text-gray-700">{{ $agent->program_studi }}</td>
+                                <td class="px-6 py-4 text-sm text-gray-700">
+                                    <span class="px-3 py-1 rounded-full text-xs font-medium {{ $agent->status === 'Registrasi Ulang' ? 'bg-emerald-100 text-emerald-700' : 'bg-gray-100 text-gray-700' }}">
+                                        {{ $agent->status ?? 'Prospek' }}
+                                    </span>
+                                </td>
                                 <td class="px-6 py-4 text-sm space-x-2 flex">
 
-                                    <a href="{{ route('agen.Edit', $agent->id) }}"
-                                        class="px-3 py-1 bg-blue-600 hover:bg-blue-700 text-white rounded text-xs font-medium transition">
-                                        Edit
-                                    </a>
+                                    @if($agent->status === 'Registrasi Ulang')
+                                        <span class="px-3 py-1 bg-gray-100 text-gray-500 rounded text-xs font-medium">
+                                            Terkunci
+                                        </span>
+                                    @else
+                                        <a href="{{ route('agen.Edit', $agent->id) }}"
+                                            class="px-3 py-1 bg-blue-600 hover:bg-blue-700 text-white rounded text-xs font-medium transition">
+                                            Edit
+                                        </a>
 
-                                    <form action="{{ route('agen.Destroy', $agent->id) }}" method="POST" class="inline"
-                                        onsubmit="return confirm('Yakin ingin menghapus agent ini?');">
-                                        @csrf
-                                        @method('DELETE')
-                                        <button type="submit"
-                                            class="px-3 py-1 bg-red-600 hover:bg-red-700 text-white rounded text-xs font-medium transition">
-                                            Hapus
-                                        </button>
-                                    </form>
+                                        <form action="{{ route('agen.Destroy', $agent->id) }}" method="POST" class="inline"
+                                            onsubmit="return confirm('Yakin ingin menghapus calon mahasiswa ini?');">
+                                            @csrf
+                                            @method('DELETE')
+                                            <button type="submit"
+                                                class="px-3 py-1 bg-red-600 hover:bg-red-700 text-white rounded text-xs font-medium transition">
+                                                Hapus
+                                            </button>
+                                        </form>
+                                    @endif
 
                                 </td>
                             </tr>
@@ -110,8 +122,8 @@
                     @else
 
                         <tr>
-                            <td colspan="7" class="px-6 py-8 text-center text-gray-500">
-                                Belum ada data agent. <a href="{{ route('agen.Create') }}" class="text-[#018FD7] font-semibold hover:underline">Tambah sekarang</a>
+                            <td colspan="8" class="px-6 py-8 text-center text-gray-500">
+                                Belum ada calon mahasiswa yang Anda daftarkan. <a href="{{ route('agen.Create') }}" class="text-[#018FD7] font-semibold hover:underline">Tambah sekarang</a>
                             </td>
                         </tr>
 

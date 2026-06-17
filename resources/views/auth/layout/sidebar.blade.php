@@ -109,14 +109,9 @@
                         Priode PMB
                     </a>
 
-                    <a href="#" class="block py-2 px-4 rounded hover:bg-gray-700">
-                        Alumni
+                    <a href="{{ route('dataCamaba') }}" class="block py-2 px-4 rounded hover:bg-gray-700">
+                        Calon Mahasiswa
                     </a>
-
-                    <a href="#" class="block py-2 px-4 rounded hover:bg-gray-700">
-                        Orang Tua
-                    </a>
-
                 </div>
 
             </div>
@@ -139,7 +134,7 @@
                         </svg>
 
                         <span class="ml-3">
-                            Agent
+                            Mahasiswa
                         </span>
 
                     </div>
@@ -151,11 +146,11 @@
                 <div x-show="open" x-transition class="mt-2 bg-gray-800 rounded-lg p-2">
 
                     <a href="{{ route('agen.Create') }}" class="block py-2 px-4 rounded hover:bg-gray-700">
-                        Tambah Agent
+                        Tambah Mahasiswa Baru
                     </a>
 
                     <a href="{{ route('agen.Show') }}" class="block py-2 px-4 rounded hover:bg-gray-700">
-                        Daftar Agent
+                        Daftar Mahasiswa 
                     </a>
 
                 </div>
