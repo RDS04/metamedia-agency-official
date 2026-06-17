@@ -3,6 +3,7 @@
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\KomisiController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\FormController;
 
@@ -73,6 +74,15 @@ Route::middleware('auth:admin')->group(function () {
         Route::put('/admin/priode/{periode}', 'periodeUpdate')->name('periode.update')->whereNumber('periode');
         Route::delete('/admin/priode/{periode}', 'periodeDestroy')->name('periode.destroy')->whereNumber('periode');
 
+    });
+
+    Route::controller(KomisiController::class)->prefix('admin/komisi')->group(function () {
+        Route::get('/mao', 'mao')->name('komisi.mao');
+        Route::get('/dosen-karyawan', 'dosenKaryawan')->name('komisi.dosen-karyawan');
+        Route::get('/mitra', 'mitra')->name('komisi.mitra');
+        Route::post('/', 'store')->name('komisi.store');
+        Route::put('/{komisi}', 'update')->name('komisi.update')->whereNumber('komisi');
+        Route::delete('/{komisi}', 'destroy')->name('komisi.destroy')->whereNumber('komisi');
     });
 
 });

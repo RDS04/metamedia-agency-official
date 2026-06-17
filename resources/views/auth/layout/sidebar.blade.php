@@ -167,18 +167,41 @@
         {{-- KOMISI (ADMIN ONLY) --}}
         @if($isAdmin)
 
-            <a href="#" class="flex items-center px-4 py-3 mt-3 rounded-lg hover:bg-gray-800">
+            <div x-data="{ open: false }" class="mt-3">
 
-                <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
-                    <path
-                        d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm3.5-9c.83 0 1.5-.67 1.5-1.5S16.33 8 15.5 8 14 8.67 14 9.5s.67 1.5 1.5 1.5zm-7 0c.83 0 1.5-.67 1.5-1.5S9.33 8 8.5 8 7 8.67 7 9.5 7.67 11 8.5 11zm3.5 6.5c2.33 0 4.31-1.46 5.11-3.5H6.89c.8 2.04 2.78 3.5 5.11 3.5z" />
-                </svg>
+                <button @click="open = !open"
+                    class="w-full flex items-center justify-between px-4 py-3 rounded-lg hover:bg-gray-800">
 
-                <span class="ml-3">
-                    Komisi
-                </span>
+                    <div class="flex items-center">
+                        <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                            <path
+                                d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm3.5-9c.83 0 1.5-.67 1.5-1.5S16.33 8 15.5 8 14 8.67 14 9.5s.67 1.5 1.5 1.5zm-7 0c.83 0 1.5-.67 1.5-1.5S9.33 8 8.5 8 7 8.67 7 9.5 7.67 11 8.5 11zm3.5 6.5c2.33 0 4.31-1.46 5.11-3.5H6.89c.8 2.04 2.78 3.5 5.11 3.5z" />
+                        </svg>
 
-            </a>
+                        <span class="ml-3">
+                            Komisi
+                        </span>
+                    </div>
+
+                    <span x-text="open ? '-' : '+'"></span>
+
+                </button>
+
+                <div x-show="open" x-transition class="mt-2 bg-gray-800 rounded-lg p-2">
+                    <a href="{{ route('komisi.mao') }}" class="block py-2 px-4 rounded hover:bg-gray-700">
+                        Mahasiswa/Ortu/Alumni
+                    </a>
+
+                    <a href="{{ route('komisi.dosen-karyawan') }}" class="block py-2 px-4 rounded hover:bg-gray-700">
+                        Dosen & Karyawan
+                    </a>
+
+                    <a href="{{ route('komisi.mitra') }}" class="block py-2 px-4 rounded hover:bg-gray-700">
+                        Mitra / Instansi
+                    </a>
+                </div>
+
+            </div>
 
         @endif
 
