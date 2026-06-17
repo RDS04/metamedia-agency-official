@@ -189,7 +189,7 @@
 
                 <div x-show="open" x-transition class="mt-2 bg-gray-800 rounded-lg p-2">
                     <a href="{{ route('komisi.mao') }}" class="block py-2 px-4 rounded hover:bg-gray-700">
-                        Mahasiswa/Ortu/Alumni
+                        Mahasiswa/Ortu/Alumni/
                     </a>
 
                     <a href="{{ route('komisi.dosen-karyawan') }}" class="block py-2 px-4 rounded hover:bg-gray-700">
