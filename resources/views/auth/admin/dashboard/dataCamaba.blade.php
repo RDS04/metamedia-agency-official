@@ -21,7 +21,7 @@
                 <option value="">Semua agent</option>
                 @foreach($agentOptions as $agent)
                     <option value="{{ $agent->id }}" {{ (string) request('agent_id') === (string) $agent->id ? 'selected' : '' }}>
-                        {{ $agent->name }} - {{ ucwords(str_replace('_', ' ', $agent->status)) }}
+                    {{ \App\Helpers\StatusHelper::formatStatus($agent->status) }}
                     </option>
                 @endforeach
             </select>
@@ -87,6 +87,9 @@
                             </td>
                             <td class="px-6 py-4">
                                 <p class="text-sm text-gray-700">{{ $camaba->agent->name ?? 'Belum terhubung' }}</p>
+                                @if($camaba->agent)
+                                    <p class="text-xs text-gray-400">{{ \App\Helpers\StatusHelper::formatStatus($camaba->agent->status) }}</p>
+                                @endif
                                 <p class="text-xs text-gray-400">{{ $camaba->created_at?->format('d M Y') ?? '-' }}</p>
                             </td>
                             <td class="px-6 py-4 text-sm text-gray-700">{{ $camaba->nomor_hp }}</td>

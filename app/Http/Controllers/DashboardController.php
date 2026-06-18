@@ -311,11 +311,7 @@ class DashboardController extends Controller
             ->withQueryString();
 
         $statusOptions = self::CAMABA_STATUSES;
-        $agentOptions = User::whereIn('id', Agent::query()
-                ->select('agent_id')
-                ->whereNotNull('agent_id')
-            )
-            ->orderBy('name')
+        $agentOptions = User::orderBy('name')
             ->get(['id', 'name', 'status']);
 
         return view('auth.admin.dashboard.dataCamaba', compact('camabas', 'statusOptions', 'agentOptions'));

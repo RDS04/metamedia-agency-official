@@ -31,7 +31,7 @@
 <div class="flex flex-col min-h-screen">
 
     <!-- ── Topbar ── -->
-    <header class="h-14 bg-white border-b border-slate-100 flex items-center justify-between px-6 shrink-0 sticky top-0 z-10">
+    <header class="h-14 bg-white border-b border-slate-100 flex items-center justify-between px-6 shrink-0  top-0 z-10">
         <div>
             <h1 class="text-sm font-semibold text-slate-800">Data Agent</h1>
             <p class="text-xs text-slate-400">Kelola seluruh agent PMB</p>
@@ -52,6 +52,18 @@
 
     <!-- ── Page body ── -->
     <main class="flex-1 p-6 space-y-5">
+
+        @if(session('success'))
+            <div class="rounded-lg border border-teal-100 bg-teal-50 px-4 py-3 text-sm text-teal-700">
+                {{ session('success') }}
+            </div>
+        @endif
+
+        @if(session('error'))
+            <div class="rounded-lg border border-red-100 bg-red-50 px-4 py-3 text-sm text-red-700">
+                {{ session('error') }}
+            </div>
+        @endif
 
         <!-- ── Filter bar ── -->
         <div class="bg-white rounded-xl border border-slate-100 px-5 py-4">
@@ -126,17 +138,23 @@
                                 <span class="font-mono text-xs text-slate-700 bg-slate-100 px-2 py-1 rounded">{{ $agent->kode_referral }}</span>
                             </td>
                             <td class="px-5 py-3.5">
-                                <span class="inline-flex items-center text-xs font-medium px-2.5 py-1 rounded-full bg-teal-50 text-teal-700">Aktif</span>
+                                <span data-status-badge class="inline-flex items-center text-xs font-medium px-2.5 py-1 rounded-full transition-colors duration-300 {{ $agent->is_active ? 'bg-teal-50 text-teal-700' : 'bg-slate-100 text-slate-500' }}">
+                                    {{ $agent->is_active ? 'Aktif' : 'Non Aktif' }}
+                                </span>
                             </td>
                             <td class="px-5 py-3.5 text-center">
-                                <!-- Toggle ON -->
-                                <button
-                                    onclick="toggleStatus(this)"
-                                    data-active="true"
-                                    class="relative inline-flex h-6 w-11 items-center rounded-full transition-colors duration-300 bg-teal-500 focus:outline-none"
-                                    title="Klik untuk non-aktifkan">
-                                    <span class="inline-block h-4 w-4 transform rounded-full bg-white shadow transition-transform duration-300 translate-x-6"></span>
-                                </button>
+                                <form action="{{ route('agent.toggle', $agent->id) }}" method="POST" class="js-toggle-agent-form">
+                                    @csrf
+                                    @method('PATCH')
+
+                                    <button
+                                        type="submit"
+                                        data-active="{{ $agent->is_active ? 'true' : 'false' }}"
+                                        class="relative inline-flex h-6 w-11 items-center rounded-full transition-all duration-300 ease-out {{ $agent->is_active ? 'bg-teal-500' : 'bg-slate-300' }} focus:outline-none focus:ring-2 focus:ring-brand-400 focus:ring-offset-2 active:scale-95 disabled:cursor-wait disabled:opacity-80"
+                                        title="{{ $agent->is_active ? 'Klik untuk non-aktifkan' : 'Klik untuk aktifkan' }}">
+                                        <span class="inline-block h-4 w-4 transform rounded-full bg-white shadow transition-transform duration-300 ease-out {{ $agent->is_active ? 'translate-x-6' : 'translate-x-1' }}"></span>
+                                    </button>
+                                </form>
                             </td>
                         </tr>
                     @endforeach
@@ -192,6 +210,42 @@ function toggleStatus(btn) {
         statusBadge.textContent = 'Aktif';
     }
 }
+</script>
+
+<script>
+document.querySelectorAll('.js-toggle-agent-form').forEach((form) => {
+    form.addEventListener('submit', (event) => {
+        const button = form.querySelector('button[data-active]');
+
+        if (!button || button.dataset.submitting === 'true') {
+            return;
+        }
+
+        event.preventDefault();
+
+        const isActive = button.dataset.active === 'true';
+        const nextActive = !isActive;
+        const knob = button.querySelector('span');
+        const statusBadge = form.closest('tr').querySelector('[data-status-badge]');
+
+        button.dataset.active = nextActive ? 'true' : 'false';
+        button.dataset.submitting = 'true';
+        button.disabled = true;
+
+        button.classList.toggle('bg-teal-500', nextActive);
+        button.classList.toggle('bg-slate-300', !nextActive);
+        knob.classList.toggle('translate-x-6', nextActive);
+        knob.classList.toggle('translate-x-1', !nextActive);
+
+        statusBadge.classList.toggle('bg-teal-50', nextActive);
+        statusBadge.classList.toggle('text-teal-700', nextActive);
+        statusBadge.classList.toggle('bg-slate-100', !nextActive);
+        statusBadge.classList.toggle('text-slate-500', !nextActive);
+        statusBadge.textContent = nextActive ? 'Aktif' : 'Non Aktif';
+
+        setTimeout(() => form.submit(), 260);
+    });
+});
 </script>
 
 </body>

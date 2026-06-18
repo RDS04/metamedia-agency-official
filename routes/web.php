@@ -3,6 +3,7 @@
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\ImportController;
 use App\Http\Controllers\KomisiController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\FormController;
@@ -86,6 +87,40 @@ Route::middleware('auth:admin')->group(function () {
         Route::post('/', 'store')->name('komisi.store');
         Route::put('/{komisi}', 'update')->name('komisi.update')->whereNumber('komisi');
         Route::delete('/{komisi}', 'destroy')->name('komisi.destroy')->whereNumber('komisi');
+    });
+    Route::controller(ImportController::class)->prefix('admin/mahasiswa')->group(function () {
+        Route::get('/', 'indexMahasiswa')
+            ->name('mahasiswa.index');
+
+        Route::get('/create', 'createMahasiswa')
+            ->name('mahasiswa.create');
+
+        Route::post('/store', 'storeMahasiswa')
+            ->name('mahasiswa.store');
+
+        Route::post('/import', 'previewImport')
+            ->name('mahasiswa.import');
+
+        Route::post('/confirm-import', 'confirmImport')
+            ->name('mahasiswa.confirm-import');
+
+        Route::get('/download-template', 'downloadTemplate')
+            ->name('mahasiswa.download-template');
+
+        Route::get('/export', 'exportMahasiswa')
+            ->name('mahasiswa.export');
+
+        Route::get('/{id}/edit', 'editMahasiswa')
+            ->name('mahasiswa.edit')
+            ->whereNumber('id');
+
+        Route::put('/{id}', 'updateMahasiswa')
+            ->name('mahasiswa.update')
+            ->whereNumber('id');
+
+        Route::delete('/{id}', 'destroyMahasiswa')
+            ->name('mahasiswa.destroy')
+            ->whereNumber('id');
     });
 
 });
