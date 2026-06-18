@@ -30,10 +30,16 @@
         <div class="w-10 h-10 rounded-full bg-[#018FD7] flex items-center justify-center">
             <span class="text-white font-bold text-lg">A</span>
         </div>
-
+        @if ($isAdmin)
+        <span class="ml-3 text-xl font-bold text-white">
+            Admin Agent PMB
+        </span>
+        @endif
+        @if (!$isAdmin)
         <span class="ml-3 text-xl font-bold text-white">
             Agent PMB
         </span>
+        @endif
 
     </div>
 
