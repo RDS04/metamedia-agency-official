@@ -9,12 +9,12 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\FormController;
 
 // Public Routes
-Route::controller(DashboardController::class)->group(function () {
+Route::controller(DashboardController::class)->prefix('agent')->group(function () {
     Route::get('/', 'informasi')->name('informasi');
 });
 
 // Authentication Routes (Guest Only)
-Route::controller(AuthController::class)->prefix('auth')->middleware('guest')->group(function () {
+Route::controller(AuthController::class)->prefix('agent')->middleware('guest')->group(function () {
     Route::get('/login', 'login')->name('auth.login');
     Route::get('/register', 'register')->name('auth.register');
     Route::post('/login', 'loginProcess')->name('login.proses');
@@ -27,7 +27,7 @@ Route::controller(AuthController::class)->prefix('auth')->middleware('guest')->g
 });
 
 // Authenticated Routes
-Route::middleware('auth')->group(function () {
+Route::middleware('auth')->prefix('agent')->group(function () {
 
     // Auth Logout
     Route::controller(AuthController::class)->prefix('auth')->group(function () {
@@ -53,7 +53,7 @@ Route::middleware('auth')->group(function () {
 });
 
 // Admin Routes (Separate from auth middleware)
-Route::middleware('auth:admin')->group(function () {
+Route::middleware('auth:admin')->prefix('agent')->group(function () {
 
     Route::controller(AuthController::class)->group(function () {
         Route::get('/admin/dashboard', 'adminDashboard')

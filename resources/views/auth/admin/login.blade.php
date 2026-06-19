@@ -27,7 +27,7 @@
 
                     <div class="w-14 h-14 bg-white rounded-2xl shadow-lg flex items-center justify-center">
 
-                        <img src="{{ asset('logo.png') }}" alt="Logo" class="w-9 h-9 object-contain">
+                        <img src="{{ asset('storage/logo.png') }}" alt="Logo" class="w-9 h-9 object-contain">
                     </div>
                 </div>
             </div>

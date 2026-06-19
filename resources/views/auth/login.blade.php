@@ -20,7 +20,7 @@
 
                 <!-- Logo -->
                 <div class="flex justify-center mb-5">
-                    <img src="{{ asset('logo.png') }}" alt="Logo" class="h-20 w-auto">
+                    <img src="{{ asset('storage/logo.png') }}" alt="Logo" class="h-20 w-auto">
                 </div>
 
                 <h1 class="text-2xl font-bold text-gray-800">
