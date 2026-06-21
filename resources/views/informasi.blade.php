@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="id">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -28,7 +29,7 @@
                         }
                     },
                     fontFamily: {
-                        sans: ['Poppins', 'Inter', 'system-ui', 'sans-serif'],
+                        sans: ['Rubik', 'Poppins', 'Inter', 'system-ui', 'sans-serif'],
                     }
                 }
             }
@@ -36,11 +37,20 @@
     </script>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+
+    <link href="https://fonts.googleapis.com/css2?family=Rubik:ital,wght@0,300..900;1,300..900&display=swap"
+        rel="stylesheet">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/dist/tabler-icons.min.css">
     <style>
-        * { scroll-behavior: smooth; }
-        .tier-active { border: 2px solid #018FD7; }
+        * {
+            scroll-behavior: smooth;
+        }
+
+        .tier-active {
+            border: 2px solid #018FD7;
+        }
+
         input[type=range] {
             -webkit-appearance: none;
             height: 4px;
@@ -48,6 +58,7 @@
             background: #1A2E4A;
             outline: none;
         }
+
         input[type=range]::-webkit-slider-thumb {
             -webkit-appearance: none;
             width: 18px;
@@ -63,42 +74,80 @@
         .scroll-animate {
             opacity: 0;
             transition: opacity 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94),
-                        transform 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+                transform 0.8s cubic-bezier(0.25, 0.46, 0.45, 0.94);
             will-change: transform, opacity;
         }
+
         .scroll-animate.visible {
             opacity: 1;
             transform: translate(0, 0) !important;
         }
 
-        .from-left { transform: translateX(-60px); }
-        .from-right { transform: translateX(60px); }
-        .from-top { transform: translateY(-60px); }
-        .from-bottom { transform: translateY(60px); }
-        .from-random-1 { transform: translate(-40px, 30px) scale(0.9); }
-        .from-random-2 { transform: translate(40px, -30px) scale(0.9); }
-        .from-random-3 { transform: translate(-30px, -40px) scale(0.9); }
-        .from-random-4 { transform: translate(30px, 40px) scale(0.9); }
+        .from-left {
+            transform: translateX(-60px);
+        }
+
+        .from-right {
+            transform: translateX(60px);
+        }
+
+        .from-top {
+            transform: translateY(-60px);
+        }
+
+        .from-bottom {
+            transform: translateY(60px);
+        }
+
+        .from-random-1 {
+            transform: translate(-40px, 30px) scale(0.9);
+        }
+
+        .from-random-2 {
+            transform: translate(40px, -30px) scale(0.9);
+        }
+
+        .from-random-3 {
+            transform: translate(-30px, -40px) scale(0.9);
+        }
+
+        .from-random-4 {
+            transform: translate(30px, 40px) scale(0.9);
+        }
 
         .stagger-item {
             opacity: 0;
             transition: opacity 0.7s ease, transform 0.7s ease;
             will-change: transform, opacity;
         }
+
         .stagger-item.visible {
             opacity: 1;
             transform: translate(0, 0) !important;
         }
-        .stagger-item.delay-1 { transition-delay: 0.08s; }
-        .stagger-item.delay-2 { transition-delay: 0.16s; }
-        .stagger-item.delay-3 { transition-delay: 0.24s; }
-        .stagger-item.delay-4 { transition-delay: 0.32s; }
+
+        .stagger-item.delay-1 {
+            transition-delay: 0.08s;
+        }
+
+        .stagger-item.delay-2 {
+            transition-delay: 0.16s;
+        }
+
+        .stagger-item.delay-3 {
+            transition-delay: 0.24s;
+        }
+
+        .stagger-item.delay-4 {
+            transition-delay: 0.32s;
+        }
 
         .nav-item {
             opacity: 0;
             transform: translateY(-12px);
             transition: opacity 0.5s ease, transform 0.5s ease;
         }
+
         .nav-item.visible {
             opacity: 1;
             transform: translateY(0);
@@ -110,16 +159,19 @@
             animation: fadeInUp 1s ease forwards;
             animation-delay: 0.3s;
         }
+
         .hero-subtitle {
             opacity: 0;
             animation: fadeInUp 1s ease forwards;
             animation-delay: 0.6s;
         }
+
         .hero-cta {
             opacity: 0;
             animation: fadeInUp 1s ease forwards;
             animation-delay: 0.9s;
         }
+
         .hero-badge {
             opacity: 0;
             animation: fadeInUp 0.8s ease forwards;
@@ -131,6 +183,7 @@
                 opacity: 0;
                 transform: translateY(30px);
             }
+
             to {
                 opacity: 1;
                 transform: translateY(0);
@@ -141,6 +194,7 @@
             display: inline-block;
             position: relative;
         }
+
         .highlight-text::after {
             content: '';
             position: absolute;
@@ -152,19 +206,36 @@
             animation: underlineExpand 1.2s ease forwards;
             animation-delay: 0.8s;
         }
+
         @keyframes underlineExpand {
-            from { width: 0; }
-            to { width: 100%; }
+            from {
+                width: 0;
+            }
+
+            to {
+                width: 100%;
+            }
         }
 
         .hero-badge {
             animation: pulseScale 0.8s ease forwards;
             animation-delay: 0.1s;
         }
+
         @keyframes pulseScale {
-            0% { opacity: 0; transform: scale(0.8); }
-            50% { transform: scale(1.05); }
-            100% { opacity: 1; transform: scale(1); }
+            0% {
+                opacity: 0;
+                transform: scale(0.8);
+            }
+
+            50% {
+                transform: scale(1.05);
+            }
+
+            100% {
+                opacity: 1;
+                transform: scale(1);
+            }
         }
 
         .counter-number {
@@ -177,6 +248,7 @@
             gap: 8px;
             justify-content: center;
         }
+
         .rating-stars .star {
             font-size: 32px;
             cursor: pointer;
@@ -184,12 +256,14 @@
             transition: all 0.2s ease;
             user-select: none;
         }
+
         .rating-stars .star:hover,
         .rating-stars .star.active {
             color: #F5A623;
             transform: scale(1.15);
         }
-        .rating-stars .star:hover ~ .star {
+
+        .rating-stars .star:hover~.star {
             color: #4a5568;
         }
 
@@ -205,10 +279,12 @@
             position: relative;
             flex-shrink: 0;
         }
+
         .feature-checkbox:checked {
             background: #018FD7;
             border-color: #018FD7;
         }
+
         .feature-checkbox:checked::after {
             content: '✓';
             position: absolute;
@@ -241,6 +317,7 @@
         }
     </style>
 </head>
+
 <body class="bg-white font-sans antialiased">
 
     <!-- ===== NAVBAR ===== -->
@@ -249,26 +326,32 @@
 
             <div class="flex items-center gap-2 nav-item visible">
                 <i class="ti ti-school text-brand text-xl"></i>
-                <span class="text-white font-semibold text-sm tracking-wide">Agent PMB <span class="text-brand">Metamedia</span></span>
+                <span class="text-white font-semibold text-sm tracking-wide">Agent PMB <span
+                        class="text-brand">Metamedia</span></span>
             </div>
 
             <div class="hidden md:flex items-center gap-7">
-                <a href="#keuntungan" class="nav-item text-slate-400 hover:text-white text-sm transition-colors">Keuntungan</a>
+                <a href="#keuntungan"
+                    class="nav-item text-slate-400 hover:text-white text-sm transition-colors">Keuntungan</a>
                 <a href="#bonus" class="nav-item text-slate-400 hover:text-white text-sm transition-colors">Bonus</a>
-                <a href="#cara-daftar" class="nav-item text-slate-400 hover:text-white text-sm transition-colors">Cara Daftar</a>
+                <a href="{{ route('auth.register') }}"
+                    class="nav-item text-slate-400 hover:text-white text-sm transition-colors">Cara Daftar</a>
             </div>
 
             <div class="flex items-center gap-3">
                 @if(Auth::check())
-                    <a href="{{ route('dashboard') }}" class="nav-item bg-brand hover:bg-brand-dark text-white text-sm font-medium px-5 py-2 rounded-lg transition-colors">
+                    <a href="{{ route('dashboard') }}"
+                        class="nav-item bg-brand hover:bg-brand-dark text-white text-sm font-medium px-5 py-2 rounded-lg transition-colors">
                         Dashboard
                     </a>
                 @else
-                    <a href="{{ route('auth.login') }}" class="nav-item text-slate-300 hover:text-white text-sm font-medium px-4 py-2 rounded-lg border border-navy-700 hover:border-brand transition-colors">
+                    <a href="{{ route('auth.login') }}"
+                        class="nav-item text-slate-300 hover:text-white text-sm font-medium px-4 py-2 rounded-lg border border-navy-700 hover:border-brand transition-colors">
                         Login
                     </a>
 
-                    <a href="{{ route('auth.register') }}" class="nav-item bg-brand hover:bg-brand-dark text-white text-sm font-medium px-5 py-2 rounded-lg transition-colors">
+                    <a href="{{ route('auth.register') }}"
+                        class="nav-item bg-brand hover:bg-brand-dark text-white text-sm font-medium px-5 py-2 rounded-lg transition-colors">
                         Register
                     </a>
                 @endif
@@ -279,37 +362,84 @@
 
 
     <!-- ===== HERO ===== -->
-    <section class="bg-navy-900 pt-16 pb-20 px-5 text-center relative overflow-hidden">
+    <section class="bg-navy-900 pt-20 pb-20 px-5 relative overflow-hidden">
 
-        <div class="absolute top-0 left-1/2 -translate-x-1/2 w-[600px] h-[300px] bg-brand opacity-5 rounded-full blur-3xl pointer-events-none"></div>
+        <!-- Background gradient decoration -->
+        <div
+            class="absolute top-0 left-1/2 -translate-x-1/2 w-[600px] h-[300px] bg-brand opacity-5 rounded-full blur-3xl pointer-events-none">
+        </div>
+        <div
+            class="absolute bottom-10 right-0 w-[400px] h-[400px] bg-brand opacity-3 rounded-full blur-3xl pointer-events-none">
+        </div>
 
-        <div class="relative z-10">
-            <div class="hero-badge inline-flex items-center gap-2 bg-gold/10 border border-gold/30 text-gold text-xs font-medium px-4 py-1.5 rounded-full mb-6">
-                <i class="ti ti-sparkles text-sm"></i>
-                Program Agent Resmi Metamedia 2026
+        <div class="max-w-7xl mx-auto relative z-10">
+            <div class="grid md:grid-cols-2 gap-12 items-center">
+
+                <!-- Left: Image Gedung Metamedia -->
+                <div class="scroll-animate from-left">
+                    <div class="relative">
+                        <!-- Frame dengan shadow dan border blend ke background -->
+                        <div
+                            class="absolute inset-0 bg-gradient-to-br from-brand/10 to-gold/10 rounded-2xl blur-xl opacity-50 -z-10">
+                        </div>
+                        <img src="{{ asset('storage/gedungMetamedia.webp') }}" alt="Gedung Metamedia"
+                            class="w-full h-auto rounded-2xl shadow-lg border border-brand/20 object-cover opacity-75 hover:opacity-90 transition-opacity duration-300">
+
+                        <!-- Overlay badge -->
+                        <div
+                            class="absolute bottom-4 left-4 bg-navy-950/80 backdrop-blur-md border border-brand/40 rounded-xl px-4 py-3">
+                            <p class="text-gold text-sm font-bold">Metamedia</p>
+                            <p class="text-slate-300 text-xs">Institusi Pendidikan Terpercaya</p>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Right: Content Text -->
+                <div class="scroll-animate from-right text-left md:text-left">
+                    <div
+                        class="hero-badge inline-flex items-center gap-2 bg-gold/10 border border-gold/30 text-gold text-xs font-medium px-4 py-1.5 rounded-full mb-6">
+                        <i class="ti ti-sparkles text-sm"></i>
+                        Program Agent Resmi Metamedia 2026
+                    </div>
+
+                    <h1 class="hero-title text-4xl md:text-5xl font-bold text-white leading-tight mb-6">
+                        Bantu Calon Mahasiswa,<br>
+                        <span class="text-gold highlight-text">Dapatkan Bonus Tunai</span>
+                    </h1>
+
+                    <p class="hero-subtitle text-slate-400 text-base md:text-lg mb-8 leading-relaxed">
+                        Jadilah Agent PMB Metamedia. Setiap mahasiswa yang berhasil kamu rekomendasikan, kamu dapat
+                        komisi langsung ke rekeningmu.
+                    </p>
+
+                    <div class="hero-cta flex flex-col sm:flex-row gap-3 mb-8">
+                        <a href="#daftar"
+                            class="bg-brand hover:bg-brand-dark text-white font-semibold px-8 py-3.5 rounded-xl transition-colors text-sm text-center">
+                            Daftar Jadi Agent Sekarang
+                        </a>
+                        <a href="#bonus"
+                            class="border border-navy-700 hover:border-brand text-slate-400 hover:text-brand px-8 py-3.5 rounded-xl transition-colors text-sm text-center">
+                            Lihat Struktur Bonus
+                        </a>
+                    </div>
+
+                    <div class="flex items-center gap-6 pt-4 border-t border-navy-700">
+                        <div class="flex items-center gap-2">
+                            <i class="ti ti-check text-brand text-lg"></i>
+                            <p class="text-slate-400 text-xs">Gratis mendaftar</p>
+                        </div>
+                        <div class="flex items-center gap-2">
+                            <i class="ti ti-check text-brand text-lg"></i>
+                            <p class="text-slate-400 text-xs">Tidak ada target minimum</p>
+                        </div>
+                        <div class="flex items-center gap-2">
+                            <i class="ti ti-check text-brand text-lg"></i>
+                            <p class="text-slate-400 text-xs">Bonus langsung cair</p>
+                        </div>
+                    </div>
+                </div>
+
             </div>
-
-            <h1 class="hero-title text-4xl md:text-5xl font-bold text-white leading-tight mb-4 max-w-2xl mx-auto">
-                Bantu Calon Mahasiswa,<br>
-                <span class="text-gold highlight-text">Dapatkan Bonus Tunai</span>
-            </h1>
-
-            <p class="hero-subtitle text-slate-400 text-base md:text-lg max-w-lg mx-auto mb-8 leading-relaxed">
-                Jadilah Agent PMB Metamedia. Setiap mahasiswa yang berhasil kamu rekomendasikan, kamu dapat komisi langsung ke rekeningmu.
-            </p>
-
-            <div class="hero-cta flex flex-col sm:flex-row gap-3 justify-center mb-6">
-                <a href="#daftar" class="bg-brand hover:bg-brand-dark text-white font-semibold px-8 py-3.5 rounded-xl transition-colors text-sm">
-                    Daftar Jadi Agent Sekarang
-                </a>
-                <a href="#bonus" class="border border-navy-700 hover:border-brand text-slate-400 hover:text-brand px-8 py-3.5 rounded-xl transition-colors text-sm">
-                    Lihat Struktur Bonus
-                </a>
-            </div>
-
-            <p class="hero-cta text-slate-600 text-xs">
-                Gratis mendaftar &nbsp;·&nbsp; Tidak ada target minimum &nbsp;·&nbsp; Bonus langsung dicairkan
-            </p>
         </div>
 
     </section>
@@ -365,7 +495,8 @@
                         <i class="ti ti-cash text-brand text-xl"></i>
                     </div>
                     <h3 class="font-semibold text-slate-800 text-sm mb-2">Bonus Langsung Cair</h3>
-                    <p class="text-slate-500 text-xs leading-relaxed">Komisi ditransfer ke rekeningmu setelah mahasiswa resmi diterima dan melakukan pembayaran.</p>
+                    <p class="text-slate-500 text-xs leading-relaxed">Komisi ditransfer ke rekeningmu setelah mahasiswa
+                        resmi diterima dan melakukan pembayaran.</p>
                 </div>
 
                 <div class="bg-white border border-slate-200 rounded-2xl p-6 stagger-item from-right delay-2">
@@ -373,7 +504,8 @@
                         <i class="ti ti-trending-up text-brand text-xl"></i>
                     </div>
                     <h3 class="font-semibold text-slate-800 text-sm mb-2">Makin Banyak, Makin Besar</h3>
-                    <p class="text-slate-500 text-xs leading-relaxed">Semakin banyak referral yang masuk, semakin tinggi tier dan bonus per mahasiswamu.</p>
+                    <p class="text-slate-500 text-xs leading-relaxed">Semakin banyak referral yang masuk, semakin tinggi
+                        tier dan bonus per mahasiswamu.</p>
                 </div>
 
                 <div class="bg-white border border-slate-200 rounded-2xl p-6 stagger-item from-top delay-3">
@@ -381,7 +513,8 @@
                         <i class="ti ti-device-mobile text-brand text-xl"></i>
                     </div>
                     <h3 class="font-semibold text-slate-800 text-sm mb-2">Dashboard Real-time</h3>
-                    <p class="text-slate-500 text-xs leading-relaxed">Pantau progress referral dan status komisi kapan saja dan di mana saja lewat dashboard online.</p>
+                    <p class="text-slate-500 text-xs leading-relaxed">Pantau progress referral dan status komisi kapan
+                        saja dan di mana saja lewat dashboard online.</p>
                 </div>
 
                 <div class="bg-white border border-slate-200 rounded-2xl p-6 stagger-item from-bottom delay-4">
@@ -389,7 +522,8 @@
                         <i class="ti ti-shield-check text-brand text-xl"></i>
                     </div>
                     <h3 class="font-semibold text-slate-800 text-sm mb-2">Program Resmi & Terpercaya</h3>
-                    <p class="text-slate-500 text-xs leading-relaxed">Program agent resmi dari institusi pendidikan yang telah terakreditasi secara nasional.</p>
+                    <p class="text-slate-500 text-xs leading-relaxed">Program agent resmi dari institusi pendidikan yang
+                        telah terakreditasi secara nasional.</p>
                 </div>
 
             </div>
@@ -405,7 +539,8 @@
                 <p class="text-brand text-xs font-semibold uppercase tracking-widest mb-2">Struktur Bonus</p>
                 <h2 class="text-3xl font-bold text-slate-900 mb-3">Simulasi Penghasilanmu</h2>
                 <p class="text-slate-500 text-sm max-w-md mx-auto leading-relaxed">
-                    Geser slider di bawah untuk melihat estimasi bonus berdasarkan jumlah mahasiswa yang berhasil kamu rekrut.
+                    Geser slider di bawah untuk melihat estimasi bonus berdasarkan jumlah mahasiswa yang berhasil kamu
+                    rekrut.
                 </p>
             </div>
 
@@ -417,7 +552,8 @@
                             <p class="text-sm font-semibold text-slate-700">Level Bonus Agent</p>
                         </div>
 
-                        <div id="tier-starter" class="flex items-center justify-between px-5 py-4 border-b border-slate-200 transition-colors">
+                        <div id="tier-starter"
+                            class="flex items-center justify-between px-5 py-4 border-b border-slate-200 transition-colors">
                             <div class="flex items-center gap-3">
                                 <div class="w-3 h-3 rounded-full bg-blue-200"></div>
                                 <div>
@@ -431,7 +567,8 @@
                             </div>
                         </div>
 
-                        <div id="tier-silver" class="flex items-center justify-between px-5 py-4 border-b border-slate-200 transition-colors">
+                        <div id="tier-silver"
+                            class="flex items-center justify-between px-5 py-4 border-b border-slate-200 transition-colors">
                             <div class="flex items-center gap-3">
                                 <div class="w-3 h-3 rounded-full bg-brand"></div>
                                 <div>
@@ -445,7 +582,8 @@
                             </div>
                         </div>
 
-                        <div id="tier-gold" class="flex items-center justify-between px-5 py-4 border-b border-slate-200 transition-colors">
+                        <div id="tier-gold"
+                            class="flex items-center justify-between px-5 py-4 border-b border-slate-200 transition-colors">
                             <div class="flex items-center gap-3">
                                 <div class="w-3 h-3 rounded-full bg-gold"></div>
                                 <div>
@@ -488,8 +626,8 @@
                                 <label class="text-slate-400 text-xs">Jumlah mahasiswa yang kamu rekrut</label>
                                 <span class="text-white text-xs font-semibold" id="mhsVal">10</span>
                             </div>
-                            <input type="range" id="mhsSlider" min="1" max="50" value="10" step="1"
-                                class="w-full" oninput="calcBonus()">
+                            <input type="range" id="mhsSlider" min="1" max="50" value="10" step="1" class="w-full"
+                                oninput="calcBonus()">
                             <div class="flex justify-between mt-1">
                                 <span class="text-slate-600 text-xs">1</span>
                                 <span class="text-slate-600 text-xs">50</span>
@@ -535,28 +673,44 @@
 
             <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-5">
 
-                <div class="bg-white border border-slate-200 rounded-2xl p-6 text-center stagger-item from-random-2 delay-1">
-                    <div class="w-10 h-10 bg-navy-900 text-white rounded-full flex items-center justify-center mx-auto mb-4 text-sm font-bold">1</div>
+                <div
+                    class="bg-white border border-slate-200 rounded-2xl p-6 text-center stagger-item from-random-2 delay-1">
+                    <div
+                        class="w-10 h-10 bg-navy-900 text-white rounded-full flex items-center justify-center mx-auto mb-4 text-sm font-bold">
+                        1</div>
                     <h3 class="font-semibold text-slate-800 text-sm mb-2">Daftar Akun</h3>
-                    <p class="text-slate-500 text-xs leading-relaxed">Isi form pendaftaran online, gratis dan hanya butuh 2 menit untuk menyelesaikannya.</p>
+                    <p class="text-slate-500 text-xs leading-relaxed">Isi form pendaftaran online, gratis dan hanya
+                        butuh 2 menit untuk menyelesaikannya.</p>
                 </div>
 
-                <div class="bg-white border border-slate-200 rounded-2xl p-6 text-center stagger-item from-random-3 delay-2">
-                    <div class="w-10 h-10 bg-navy-900 text-white rounded-full flex items-center justify-center mx-auto mb-4 text-sm font-bold">2</div>
+                <div
+                    class="bg-white border border-slate-200 rounded-2xl p-6 text-center stagger-item from-random-3 delay-2">
+                    <div
+                        class="w-10 h-10 bg-navy-900 text-white rounded-full flex items-center justify-center mx-auto mb-4 text-sm font-bold">
+                        2</div>
                     <h3 class="font-semibold text-slate-800 text-sm mb-2">Dapatkan Kode Referral</h3>
-                    <p class="text-slate-500 text-xs leading-relaxed">Terima kode referral unikmu setelah akun berhasil diverifikasi oleh tim kami.</p>
+                    <p class="text-slate-500 text-xs leading-relaxed">Terima kode referral unikmu setelah akun berhasil
+                        diverifikasi oleh tim kami.</p>
                 </div>
 
-                <div class="bg-white border border-slate-200 rounded-2xl p-6 text-center stagger-item from-random-4 delay-3">
-                    <div class="w-10 h-10 bg-navy-900 text-white rounded-full flex items-center justify-center mx-auto mb-4 text-sm font-bold">3</div>
+                <div
+                    class="bg-white border border-slate-200 rounded-2xl p-6 text-center stagger-item from-random-4 delay-3">
+                    <div
+                        class="w-10 h-10 bg-navy-900 text-white rounded-full flex items-center justify-center mx-auto mb-4 text-sm font-bold">
+                        3</div>
                     <h3 class="font-semibold text-slate-800 text-sm mb-2">Rekomendasikan</h3>
-                    <p class="text-slate-500 text-xs leading-relaxed">Bagikan info dan kode referralmu ke calon mahasiswa yang kamu kenal.</p>
+                    <p class="text-slate-500 text-xs leading-relaxed">Bagikan info dan kode referralmu ke calon
+                        mahasiswa yang kamu kenal.</p>
                 </div>
 
-                <div class="bg-white border border-slate-200 rounded-2xl p-6 text-center stagger-item from-random-1 delay-4">
-                    <div class="w-10 h-10 bg-gold text-white rounded-full flex items-center justify-center mx-auto mb-4 text-sm font-bold">4</div>
+                <div
+                    class="bg-white border border-slate-200 rounded-2xl p-6 text-center stagger-item from-random-1 delay-4">
+                    <div
+                        class="w-10 h-10 bg-gold text-white rounded-full flex items-center justify-center mx-auto mb-4 text-sm font-bold">
+                        4</div>
                     <h3 class="font-semibold text-slate-800 text-sm mb-2">Terima Bonus 🎉</h3>
-                    <p class="text-slate-500 text-xs leading-relaxed">Bonus langsung ditransfer setelah pendaftaran mahasiswa dikonfirmasi dan lunas.</p>
+                    <p class="text-slate-500 text-xs leading-relaxed">Bonus langsung ditransfer setelah pendaftaran
+                        mahasiswa dikonfirmasi dan lunas.</p>
                 </div>
 
             </div>
@@ -583,9 +737,12 @@
                         <i class="ti ti-star-filled text-gold text-sm"></i>
                         <i class="ti ti-star-filled text-gold text-sm"></i>
                     </div>
-                    <p class="text-slate-600 text-xs leading-relaxed mb-4">"Dalam 2 bulan pertama saya sudah berhasil membawa 12 mahasiswa. Bonusnya langsung cair ke rekening, prosesnya mudah banget!"</p>
+                    <p class="text-slate-600 text-xs leading-relaxed mb-4">"Dalam 2 bulan pertama saya sudah berhasil
+                        membawa 12 mahasiswa. Bonusnya langsung cair ke rekening, prosesnya mudah banget!"</p>
                     <div class="flex items-center gap-3">
-                        <div class="w-8 h-8 rounded-full bg-brand-light flex items-center justify-center text-brand text-xs font-semibold">RA</div>
+                        <div
+                            class="w-8 h-8 rounded-full bg-brand-light flex items-center justify-center text-brand text-xs font-semibold">
+                            RA</div>
                         <div>
                             <p class="text-slate-800 text-xs font-semibold">Rizky Aditya</p>
                             <p class="text-slate-400 text-xs">Agent Silver · Surabaya</p>
@@ -601,9 +758,12 @@
                         <i class="ti ti-star-filled text-gold text-sm"></i>
                         <i class="ti ti-star-filled text-gold text-sm"></i>
                     </div>
-                    <p class="text-slate-600 text-xs leading-relaxed mb-4">"Alhamdulillah sudah mencapai tier Gold. Penghasilan tambahan ini sangat membantu biaya kuliah saya sehari-hari."</p>
+                    <p class="text-slate-600 text-xs leading-relaxed mb-4">"Alhamdulillah sudah mencapai tier Gold.
+                        Penghasilan tambahan ini sangat membantu biaya kuliah saya sehari-hari."</p>
                     <div class="flex items-center gap-3">
-                        <div class="w-8 h-8 rounded-full bg-gold-light flex items-center justify-center text-gold-dark text-xs font-semibold">DP</div>
+                        <div
+                            class="w-8 h-8 rounded-full bg-gold-light flex items-center justify-center text-gold-dark text-xs font-semibold">
+                            DP</div>
                         <div>
                             <p class="text-slate-800 text-xs font-semibold">Dinda Putri</p>
                             <p class="text-slate-400 text-xs">Agent Gold · Bandung</p>
@@ -619,9 +779,12 @@
                         <i class="ti ti-star-filled text-gold text-sm"></i>
                         <i class="ti ti-star-filled text-gold text-sm"></i>
                     </div>
-                    <p class="text-slate-600 text-xs leading-relaxed mb-4">"Saya rekomendasikan ke komunitas saya. Sekarang sudah Platinum dan dapat lebih dari Rp 20 juta dari program ini. Worth it banget!"</p>
+                    <p class="text-slate-600 text-xs leading-relaxed mb-4">"Saya rekomendasikan ke komunitas saya.
+                        Sekarang sudah Platinum dan dapat lebih dari Rp 20 juta dari program ini. Worth it banget!"</p>
                     <div class="flex items-center gap-3">
-                        <div class="w-8 h-8 rounded-full bg-slate-200 flex items-center justify-center text-slate-600 text-xs font-semibold">MH</div>
+                        <div
+                            class="w-8 h-8 rounded-full bg-slate-200 flex items-center justify-center text-slate-600 text-xs font-semibold">
+                            MH</div>
                         <div>
                             <p class="text-slate-800 text-xs font-semibold">Muhamad Haris</p>
                             <p class="text-slate-400 text-xs">Agent Platinum · Jakarta</p>
@@ -637,26 +800,30 @@
     <!-- ===== CTA BOTTOM - FORM KEPUASAN AGENT ===== -->
     <section id="daftar" class="bg-navy-900 py-16 px-5 relative overflow-hidden">
 
-        <div class="absolute bottom-0 left-1/2 -translate-x-1/2 w-[500px] h-[200px] bg-brand opacity-5 rounded-full blur-3xl pointer-events-none"></div>
+        <div
+            class="absolute bottom-0 left-1/2 -translate-x-1/2 w-[500px] h-[200px] bg-brand opacity-5 rounded-full blur-3xl pointer-events-none">
+        </div>
 
         <div class="max-w-3xl mx-auto relative scroll-animate from-random-2">
 
             <!-- Header -->
             <div class="text-center mb-8">
-                <div class="inline-flex items-center gap-2 bg-gold/10 border border-gold/30 text-gold text-xs font-medium px-4 py-1.5 rounded-full mb-4">
+                <div
+                    class="inline-flex items-center gap-2 bg-gold/10 border border-gold/30 text-gold text-xs font-medium px-4 py-1.5 rounded-full mb-4">
                     <i class="ti ti-heart-filled text-sm"></i>
                     Kepuasan Agent
                 </div>
                 <h2 class="text-3xl font-bold text-white mb-3">Bagaimana Kepuasanmu dengan Fitur Agent Ini?</h2>
                 <p class="text-slate-400 text-sm max-w-lg mx-auto leading-relaxed">
-                    Kami sangat menghargai pendapatmu! Berikan penilaian dan masukan untuk terus meningkatkan program Agent PMB Metamedia.
+                    Kami sangat menghargai pendapatmu! Berikan penilaian dan masukan untuk terus meningkatkan program
+                    Agent PMB Metamedia.
                 </p>
             </div>
 
             <!-- Form -->
             <div class="bg-navy-800 border border-navy-700 rounded-2xl p-6 md:p-8">
 
-                <form id="surveyForm" onsubmit="handleSurvey(event)" class="space-y-5">
+                <form id="surveyForm" onsubmit="handleSurvey(event)" data-loading-ignore="true" class="space-y-5">
 
                     <!-- 1. Nama Lengkap -->
                     <div>
@@ -702,27 +869,33 @@
                             Fitur apa yang paling kamu sukai? (boleh pilih lebih dari satu)
                         </label>
                         <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
-                            <label class="flex items-center gap-3 text-slate-300 text-sm cursor-pointer hover:text-white transition-colors">
+                            <label
+                                class="flex items-center gap-3 text-slate-300 text-sm cursor-pointer hover:text-white transition-colors">
                                 <input type="checkbox" class="feature-checkbox" value="Bonus Langsung Cair">
                                 <span>Bonus Langsung Cair</span>
                             </label>
-                            <label class="flex items-center gap-3 text-slate-300 text-sm cursor-pointer hover:text-white transition-colors">
+                            <label
+                                class="flex items-center gap-3 text-slate-300 text-sm cursor-pointer hover:text-white transition-colors">
                                 <input type="checkbox" class="feature-checkbox" value="Dashboard Real-time">
                                 <span>Dashboard Real-time</span>
                             </label>
-                            <label class="flex items-center gap-3 text-slate-300 text-sm cursor-pointer hover:text-white transition-colors">
+                            <label
+                                class="flex items-center gap-3 text-slate-300 text-sm cursor-pointer hover:text-white transition-colors">
                                 <input type="checkbox" class="feature-checkbox" value="Struktur Bonus Tier">
                                 <span>Struktur Bonus Tier</span>
                             </label>
-                            <label class="flex items-center gap-3 text-slate-300 text-sm cursor-pointer hover:text-white transition-colors">
+                            <label
+                                class="flex items-center gap-3 text-slate-300 text-sm cursor-pointer hover:text-white transition-colors">
                                 <input type="checkbox" class="feature-checkbox" value="Kalkulator Simulasi">
                                 <span>Kalkulator Simulasi</span>
                             </label>
-                            <label class="flex items-center gap-3 text-slate-300 text-sm cursor-pointer hover:text-white transition-colors">
+                            <label
+                                class="flex items-center gap-3 text-slate-300 text-sm cursor-pointer hover:text-white transition-colors">
                                 <input type="checkbox" class="feature-checkbox" value="Testimoni Agent">
                                 <span>Testimoni Agent Lain</span>
                             </label>
-                            <label class="flex items-center gap-3 text-slate-300 text-sm cursor-pointer hover:text-white transition-colors">
+                            <label
+                                class="flex items-center gap-3 text-slate-300 text-sm cursor-pointer hover:text-white transition-colors">
                                 <input type="checkbox" class="feature-checkbox" value="Lainnya">
                                 <span>Lainnya</span>
                             </label>
@@ -735,7 +908,7 @@
                             <i class="ti ti-message-circle text-brand text-sm mr-1"></i>
                             Saran atau masukan untuk pengembangan fitur Agent
                         </label>
-                        <textarea placeholder="Tulis saran atau masukanmu di sini..." 
+                        <textarea placeholder="Tulis saran atau masukanmu di sini..."
                             class="form-textarea w-full bg-navy-900 border border-navy-700 text-white text-sm placeholder-slate-600 px-4 py-3 rounded-xl transition-colors"></textarea>
                     </div>
 
@@ -746,19 +919,23 @@
                             Apakah kamu akan merekomendasikan program ini ke teman?
                         </label>
                         <div class="flex flex-wrap gap-4">
-                            <label class="flex items-center gap-2 text-slate-300 text-sm cursor-pointer hover:text-white transition-colors">
+                            <label
+                                class="flex items-center gap-2 text-slate-300 text-sm cursor-pointer hover:text-white transition-colors">
                                 <input type="radio" name="rekomendasi" value="Ya, pasti!" class="accent-brand w-4 h-4">
                                 <span>Ya, pasti!</span>
                             </label>
-                            <label class="flex items-center gap-2 text-slate-300 text-sm cursor-pointer hover:text-white transition-colors">
+                            <label
+                                class="flex items-center gap-2 text-slate-300 text-sm cursor-pointer hover:text-white transition-colors">
                                 <input type="radio" name="rekomendasi" value="Mungkin" class="accent-brand w-4 h-4">
                                 <span>Mungkin</span>
                             </label>
-                            <label class="flex items-center gap-2 text-slate-300 text-sm cursor-pointer hover:text-white transition-colors">
+                            <label
+                                class="flex items-center gap-2 text-slate-300 text-sm cursor-pointer hover:text-white transition-colors">
                                 <input type="radio" name="rekomendasi" value="Belum tahu" class="accent-brand w-4 h-4">
                                 <span>Belum tahu</span>
                             </label>
-                            <label class="flex items-center gap-2 text-slate-300 text-sm cursor-pointer hover:text-white transition-colors">
+                            <label
+                                class="flex items-center gap-2 text-slate-300 text-sm cursor-pointer hover:text-white transition-colors">
                                 <input type="radio" name="rekomendasi" value="Tidak" class="accent-brand w-4 h-4">
                                 <span>Tidak</span>
                             </label>
@@ -790,7 +967,8 @@
         <div class="max-w-6xl mx-auto flex flex-col md:flex-row items-center justify-between gap-4">
             <div class="flex items-center gap-2">
                 <i class="ti ti-school text-brand text-lg"></i>
-                <span class="text-white text-sm font-semibold">Agent PMB <span class="text-brand">Metamedia</span></span>
+                <span class="text-white text-sm font-semibold">Agent PMB <span
+                        class="text-brand">Metamedia</span></span>
             </div>
             <div class="flex gap-6">
                 <a href="#" class="text-slate-500 hover:text-slate-300 text-xs transition-colors">Syarat & Ketentuan</a>
@@ -810,10 +988,10 @@
             document.getElementById('mhsVal').textContent = n;
 
             let tier, rate, tierId;
-            if (n <= 5)       { tier = 'Starter';  rate = 250000; tierId = 'starter'; }
-            else if (n <= 15) { tier = 'Silver';   rate = 400000; tierId = 'silver'; }
-            else if (n <= 30) { tier = 'Gold';     rate = 600000; tierId = 'gold'; }
-            else              { tier = 'Platinum'; rate = 850000; tierId = 'platinum'; }
+            if (n <= 5) { tier = 'Starter'; rate = 250000; tierId = 'starter'; }
+            else if (n <= 15) { tier = 'Silver'; rate = 400000; tierId = 'silver'; }
+            else if (n <= 30) { tier = 'Gold'; rate = 600000; tierId = 'gold'; }
+            else { tier = 'Platinum'; rate = 850000; tierId = 'platinum'; }
 
             const total = n * rate;
 
@@ -837,7 +1015,7 @@
         function setRating(value) {
             selectedRating = value;
             document.getElementById('ratingValue').value = value;
-            
+
             const stars = document.querySelectorAll('.rating-stars .star');
             stars.forEach((star, index) => {
                 if (index < value) {
@@ -853,7 +1031,7 @@
 
         // Hover effect untuk bintang
         document.querySelectorAll('.rating-stars .star').forEach(star => {
-            star.addEventListener('mouseenter', function() {
+            star.addEventListener('mouseenter', function () {
                 const value = parseInt(this.dataset.value);
                 const stars = document.querySelectorAll('.rating-stars .star');
                 stars.forEach((s, index) => {
@@ -864,7 +1042,7 @@
                     }
                 });
             });
-            star.addEventListener('mouseleave', function() {
+            star.addEventListener('mouseleave', function () {
                 const stars = document.querySelectorAll('.rating-stars .star');
                 stars.forEach((s, index) => {
                     if (index < selectedRating) {
@@ -879,7 +1057,7 @@
         // ===== HANDLE SURVEY SUBMIT =====
         function handleSurvey(e) {
             e.preventDefault();
-            
+
             // Ambil data dari form
             const form = e.target;
             const nama = form.querySelector('input[type="text"]').value;
@@ -888,7 +1066,7 @@
             const fitur = Array.from(form.querySelectorAll('.feature-checkbox:checked')).map(cb => cb.value);
             const saran = form.querySelector('textarea').value;
             const rekomendasi = form.querySelector('input[name="rekomendasi"]:checked');
-            
+
             // Validasi rating
             if (rating == 0) {
                 alert('Silakan beri penilaian bintang terlebih dahulu! ⭐');
@@ -898,9 +1076,9 @@
             // Buat pesan sukses
             const ratingLabels = ['', '⭐ Sangat Tidak Puas', '⭐⭐ Tidak Puas', '⭐⭐⭐ Cukup Puas', '⭐⭐⭐⭐ Puas', '⭐⭐⭐⭐⭐ Sangat Puas'];
             const rekomText = rekomendasi ? rekomendasi.value : 'Tidak diisi';
-            
+
             const fiturText = fitur.length > 0 ? fitur.join(', ') : 'Tidak memilih';
-            
+
             const message = `
 ✅ Terima kasih, ${nama}!
 
@@ -914,7 +1092,7 @@ ${saran ? '• Saran: ' + saran : ''}
             `;
 
             alert(message);
-            
+
             // Reset form (opsional)
             // form.reset();
             // setRating(0);
@@ -927,28 +1105,28 @@ ${saran ? '• Saran: ' + saran : ''}
             const suffix = element.getAttribute('data-suffix') || '';
             const duration = 2000;
             const startTime = performance.now();
-            
+
             function updateCounter(currentTime) {
                 const elapsed = currentTime - startTime;
                 const progress = Math.min(elapsed / duration, 1);
                 const easeOutQuart = 1 - Math.pow(1 - progress, 4);
                 const currentValue = Math.floor(easeOutQuart * target);
-                
+
                 element.textContent = currentValue + suffix;
-                
+
                 if (progress < 1) {
                     requestAnimationFrame(updateCounter);
                 } else {
                     element.textContent = target + suffix;
                 }
             }
-            
+
             requestAnimationFrame(updateCounter);
         }
 
         // ===== SCROLL ANIMATION OBSERVER =====
         const animateElements = document.querySelectorAll('.scroll-animate, .stagger-item, .nav-item');
-        
+
         const counterObserver = new IntersectionObserver((entries) => {
             entries.forEach(entry => {
                 if (entry.isIntersecting) {
@@ -992,7 +1170,7 @@ ${saran ? '• Saran: ' + saran : ''}
                     el.classList.add('visible');
                 }
             });
-            
+
             document.querySelectorAll('.counter-number').forEach(el => {
                 const rect = el.getBoundingClientRect();
                 const isVisible = rect.top < window.innerHeight && rect.bottom > 0;
@@ -1004,5 +1182,8 @@ ${saran ? '• Saran: ' + saran : ''}
         });
     </script>
 
+    <x-lilin />
+
 </body>
+
 </html>

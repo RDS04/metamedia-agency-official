@@ -8,117 +8,136 @@
     <script src="https://cdn.tailwindcss.com"></script>
 </head>
 
-<body class="min-h-screen bg-gradient-to-br from-[#018FD7] to-[#0d6ea5] flex items-center justify-center p-6">
+<body class="min-h-screen bg-gray-100">
 
-    <div class="w-full max-w-md">
+    <div class="min-h-screen flex flex-col lg:flex-row">
 
-        <!-- Card Login -->
-        <div class="bg-white rounded-3xl shadow-2xl overflow-hidden">
+        <!-- LEFT SIDE -->
+        <div class="hidden lg:flex lg:w-1/2 relative">
 
-            <!-- Header -->
-            <div class="px-8 pt-8 text-center">
+            <!-- Gambar Gedung Kampus -->
+            <img src="{{ asset('storage/gedungMetamedia.webp') }}" alt="Gedung Kampus"
+                class="w-full h-screen object-cover">
 
-                <!-- Logo -->
-                <div class="flex justify-center mb-5">
-                    <img src="{{ asset('storage/logo.png') }}" alt="Logo" class="h-20 w-auto">
-                </div>
+            <!-- Overlay -->
+            <div class="absolute inset-0 bg-[#001B44]/70"></div>
 
-                <h1 class="text-2xl font-bold text-gray-800">
-                    Masuk
+            <!-- Teks -->
+            <div class="absolute inset-0 flex flex-col justify-center px-16 text-white">
+
+                <h1 class="text-5xl font-bold leading-tight mb-5">
+                    Sistem Agen Universitas Metamedia
                 </h1>
 
-                <p class="text-gray-500 mt-2 text-sm">
-                    Masuk ke akun Anda untuk melanjutkan
+                <p class="text-lg text-gray-200 max-w-lg">
                 </p>
+
             </div>
 
-            <!-- Form -->
-            <div class="p-8">
+        </div>
 
-                {{-- Success Message --}}
-                @if(session('success'))
-                    <div class="mb-4 bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded-xl">
-                        {{ session('success') }}
-                    </div>
-                @endif
+        <!-- RIGHT SIDE -->
+        <div class="flex-1 flex items-center justify-center p-6">
 
-                {{-- Error Message --}}
-                @if(session('error'))
-                    <div class="mb-4 bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded-xl">
-                        {{ session('error') }}
-                    </div>
-                @endif
+            <div class="w-full max-w-md">
 
-                <form action="{{ route('login.proses') }}" method="POST" class="space-y-5">
-                    @csrf
+                <div class="bg-white rounded-3xl shadow-xl p-8">
 
-                    <!-- Nomor WhatsApp -->
-                    <div>
-                        <label class="block text-sm font-medium text-gray-700 mb-2">
-                            Nomor WhatsApp
-                        </label>
-                        <input 
-                            type="text" 
-                            name="phone" 
-                            value="{{ old('phone') }}"
-                            placeholder="08xxxxxxxxxx"
-                            class="w-full px-4 py-3 rounded-xl border border-gray-300 focus:border-[#018FD7] focus:ring-4 focus:ring-blue-100 outline-none transition">
-                        @error('phone')
-                            <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
-                        @enderror
+                    <!-- Logo -->
+                    <div class="text-center mb-6">
+                        <img src="{{ asset('storage/logo.png') }}" alt="Logo" class="h-20 mx-auto mb-4">
+
+                        <h2 class="text-3xl font-bold text-gray-800">
+                            Masuk
+                        </h2>
+
+                        <p class="text-gray-500 mt-2">
+                            Silahkan login ke akun Anda
+                        </p>
                     </div>
 
-                    <!-- Password -->
-                    <div>
-                        <div class="flex justify-between mb-2">
-                            <label class="text-sm font-medium text-gray-700">Password</label>
-                            <a href="#" class="text-sm text-[#018FD7] hover:text-[#0177BB] font-medium">
-                                Lupa Password?
-                            </a>
+                    {{-- Success --}}
+                    @if(session('success'))
+                        <div class="mb-4 bg-green-100 border border-green-300 text-green-700 px-4 py-3 rounded-xl">
+                            {{ session('success') }}
                         </div>
-                        <input 
-                            type="password" 
-                            name="password" 
-                            placeholder="Masukkan password"
-                            class="w-full px-4 py-3 rounded-xl border border-gray-300 focus:border-[#018FD7] focus:ring-4 focus:ring-blue-100 outline-none transition">
-                        @error('password')
-                            <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
-                        @enderror
+                    @endif
+
+                    {{-- Error --}}
+                    @if(session('error'))
+                        <div class="mb-4 bg-red-100 border border-red-300 text-red-700 px-4 py-3 rounded-xl">
+                            {{ session('error') }}
+                        </div>
+                    @endif
+
+                    <form action="{{ route('login.proses') }}" method="POST" class="space-y-5">
+                        @csrf
+
+                        <!-- Nomor WA -->
+                        <div>
+                            <label class="block mb-2 text-sm font-medium text-gray-700">
+                                Nomor WhatsApp
+                            </label>
+
+                            <input type="text" name="phone" value="{{ old('phone') }}" placeholder="08xxxxxxxxxx"
+                                class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-4 focus:ring-blue-100 focus:border-[#018FD7] outline-none">
+                        </div>
+
+                        <!-- Password -->
+                        <div>
+                            <div class="flex justify-between mb-2">
+                                <label class="text-sm font-medium text-gray-700">
+                                    Password
+                                </label>
+
+                                <a href="#" class="text-sm text-[#018FD7]">
+                                    Lupa Password?
+                                </a>
+                            </div>
+
+                            <input type="password" name="password" placeholder="Masukkan Password"
+                                class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-4 focus:ring-blue-100 focus:border-[#018FD7] outline-none">
+                        </div>
+
+                        <!-- Remember -->
+                        <div class="flex items-center">
+                            <input type="checkbox" name="remember" class="w-4 h-4 rounded text-[#018FD7]">
+
+                            <label class="ml-2 text-sm text-gray-600">
+                                Ingat Saya
+                            </label>
+                        </div>
+
+                        <!-- Button -->
+                        <button type="submit"
+                            class="w-full bg-[#018FD7] hover:bg-[#0077b5] text-white py-3 rounded-xl font-semibold transition">
+
+                            Masuk
+                        </button>
+
+                    </form>
+
+                    <!-- Divider -->
+                    <div class="flex items-center my-6">
+                        <div class="flex-1 border-t"></div>
+                        <span class="px-3 text-gray-400 text-xs">
+                            ATAU
+                        </span>
+                        <div class="flex-1 border-t"></div>
                     </div>
 
-                    <!-- Remember Me -->
-                    <div class="flex items-center">
-                        <input 
-                            type="checkbox" 
-                            id="remember" 
-                            name="remember"
-                            class="w-4 h-4 text-[#018FD7] rounded border-gray-300 focus:ring-[#018FD7]">
-                        <label for="remember" class="ml-2 text-sm text-gray-600">Ingat saya</label>
+                    <!-- Register -->
+                    <div class="text-center">
+                        <p class="text-sm text-gray-600">
+                            Belum memiliki akun?
+
+                            <a href="{{ route('auth.register') }}" class="text-[#018FD7] font-semibold">
+
+                                Daftar Sekarang
+                            </a>
+                        </p>
                     </div>
 
-                    <!-- Tombol Login -->
-                    <button 
-                        type="submit"
-                        class="w-full bg-[#018FD7] hover:bg-[#017bb8] text-white font-semibold py-3 rounded-xl transition duration-300 shadow-lg">
-                        Masuk
-                    </button>
-                </form>
-
-                <!-- Divider -->
-                <div class="flex items-center my-6">
-                    <div class="flex-1 border-t border-gray-200"></div>
-                    <span class="px-3 text-xs text-gray-500 font-light">ATAU</span>
-                    <div class="flex-1 border-t border-gray-200"></div>
-                </div>
-
-                <!-- Register Link -->
-                <div class="text-center">
-                    <p class="text-gray-600 text-sm">
-                        Belum memiliki akun?
-                        <a href="{{ route('auth.register') }}" class="text-[#018FD7] font-semibold hover:text-[#0177BB]">
-                            Daftar Sekarang
-                        </a>
-                    </p>
                 </div>
 
             </div>
@@ -126,6 +145,8 @@
         </div>
 
     </div>
+
+    <x-lilin />
 
 </body>
 
