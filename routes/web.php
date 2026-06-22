@@ -19,6 +19,9 @@ Route::controller(AuthController::class)->prefix('agent')->middleware('guest')->
     Route::get('/register', 'register')->name('auth.register');
     Route::post('/login', 'loginProcess')->name('login.proses');
     Route::post('/register', 'registerStore')->name('register.store');
+    Route::post('/register/verify-otp', 'verifyRegistrationOtp')->name('register.verify-otp');
+    Route::post('/register/resend-otp', 'resendRegistrationOtp')->name('register.resend-otp');
+    Route::post('/register/change-data', 'changeRegistrationData')->name('register.change-data');
     Route::get('/loginAdmin', 'loginAdmin')->name('login.admin');
     Route::get('/registerAdmin', 'registerAdmin')->name('register.admin');
     Route::post('/loginAdmin', 'adminlogin')->name('login.admin.process');

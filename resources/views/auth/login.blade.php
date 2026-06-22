@@ -73,13 +73,13 @@
                     <form action="{{ route('login.proses') }}" method="POST" class="space-y-5">
                         @csrf
 
-                        <!-- Nomor WA -->
+                        <!-- Email -->
                         <div>
                             <label class="block mb-2 text-sm font-medium text-gray-700">
-                                Nomor WhatsApp
+                                Email
                             </label>
 
-                            <input type="text" name="phone" value="{{ old('phone') }}" placeholder="08xxxxxxxxxx"
+                            <input type="email" name="email" value="{{ old('email') }}" placeholder="nama@email.com"
                                 class="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-4 focus:ring-blue-100 focus:border-[#018FD7] outline-none">
                         </div>
 
