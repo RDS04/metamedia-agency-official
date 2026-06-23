@@ -4,19 +4,22 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/png" href="{{ asset('storage/logo.png') }}">
     <title>Agent PMB Metamedia 2026</title>
-    
+
     <!-- Vite Assets (Tailwind v4) -->
-  <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.tailwindcss.com"></script>
 
     <!-- Preconnect Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Rubik:ital,wght@0,300..900;1,300..900&family=Poppins:ital,wght@0,300..900;1,300..900&family=Inter:ital,wght@0,300..900;1,300..900&display=swap" rel="stylesheet">
-    
+    <link
+        href="https://fonts.googleapis.com/css2?family=Rubik:ital,wght@0,300..900;1,300..900&family=Poppins:ital,wght@0,300..900;1,300..900&family=Inter:ital,wght@0,300..900;1,300..900&display=swap"
+        rel="stylesheet">
+
     <!-- Icons -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@latest/dist/tabler-icons.min.css">
-    
+
     <style>
         * {
             scroll-behavior: smooth;
@@ -68,7 +71,7 @@
         .scroll-animate {
             opacity: 0;
             transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1),
-                        transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+                transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
             will-change: transform, opacity;
         }
 
@@ -96,7 +99,7 @@
         .stagger-item {
             opacity: 0;
             transition: opacity 0.7s cubic-bezier(0.16, 1, 0.3, 1),
-                        transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
+                transform 0.7s cubic-bezier(0.16, 1, 0.3, 1);
             will-change: transform, opacity;
         }
 
@@ -105,16 +108,30 @@
             transform: translate(0, 0) !important;
         }
 
-        .stagger-item.delay-1 { transition-delay: 0.1s; }
-        .stagger-item.delay-2 { transition-delay: 0.2s; }
-        .stagger-item.delay-3 { transition-delay: 0.3s; }
-        .stagger-item.delay-4 { transition-delay: 0.4s; }
+        .stagger-item.delay-1 {
+            transition-delay: 0.1s;
+        }
+
+        .stagger-item.delay-2 {
+            transition-delay: 0.2s;
+        }
+
+        .stagger-item.delay-3 {
+            transition-delay: 0.3s;
+        }
+
+        .stagger-item.delay-4 {
+            transition-delay: 0.4s;
+        }
 
         /* ===== RADIAL BACKGROUND GLOWS ===== */
         @keyframes float-glow {
-            0%, 100% {
+
+            0%,
+            100% {
                 transform: translate(0, 0) scale(1);
             }
+
             50% {
                 transform: translate(30px, -20px) scale(1.1);
             }
@@ -136,7 +153,10 @@
         }
 
         /* Focus outline defaults */
-        a:focus-visible, button:focus-visible, input:focus-visible, textarea:focus-visible {
+        a:focus-visible,
+        button:focus-visible,
+        input:focus-visible,
+        textarea:focus-visible {
             outline: 2px solid #018FD7;
             outline-offset: 4px;
         }
@@ -164,7 +184,8 @@
             <div class="flex items-center gap-2">
                 <i class="ti ti-mail text-sm" aria-hidden="true"></i>
                 <span>Email Kampus:</span>
-                <a href="mailto:rektorat@metamedia.ac.id" class="text-sky-300 hover:text-sky-200 transition-colors font-bold underline decoration-sky-300/30 hover:decoration-sky-200">
+                <a href="mailto:rektorat@metamedia.ac.id"
+                    class="text-sky-300 hover:text-sky-200 transition-colors font-bold underline decoration-sky-300/30 hover:decoration-sky-200">
                     rektorat@metamedia.ac.id
                 </a>
             </div>
@@ -180,7 +201,8 @@
         <div class="max-w-6xl mx-auto px-5 flex items-center justify-between h-16">
 
             <div class="flex items-center gap-2">
-                <i class="ti ti-school text-structure text-2xl filter drop-shadow-[0_2px_4px_rgba(48,90,166,0.2)]" aria-hidden="true"></i>
+                <i class="ti ti-school text-structure text-2xl filter drop-shadow-[0_2px_4px_rgba(48,90,166,0.2)]"
+                    aria-hidden="true"></i>
                 <span class="text-structure font-extrabold text-base tracking-wide flex items-center gap-1">
                     Agent PMB <span class="text-brand">Metamedia</span>
                 </span>
@@ -189,8 +211,10 @@
             <div class="hidden md:flex items-center gap-8">
                 <a href="#keuntungan"
                     class="text-slate-600 hover:text-brand text-sm font-semibold transition-colors">Keuntungan</a>
-                <a href="#bonus" class="text-slate-600 hover:text-brand text-sm font-semibold transition-colors">Bonus</a>
-                <a href="#cara-daftar" class="text-slate-600 hover:text-brand text-sm font-semibold transition-colors">Cara Daftar</a>
+                <a href="#bonus"
+                    class="text-slate-600 hover:text-brand text-sm font-semibold transition-colors">Bonus</a>
+                <a href="#cara-daftar"
+                    class="text-slate-600 hover:text-brand text-sm font-semibold transition-colors">Cara Daftar</a>
             </div>
 
             <div class="flex items-center gap-3">
@@ -217,7 +241,8 @@
 
 
     <!-- ===== HERO ===== -->
-    <section class="relative bg-gradient-to-b from-[#E6F4FC] to-[#F0F7FD] pt-24 pb-32 px-5 overflow-hidden border-b border-slate-200/50">
+    <section
+        class="relative bg-gradient-to-b from-[#E6F4FC] to-[#F0F7FD] pt-24 pb-32 px-5 overflow-hidden border-b border-slate-200/50">
         <!-- Background Ambient Lights using white and accent-light for soft brightness -->
         <div class="radial-glow bg-white w-[600px] h-[600px] -top-80 left-1/4 opacity-40"></div>
         <div class="radial-glow bg-accent-light w-[400px] h-[400px] -bottom-20 -right-20 opacity-20"></div>
@@ -229,12 +254,16 @@
                 <div class="scroll-animate from-left">
                     <div class="relative group">
                         <!-- Frame shadow & glow -->
-                        <div class="absolute inset-0 bg-gradient-to-br from-[#018FD7]/10 to-transparent rounded-3xl blur-2xl opacity-60 group-hover:opacity-80 transition-opacity duration-500 -z-10"></div>
-                        <div class="relative rounded-3xl overflow-hidden border border-slate-200/60 bg-white p-2 shadow-xl">
+                        <div
+                            class="absolute inset-0 bg-gradient-to-br from-[#018FD7]/10 to-transparent rounded-3xl blur-2xl opacity-60 group-hover:opacity-80 transition-opacity duration-500 -z-10">
+                        </div>
+                        <div
+                            class="relative rounded-3xl overflow-hidden border border-slate-200/60 bg-white p-2 shadow-xl">
                             <img src="{{ asset('storage/gedungMetamedia.webp') }}" alt="Gedung Universitas Metamedia"
                                 class="w-full h-auto rounded-2xl shadow-inner object-cover aspect-[4/3] group-hover:scale-[1.01] transition-transform duration-500">
                             <!-- Overlay badge -->
-                            <div class="absolute bottom-6 left-6 glass-panel rounded-2xl px-5 py-3 border border-white/80 shadow-lg">
+                            <div
+                                class="absolute bottom-6 left-6 glass-panel rounded-2xl px-5 py-3 border border-white/80 shadow-lg">
                                 <p class="text-structure text-sm font-extrabold tracking-wide flex items-center gap-1">
                                     <span class="w-2.5 h-2.5 bg-brand rounded-full inline-block animate-pulse"></span>
                                     Metamedia
@@ -247,18 +276,21 @@
 
                 <!-- Right: Content Text -->
                 <div class="scroll-animate from-right text-left">
-                    <div class="inline-flex items-center gap-2 bg-[#018FD7]/10 border border-[#018FD7]/20 text-[#018FD7] text-xs font-bold px-4 py-2 rounded-full mb-6 uppercase tracking-wider">
+                    <div
+                        class="inline-flex items-center gap-2 bg-[#018FD7]/10 border border-[#018FD7]/20 text-[#018FD7] text-xs font-bold px-4 py-2 rounded-full mb-6 uppercase tracking-wider">
                         <i class="ti ti-sparkles text-sm animate-spin-slow" aria-hidden="true"></i>
                         Program Agent Resmi Metamedia 2026
                     </div>
 
-                    <h1 class="text-4xl md:text-5xl font-black text-slate-900 leading-tight mb-6 tracking-tight text-wrap-balance">
+                    <h1
+                        class="text-4xl md:text-5xl font-black text-slate-900 leading-tight mb-6 tracking-tight text-wrap-balance">
                         Bantu Calon Mahasiswa,<br>
                         <span class="text-[#018FD7]">Dapatkan Bonus Tunai</span>
                     </h1>
 
                     <p class="text-slate-600 text-base md:text-lg mb-8 leading-relaxed font-normal">
-                        Jadilah partner resmi PMB Metamedia. Rekomendasikan calon mahasiswa dan dapatkan komisi instan langsung ke rekening pribadi Anda tanpa target dan kerumitan.
+                        Jadilah partner resmi PMB Metamedia. Rekomendasikan calon mahasiswa dan dapatkan komisi instan
+                        langsung ke rekening pribadi Anda tanpa target dan kerumitan.
                     </p>
 
                     <div class="flex flex-col sm:flex-row gap-4 mb-8">
@@ -295,7 +327,8 @@
 
     <!-- ===== STATS BAR ===== -->
     <section class="relative z-20 -mt-12 px-5">
-        <div class="max-w-6xl mx-auto bg-white/90 backdrop-blur-md border border-white/60 rounded-3xl py-8 px-6 shadow-xl grid grid-cols-2 md:grid-cols-4 gap-6 text-center">
+        <div
+            class="max-w-6xl mx-auto bg-white/90 backdrop-blur-md border border-white/60 rounded-3xl py-8 px-6 shadow-xl grid grid-cols-2 md:grid-cols-4 gap-6 text-center">
             <div class="scroll-animate from-top">
                 <div class="text-brand text-3xl md:text-4xl font-black tracking-tight">
                     <span class="counter-number" data-target="12000" data-suffix="+">0</span>
@@ -331,51 +364,65 @@
 
             <div class="text-center mb-16 scroll-animate from-left">
                 <p class="text-brand text-xs font-bold uppercase tracking-widest mb-3">Keuntungan Partner</p>
-                <h2 class="text-3xl md:text-4xl font-extrabold text-slate-900 mb-4 tracking-tight">Kenapa Harus Bergabung?</h2>
+                <h2 class="text-3xl md:text-4xl font-extrabold text-slate-900 mb-4 tracking-tight">Kenapa Harus
+                    Bergabung?</h2>
                 <p class="text-slate-500 text-sm max-w-md mx-auto leading-relaxed font-medium">
-                    Tidak memerlukan pengalaman atau modal khusus. Cukup manfaatkan jaringan relasi Anda dan mulai hasilkan pendapatan.
+                    Tidak memerlukan pengalaman atau modal khusus. Cukup manfaatkan jaringan relasi Anda dan mulai
+                    hasilkan pendapatan.
                 </p>
             </div>
 
             <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
 
-                <div class="bg-white border border-slate-200/60 hover:border-brand/40 hover:shadow-xl hover:scale-[1.03] transition-all duration-300 rounded-3xl p-6 shadow-sm flex flex-col justify-between stagger-item from-bottom delay-1 group">
+                <div
+                    class="bg-white border border-slate-200/60 hover:border-brand/40 hover:shadow-xl hover:scale-[1.03] transition-all duration-300 rounded-3xl p-6 shadow-sm flex flex-col justify-between stagger-item from-bottom delay-1 group">
                     <div>
-                        <div class="w-12 h-12 bg-brand-light group-hover:bg-brand/20 rounded-2xl flex items-center justify-center mb-6 transition-colors duration-300">
+                        <div
+                            class="w-12 h-12 bg-brand-light group-hover:bg-brand/20 rounded-2xl flex items-center justify-center mb-6 transition-colors duration-300">
                             <i class="ti ti-cash text-brand text-2xl" aria-hidden="true"></i>
                         </div>
                         <h3 class="font-bold text-slate-900 text-base mb-3">Bonus Langsung Cair</h3>
-                        <p class="text-slate-500 text-xs leading-relaxed font-medium">Komisi ditransfer langsung ke rekening terdaftar setelah mahasiswa melakukan registrasi dan divalidasi.</p>
+                        <p class="text-slate-500 text-xs leading-relaxed font-medium">Komisi ditransfer langsung ke
+                            rekening terdaftar setelah mahasiswa melakukan registrasi dan divalidasi.</p>
                     </div>
                 </div>
 
-                <div class="bg-white border border-slate-200/60 hover:border-structure/40 hover:shadow-xl hover:scale-[1.03] transition-all duration-300 rounded-3xl p-6 shadow-sm flex flex-col justify-between stagger-item from-bottom delay-2 group">
+                <div
+                    class="bg-white border border-slate-200/60 hover:border-structure/40 hover:shadow-xl hover:scale-[1.03] transition-all duration-300 rounded-3xl p-6 shadow-sm flex flex-col justify-between stagger-item from-bottom delay-2 group">
                     <div>
-                        <div class="w-12 h-12 bg-structure-light group-hover:bg-structure/20 rounded-2xl flex items-center justify-center mb-6 transition-colors duration-300">
+                        <div
+                            class="w-12 h-12 bg-structure-light group-hover:bg-structure/20 rounded-2xl flex items-center justify-center mb-6 transition-colors duration-300">
                             <i class="ti ti-trending-up text-structure text-2xl" aria-hidden="true"></i>
                         </div>
                         <h3 class="font-bold text-slate-900 text-base mb-3">Sistem Tiering Premium</h3>
-                        <p class="text-slate-500 text-xs leading-relaxed font-medium">Semakin banyak mahasiswa yang direkomendasikan, semakin tinggi level komisi per orang yang didapat.</p>
+                        <p class="text-slate-500 text-xs leading-relaxed font-medium">Semakin banyak mahasiswa yang
+                            direkomendasikan, semakin tinggi level komisi per orang yang didapat.</p>
                     </div>
                 </div>
 
-                <div class="bg-white border border-slate-200/60 hover:border-brand/40 hover:shadow-xl hover:scale-[1.03] transition-all duration-300 rounded-3xl p-6 shadow-sm flex flex-col justify-between stagger-item from-bottom delay-3 group">
+                <div
+                    class="bg-white border border-slate-200/60 hover:border-brand/40 hover:shadow-xl hover:scale-[1.03] transition-all duration-300 rounded-3xl p-6 shadow-sm flex flex-col justify-between stagger-item from-bottom delay-3 group">
                     <div>
-                        <div class="w-12 h-12 bg-brand-light group-hover:bg-brand/20 rounded-2xl flex items-center justify-center mb-6 transition-colors duration-300">
+                        <div
+                            class="w-12 h-12 bg-brand-light group-hover:bg-brand/20 rounded-2xl flex items-center justify-center mb-6 transition-colors duration-300">
                             <i class="ti ti-device-mobile text-brand text-2xl" aria-hidden="true"></i>
                         </div>
                         <h3 class="font-bold text-slate-900 text-base mb-3">Dashboard Real-time</h3>
-                        <p class="text-slate-500 text-xs leading-relaxed font-medium">Pantau aktivitas pendaftaran, referral, status pembayaran, dan total komisi melalui dashboard dinamis.</p>
+                        <p class="text-slate-500 text-xs leading-relaxed font-medium">Pantau aktivitas pendaftaran,
+                            referral, status pembayaran, dan total komisi melalui dashboard dinamis.</p>
                     </div>
                 </div>
 
-                <div class="bg-white border border-slate-200/60 hover:border-structure/40 hover:shadow-xl hover:scale-[1.03] transition-all duration-300 rounded-3xl p-6 shadow-sm flex flex-col justify-between stagger-item from-bottom delay-4 group">
+                <div
+                    class="bg-white border border-slate-200/60 hover:border-structure/40 hover:shadow-xl hover:scale-[1.03] transition-all duration-300 rounded-3xl p-6 shadow-sm flex flex-col justify-between stagger-item from-bottom delay-4 group">
                     <div>
-                        <div class="w-12 h-12 bg-structure-light group-hover:bg-structure/20 rounded-2xl flex items-center justify-center mb-6 transition-colors duration-300">
+                        <div
+                            class="w-12 h-12 bg-structure-light group-hover:bg-structure/20 rounded-2xl flex items-center justify-center mb-6 transition-colors duration-300">
                             <i class="ti ti-shield-check text-structure text-2xl" aria-hidden="true"></i>
                         </div>
                         <h3 class="font-bold text-slate-900 text-base mb-3">Program Resmi & Aman</h3>
-                        <p class="text-slate-500 text-xs leading-relaxed font-medium">Program dikoordinasikan secara resmi oleh institusi perguruan tinggi terakreditasi nasional.</p>
+                        <p class="text-slate-500 text-xs leading-relaxed font-medium">Program dikoordinasikan secara
+                            resmi oleh institusi perguruan tinggi terakreditasi nasional.</p>
                     </div>
                 </div>
 
@@ -391,9 +438,11 @@
 
             <div class="text-center mb-16 scroll-animate from-right">
                 <p class="text-brand text-xs font-bold uppercase tracking-widest mb-3">Struktur Komisi</p>
-                <h2 class="text-3xl md:text-4xl font-extrabold text-slate-900 mb-4 tracking-tight">Simulasi Penghasilan Anda</h2>
+                <h2 class="text-3xl md:text-4xl font-extrabold text-slate-900 mb-4 tracking-tight">Simulasi Penghasilan
+                    Anda</h2>
                 <p class="text-slate-500 text-sm max-w-md mx-auto leading-relaxed font-medium">
-                    Lihat perkembangan pendapatan Anda seiring dengan bertambahnya jumlah pendaftar yang direkomendasikan.
+                    Lihat perkembangan pendapatan Anda seiring dengan bertambahnya jumlah pendaftar yang
+                    direkomendasikan.
                 </p>
             </div>
 
@@ -410,7 +459,8 @@
                         </div>
 
                         <div class="divide-y divide-slate-100">
-                            <div id="tier-starter" class="flex items-center justify-between px-6 py-5 transition-all duration-300 border-l-4 border-l-transparent">
+                            <div id="tier-starter"
+                                class="flex items-center justify-between px-6 py-5 transition-all duration-300 border-l-4 border-l-transparent">
                                 <div class="flex items-center gap-4">
                                     <div class="w-4 h-4 rounded-full bg-slate-200 border-4 border-slate-400"></div>
                                     <div>
@@ -424,7 +474,8 @@
                                 </div>
                             </div>
 
-                            <div id="tier-silver" class="flex items-center justify-between px-6 py-5 transition-all duration-300 border-l-4 border-l-transparent">
+                            <div id="tier-silver"
+                                class="flex items-center justify-between px-6 py-5 transition-all duration-300 border-l-4 border-l-transparent">
                                 <div class="flex items-center gap-4">
                                     <div class="w-4 h-4 rounded-full bg-brand-light border-4 border-brand"></div>
                                     <div>
@@ -438,7 +489,8 @@
                                 </div>
                             </div>
 
-                            <div id="tier-gold" class="flex items-center justify-between px-6 py-5 transition-all duration-300 border-l-4 border-l-transparent">
+                            <div id="tier-gold"
+                                class="flex items-center justify-between px-6 py-5 transition-all duration-300 border-l-4 border-l-transparent">
                                 <div class="flex items-center gap-4">
                                     <div class="w-4 h-4 rounded-full bg-brand-light border-4 border-brand"></div>
                                     <div>
@@ -452,9 +504,11 @@
                                 </div>
                             </div>
 
-                            <div id="tier-platinum" class="flex items-center justify-between px-6 py-5 transition-all duration-300 border-l-4 border-l-transparent">
+                            <div id="tier-platinum"
+                                class="flex items-center justify-between px-6 py-5 transition-all duration-300 border-l-4 border-l-transparent">
                                 <div class="flex items-center gap-4">
-                                    <div class="w-4 h-4 rounded-full bg-structure-light border-4 border-structure"></div>
+                                    <div class="w-4 h-4 rounded-full bg-structure-light border-4 border-structure">
+                                    </div>
                                     <div>
                                         <p class="text-sm font-bold text-slate-900">Platinum</p>
                                         <p class="text-xs text-slate-400 mt-0.5 font-medium">31+ mahasiswa</p>
@@ -471,9 +525,11 @@
 
                 <!-- Right: Calculator Card -->
                 <div class="lg:col-span-5 scroll-animate from-right">
-                    <div class="bg-slate-50 border border-slate-200/80 rounded-3xl p-6 md:p-8 relative h-full flex flex-col justify-between shadow-sm overflow-hidden">
-                        <div class="absolute inset-0 bg-gradient-to-br from-brand/5 to-transparent pointer-events-none"></div>
-                        
+                    <div
+                        class="bg-slate-50 border border-slate-200/80 rounded-3xl p-6 md:p-8 relative h-full flex flex-col justify-between shadow-sm overflow-hidden">
+                        <div class="absolute inset-0 bg-gradient-to-br from-brand/5 to-transparent pointer-events-none">
+                        </div>
+
                         <div class="relative z-10">
                             <div class="flex items-center gap-2 mb-6">
                                 <i class="ti ti-calculator text-structure text-xl" aria-hidden="true"></i>
@@ -482,10 +538,13 @@
 
                             <div class="mb-8">
                                 <div class="flex justify-between items-baseline mb-3">
-                                    <label for="mhsSlider" class="text-slate-500 text-xs font-bold uppercase tracking-wider">Rekomendasi Sukses</label>
+                                    <label for="mhsSlider"
+                                        class="text-slate-500 text-xs font-bold uppercase tracking-wider">Rekomendasi
+                                        Sukses</label>
                                     <span class="text-brand text-2xl font-black" id="mhsVal">10</span>
                                 </div>
-                                <input type="range" id="mhsSlider" min="1" max="50" value="10" step="1" class="w-full cursor-pointer focus-visible:ring-2 focus-visible:ring-brand focus-visible:outline-none rounded-lg"
+                                <input type="range" id="mhsSlider" min="1" max="50" value="10" step="1"
+                                    class="w-full cursor-pointer focus-visible:ring-2 focus-visible:ring-brand focus-visible:outline-none rounded-lg"
                                     oninput="calcBonus()">
                                 <div class="flex justify-between mt-2 px-1">
                                     <span class="text-slate-400 text-xs font-semibold">1 Maba</span>
@@ -495,20 +554,24 @@
 
                             <div class="grid grid-cols-2 gap-4 mb-6">
                                 <div class="bg-white border border-slate-200/60 rounded-2xl p-4 shadow-sm">
-                                    <p class="text-slate-400 text-[10px] uppercase font-bold tracking-wider mb-1">Tier Saat Ini</p>
+                                    <p class="text-slate-400 text-[10px] uppercase font-bold tracking-wider mb-1">Tier
+                                        Saat Ini</p>
                                     <p class="text-slate-900 text-lg font-black" id="tierLabel">Silver</p>
                                 </div>
                                 <div class="bg-white border border-slate-200/60 rounded-2xl p-4 shadow-sm">
-                                    <p class="text-slate-400 text-[10px] uppercase font-bold tracking-wider mb-1">Komisi / Orang</p>
+                                    <p class="text-slate-400 text-[10px] uppercase font-bold tracking-wider mb-1">Komisi
+                                        / Orang</p>
                                     <p class="text-slate-900 text-lg font-black" id="perMhs">Rp 400rb</p>
                                 </div>
                             </div>
                         </div>
 
-                        <div class="relative z-10 bg-brand/5 border border-brand/20 rounded-2xl p-5 text-center shadow-inner mt-auto">
+                        <div
+                            class="relative z-10 bg-brand/5 border border-brand/20 rounded-2xl p-5 text-center shadow-inner mt-auto">
                             <p class="text-slate-500 text-xs font-bold mb-1.5">Estimasi Total Pendapatan</p>
                             <p class="text-brand text-3xl font-black tracking-tight" id="totalBonus">Rp 4.000.000</p>
-                            <p class="text-[10px] text-slate-400 mt-2 font-medium">* Angka di atas bersifat simulasi komisi resmi.</p>
+                            <p class="text-[10px] text-slate-400 mt-2 font-medium">* Angka di atas bersifat simulasi
+                                komisi resmi.</p>
                         </div>
                     </div>
                 </div>
@@ -524,7 +587,8 @@
 
             <div class="text-center mb-16 scroll-animate from-top">
                 <p class="text-brand text-xs font-bold uppercase tracking-widest mb-3">Langkah Pendaftaran</p>
-                <h2 class="text-3xl md:text-4xl font-extrabold text-slate-900 mb-4 tracking-tight">4 Langkah Mudah Menjadi Agent</h2>
+                <h2 class="text-3xl md:text-4xl font-extrabold text-slate-900 mb-4 tracking-tight">4 Langkah Mudah
+                    Menjadi Agent</h2>
                 <p class="text-slate-500 text-sm max-w-md mx-auto leading-relaxed font-medium">
                     Registrasi instan tanpa persyaratan dokumen berbelit-belit. Mulai hasilkan uang hari ini.
                 </p>
@@ -532,28 +596,44 @@
 
             <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
 
-                <div class="bg-white border border-slate-200/60 rounded-3xl p-6 text-center hover:border-brand/35 hover:shadow-md hover:scale-[1.02] transition-all duration-300 stagger-item from-bottom delay-1 relative">
-                    <div class="w-10 h-10 bg-slate-50 border border-slate-200 text-slate-700 rounded-full flex items-center justify-center mx-auto mb-6 text-sm font-black shadow-sm">1</div>
+                <div
+                    class="bg-white border border-slate-200/60 rounded-3xl p-6 text-center hover:border-brand/35 hover:shadow-md hover:scale-[1.02] transition-all duration-300 stagger-item from-bottom delay-1 relative">
+                    <div
+                        class="w-10 h-10 bg-slate-50 border border-slate-200 text-slate-700 rounded-full flex items-center justify-center mx-auto mb-6 text-sm font-black shadow-sm">
+                        1</div>
                     <h3 class="font-bold text-slate-900 text-base mb-2">Daftar Akun</h3>
-                    <p class="text-slate-500 text-xs leading-relaxed font-medium">Lengkapi formulir registrasi online gratis. Cukup butuh waktu sekitar 2&nbsp;menit saja.</p>
+                    <p class="text-slate-500 text-xs leading-relaxed font-medium">Lengkapi formulir registrasi online
+                        gratis. Cukup butuh waktu sekitar 2&nbsp;menit saja.</p>
                 </div>
 
-                <div class="bg-white border border-slate-200/60 rounded-3xl p-6 text-center hover:border-brand/35 hover:shadow-md hover:scale-[1.02] transition-all duration-300 stagger-item from-bottom delay-2 relative">
-                    <div class="w-10 h-10 bg-slate-50 border border-slate-200 text-slate-700 rounded-full flex items-center justify-center mx-auto mb-6 text-sm font-black shadow-sm">2</div>
+                <div
+                    class="bg-white border border-slate-200/60 rounded-3xl p-6 text-center hover:border-brand/35 hover:shadow-md hover:scale-[1.02] transition-all duration-300 stagger-item from-bottom delay-2 relative">
+                    <div
+                        class="w-10 h-10 bg-slate-50 border border-slate-200 text-slate-700 rounded-full flex items-center justify-center mx-auto mb-6 text-sm font-black shadow-sm">
+                        2</div>
                     <h3 class="font-bold text-slate-900 text-base mb-2">Dapatkan Kode</h3>
-                    <p class="text-slate-500 text-xs leading-relaxed font-medium">Dapatkan kode dan tautan referal unik Anda secara langsung setelah akun terverifikasi.</p>
+                    <p class="text-slate-500 text-xs leading-relaxed font-medium">Dapatkan kode dan tautan referal unik
+                        Anda secara langsung setelah akun terverifikasi.</p>
                 </div>
 
-                <div class="bg-white border border-slate-200/60 rounded-3xl p-6 text-center hover:border-brand/35 hover:shadow-md hover:scale-[1.02] transition-all duration-300 stagger-item from-bottom delay-3 relative">
-                    <div class="w-10 h-10 bg-slate-50 border border-slate-200 text-slate-700 rounded-full flex items-center justify-center mx-auto mb-6 text-sm font-black shadow-sm">3</div>
+                <div
+                    class="bg-white border border-slate-200/60 rounded-3xl p-6 text-center hover:border-brand/35 hover:shadow-md hover:scale-[1.02] transition-all duration-300 stagger-item from-bottom delay-3 relative">
+                    <div
+                        class="w-10 h-10 bg-slate-50 border border-slate-200 text-slate-700 rounded-full flex items-center justify-center mx-auto mb-6 text-sm font-black shadow-sm">
+                        3</div>
                     <h3 class="font-bold text-slate-900 text-base mb-2">Bagikan Info</h3>
-                    <p class="text-slate-500 text-xs leading-relaxed font-medium">Bagikan info perkuliahan dan kode referal Anda kepada calon mahasiswa potensial.</p>
+                    <p class="text-slate-500 text-xs leading-relaxed font-medium">Bagikan info perkuliahan dan kode
+                        referal Anda kepada calon mahasiswa potensial.</p>
                 </div>
 
-                <div class="bg-white border border-slate-200/60 rounded-3xl p-6 text-center hover:border-structure/35 hover:shadow-md hover:scale-[1.02] transition-all duration-300 stagger-item from-bottom delay-4 relative">
-                    <div class="w-10 h-10 bg-structure-light border border-structure/20 text-structure rounded-full flex items-center justify-center mx-auto mb-6 text-sm font-black shadow-sm">4</div>
+                <div
+                    class="bg-white border border-slate-200/60 rounded-3xl p-6 text-center hover:border-structure/35 hover:shadow-md hover:scale-[1.02] transition-all duration-300 stagger-item from-bottom delay-4 relative">
+                    <div
+                        class="w-10 h-10 bg-structure-light border border-structure/20 text-structure rounded-full flex items-center justify-center mx-auto mb-6 text-sm font-black shadow-sm">
+                        4</div>
                     <h3 class="font-bold text-slate-900 text-base mb-2">Terima Komisi 🎉</h3>
-                    <p class="text-slate-500 text-xs leading-relaxed font-medium">Pendapatan ditransfer langsung setelah calon mahasiswa menyelesaikan pembayaran awal.</p>
+                    <p class="text-slate-500 text-xs leading-relaxed font-medium">Pendapatan ditransfer langsung setelah
+                        calon mahasiswa menyelesaikan pembayaran awal.</p>
                 </div>
 
             </div>
@@ -567,12 +647,14 @@
 
             <div class="text-center mb-16 scroll-animate from-bottom">
                 <p class="text-brand text-xs font-bold uppercase tracking-widest mb-3">Testimonial</p>
-                <h2 class="text-3xl md:text-4xl font-extrabold text-slate-900 mb-4 tracking-tight">Kisah Sukses Agent Kami</h2>
+                <h2 class="text-3xl md:text-4xl font-extrabold text-slate-900 mb-4 tracking-tight">Kisah Sukses Agent
+                    Kami</h2>
             </div>
 
             <div class="grid md:grid-cols-3 gap-6">
 
-                <div class="bg-slate-50 border border-slate-200/60 rounded-3xl p-6 stagger-item from-bottom delay-1 flex flex-col justify-between hover:shadow-md hover:border-slate-300 transition-all shadow-sm">
+                <div
+                    class="bg-slate-50 border border-slate-200/60 rounded-3xl p-6 stagger-item from-bottom delay-1 flex flex-col justify-between hover:shadow-md hover:border-slate-300 transition-all shadow-sm">
                     <div>
                         <div class="flex items-center gap-1 mb-5" aria-label="Rating 5 Bintang">
                             <i class="ti ti-star-filled text-gold text-sm" aria-hidden="true"></i>
@@ -582,11 +664,13 @@
                             <i class="ti ti-star-filled text-gold text-sm" aria-hidden="true"></i>
                         </div>
                         <p class="text-slate-600 text-sm leading-relaxed mb-6 italic font-medium">
-                            “Dalam 2&nbsp;bulan pertama saya berhasil mengundang 12&nbsp;mahasiswa. Bonusnya langsung dicairkan ke rekening, prosesnya transparan dan sangat mudah!”
+                            “Dalam 2&nbsp;bulan pertama saya berhasil mengundang 12&nbsp;mahasiswa. Bonusnya langsung
+                            dicairkan ke rekening, prosesnya transparan dan sangat mudah!”
                         </p>
                     </div>
                     <div class="flex items-center gap-3 pt-4 border-t border-slate-200/80">
-                        <div class="w-10 h-10 rounded-full bg-brand-light flex items-center justify-center text-brand text-sm font-bold shadow-inner">
+                        <div
+                            class="w-10 h-10 rounded-full bg-brand-light flex items-center justify-center text-brand text-sm font-bold shadow-inner">
                             RA
                         </div>
                         <div>
@@ -596,7 +680,8 @@
                     </div>
                 </div>
 
-                <div class="bg-slate-50 border border-slate-200/60 rounded-3xl p-6 stagger-item from-bottom delay-2 flex flex-col justify-between hover:shadow-md hover:border-slate-300 transition-all shadow-sm">
+                <div
+                    class="bg-slate-50 border border-slate-200/60 rounded-3xl p-6 stagger-item from-bottom delay-2 flex flex-col justify-between hover:shadow-md hover:border-slate-300 transition-all shadow-sm">
                     <div>
                         <div class="flex items-center gap-1 mb-5" aria-label="Rating 5 Bintang">
                             <i class="ti ti-star-filled text-gold text-sm" aria-hidden="true"></i>
@@ -606,11 +691,13 @@
                             <i class="ti ti-star-filled text-gold text-sm" aria-hidden="true"></i>
                         </div>
                         <p class="text-slate-600 text-sm leading-relaxed mb-6 italic font-medium">
-                            “Alhamdulillah sudah mencapai tier Gold. Penghasilan tambahan ini sangat membantu untuk menopang kebutuhan biaya kuliah saya sehari-hari.”
+                            “Alhamdulillah sudah mencapai tier Gold. Penghasilan tambahan ini sangat membantu untuk
+                            menopang kebutuhan biaya kuliah saya sehari-hari.”
                         </p>
                     </div>
                     <div class="flex items-center gap-3 pt-4 border-t border-slate-200/80">
-                        <div class="w-10 h-10 rounded-full bg-slate-200 flex items-center justify-center text-structure text-sm font-bold shadow-inner">
+                        <div
+                            class="w-10 h-10 rounded-full bg-slate-200 flex items-center justify-center text-structure text-sm font-bold shadow-inner">
                             DP
                         </div>
                         <div>
@@ -620,7 +707,8 @@
                     </div>
                 </div>
 
-                <div class="bg-slate-50 border border-slate-200/60 rounded-3xl p-6 stagger-item from-bottom delay-3 flex flex-col justify-between hover:shadow-md hover:border-slate-300 transition-all shadow-sm">
+                <div
+                    class="bg-slate-50 border border-slate-200/60 rounded-3xl p-6 stagger-item from-bottom delay-3 flex flex-col justify-between hover:shadow-md hover:border-slate-300 transition-all shadow-sm">
                     <div>
                         <div class="flex items-center gap-1 mb-5" aria-label="Rating 5 Bintang">
                             <i class="ti ti-star-filled text-gold text-sm" aria-hidden="true"></i>
@@ -630,11 +718,13 @@
                             <i class="ti ti-star-filled text-gold text-sm" aria-hidden="true"></i>
                         </div>
                         <p class="text-slate-600 text-sm leading-relaxed mb-6 italic font-medium">
-                            “Saya rekomendasikan ke komunitas alumni. Sekarang sudah mencapai tier Platinum dan menghasilkan lebih dari Rp&nbsp;20&nbsp;juta. Benar-benar tepercaya!”
+                            “Saya rekomendasikan ke komunitas alumni. Sekarang sudah mencapai tier Platinum dan
+                            menghasilkan lebih dari Rp&nbsp;20&nbsp;juta. Benar-benar tepercaya!”
                         </p>
                     </div>
                     <div class="flex items-center gap-3 pt-4 border-t border-slate-200/80">
-                        <div class="w-10 h-10 rounded-full bg-slate-200 flex items-center justify-center text-slate-600 text-sm font-bold shadow-inner">
+                        <div
+                            class="w-10 h-10 rounded-full bg-slate-200 flex items-center justify-center text-slate-600 text-sm font-bold shadow-inner">
                             MH
                         </div>
                         <div>
@@ -656,21 +746,25 @@
 
             <!-- Header -->
             <div class="text-center mb-12">
-                <div class="inline-flex items-center gap-2 bg-brand-light border border-brand/20 text-brand text-xs font-semibold px-4 py-2 rounded-full mb-4 uppercase tracking-wider">
+                <div
+                    class="inline-flex items-center gap-2 bg-brand-light border border-brand/20 text-brand text-xs font-semibold px-4 py-2 rounded-full mb-4 uppercase tracking-wider">
                     <i class="ti ti-heart-filled text-sm" aria-hidden="true"></i>
                     Kepuasan Agent
                 </div>
                 <h2 class="text-3xl font-extrabold text-slate-900 mb-4 tracking-tight">Bagaimana Kepuasan Anda?</h2>
                 <p class="text-slate-500 text-sm max-w-lg mx-auto leading-relaxed font-medium">
-                    Pendapat Anda sangat berharga bagi kami. Bagikan pengalaman Anda untuk membantu kami meningkatkan kualitas program Agent PMB Metamedia.
+                    Pendapat Anda sangat berharga bagi kami. Bagikan pengalaman Anda untuk membantu kami meningkatkan
+                    kualitas program Agent PMB Metamedia.
                 </p>
             </div>
 
             <!-- Form -->
             <div class="bg-white border border-slate-200/80 rounded-3xl p-6 md:p-10 shadow-lg relative">
-                <div class="absolute inset-0 bg-gradient-to-br from-slate-50/50 to-transparent pointer-events-none"></div>
+                <div class="absolute inset-0 bg-gradient-to-br from-slate-50/50 to-transparent pointer-events-none">
+                </div>
 
-                <form id="surveyForm" onsubmit="handleSurvey(event)" data-loading-ignore="true" class="space-y-6 relative z-10">
+                <form id="surveyForm" onsubmit="handleSurvey(event)" data-loading-ignore="true"
+                    class="space-y-6 relative z-10">
 
                     <!-- 1. Nama Lengkap -->
                     <div>
@@ -698,25 +792,57 @@
                             <i class="ti ti-star text-brand text-base" aria-hidden="true"></i>
                             Tingkat Kepuasan Program Agent
                         </label>
-                        <div class="rating-stars flex gap-2 justify-center my-3" id="ratingStars" role="radiogroup" aria-label="Rating Kepuasan">
-                            <button type="button" class="star group p-1 text-slate-300 hover:scale-110 active:scale-95 transition-all focus:outline-none focus-visible:ring-2 focus-visible:ring-brand rounded-xl" data-value="1" onclick="setRating(1)" role="radio" aria-checked="false" aria-label="Sangat Tidak Puas">
-                                <svg class="w-8 h-8 fill-current transition-colors text-slate-300" viewBox="0 0 24 24"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
+                        <div class="rating-stars flex gap-2 justify-center my-3" id="ratingStars" role="radiogroup"
+                            aria-label="Rating Kepuasan">
+                            <button type="button"
+                                class="star group p-1 text-slate-300 hover:scale-110 active:scale-95 transition-all focus:outline-none focus-visible:ring-2 focus-visible:ring-brand rounded-xl"
+                                data-value="1" onclick="setRating(1)" role="radio" aria-checked="false"
+                                aria-label="Sangat Tidak Puas">
+                                <svg class="w-8 h-8 fill-current transition-colors text-slate-300" viewBox="0 0 24 24">
+                                    <path
+                                        d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z" />
+                                </svg>
                             </button>
-                            <button type="button" class="star group p-1 text-slate-300 hover:scale-110 active:scale-95 transition-all focus:outline-none focus-visible:ring-2 focus-visible:ring-brand rounded-xl" data-value="2" onclick="setRating(2)" role="radio" aria-checked="false" aria-label="Tidak Puas">
-                                <svg class="w-8 h-8 fill-current transition-colors text-slate-300" viewBox="0 0 24 24"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
+                            <button type="button"
+                                class="star group p-1 text-slate-300 hover:scale-110 active:scale-95 transition-all focus:outline-none focus-visible:ring-2 focus-visible:ring-brand rounded-xl"
+                                data-value="2" onclick="setRating(2)" role="radio" aria-checked="false"
+                                aria-label="Tidak Puas">
+                                <svg class="w-8 h-8 fill-current transition-colors text-slate-300" viewBox="0 0 24 24">
+                                    <path
+                                        d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z" />
+                                </svg>
                             </button>
-                            <button type="button" class="star group p-1 text-slate-300 hover:scale-110 active:scale-95 transition-all focus:outline-none focus-visible:ring-2 focus-visible:ring-brand rounded-xl" data-value="3" onclick="setRating(3)" role="radio" aria-checked="false" aria-label="Cukup Puas">
-                                <svg class="w-8 h-8 fill-current transition-colors text-slate-300" viewBox="0 0 24 24"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
+                            <button type="button"
+                                class="star group p-1 text-slate-300 hover:scale-110 active:scale-95 transition-all focus:outline-none focus-visible:ring-2 focus-visible:ring-brand rounded-xl"
+                                data-value="3" onclick="setRating(3)" role="radio" aria-checked="false"
+                                aria-label="Cukup Puas">
+                                <svg class="w-8 h-8 fill-current transition-colors text-slate-300" viewBox="0 0 24 24">
+                                    <path
+                                        d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z" />
+                                </svg>
                             </button>
-                            <button type="button" class="star group p-1 text-slate-300 hover:scale-110 active:scale-95 transition-all focus:outline-none focus-visible:ring-2 focus-visible:ring-brand rounded-xl" data-value="4" onclick="setRating(4)" role="radio" aria-checked="false" aria-label="Puas">
-                                <svg class="w-8 h-8 fill-current transition-colors text-slate-300" viewBox="0 0 24 24"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
+                            <button type="button"
+                                class="star group p-1 text-slate-300 hover:scale-110 active:scale-95 transition-all focus:outline-none focus-visible:ring-2 focus-visible:ring-brand rounded-xl"
+                                data-value="4" onclick="setRating(4)" role="radio" aria-checked="false"
+                                aria-label="Puas">
+                                <svg class="w-8 h-8 fill-current transition-colors text-slate-300" viewBox="0 0 24 24">
+                                    <path
+                                        d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z" />
+                                </svg>
                             </button>
-                            <button type="button" class="star group p-1 text-slate-300 hover:scale-110 active:scale-95 transition-all focus:outline-none focus-visible:ring-2 focus-visible:ring-brand rounded-xl" data-value="5" onclick="setRating(5)" role="radio" aria-checked="false" aria-label="Sangat Puas">
-                                <svg class="w-8 h-8 fill-current transition-colors text-slate-300" viewBox="0 0 24 24"><path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z"/></svg>
+                            <button type="button"
+                                class="star group p-1 text-slate-300 hover:scale-110 active:scale-95 transition-all focus:outline-none focus-visible:ring-2 focus-visible:ring-brand rounded-xl"
+                                data-value="5" onclick="setRating(5)" role="radio" aria-checked="false"
+                                aria-label="Sangat Puas">
+                                <svg class="w-8 h-8 fill-current transition-colors text-slate-300" viewBox="0 0 24 24">
+                                    <path
+                                        d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z" />
+                                </svg>
                             </button>
                         </div>
                         <input type="hidden" id="ratingValue" value="0" required>
-                        <p class="text-center text-slate-400 text-xs mt-2" id="ratingLabel">Klik salah satu bintang di atas untuk menilai</p>
+                        <p class="text-center text-slate-400 text-xs mt-2" id="ratingLabel">Klik salah satu bintang di
+                            atas untuk menilai</p>
                     </div>
 
                     <!-- 4. Fitur Favorit (Checkbox) -->
@@ -726,28 +852,46 @@
                             Fitur Favorit Anda (Bisa pilih lebih dari satu)
                         </label>
                         <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                            <label class="flex items-center gap-3 text-slate-500 text-sm cursor-pointer hover:text-slate-900 transition-colors p-3 bg-slate-50 rounded-2xl border border-slate-200/60 hover:border-slate-300">
-                                <input type="checkbox" class="feature-checkbox accent-brand w-5 h-5 rounded-lg border-slate-300 bg-white focus:ring-brand" value="Bonus Langsung Cair">
+                            <label
+                                class="flex items-center gap-3 text-slate-500 text-sm cursor-pointer hover:text-slate-900 transition-colors p-3 bg-slate-50 rounded-2xl border border-slate-200/60 hover:border-slate-300">
+                                <input type="checkbox"
+                                    class="feature-checkbox accent-brand w-5 h-5 rounded-lg border-slate-300 bg-white focus:ring-brand"
+                                    value="Bonus Langsung Cair">
                                 <span>Bonus Langsung Cair</span>
                             </label>
-                            <label class="flex items-center gap-3 text-slate-500 text-sm cursor-pointer hover:text-slate-900 transition-colors p-3 bg-slate-50 rounded-2xl border border-slate-200/60 hover:border-slate-300">
-                                <input type="checkbox" class="feature-checkbox accent-brand w-5 h-5 rounded-lg border-slate-300 bg-white focus:ring-brand" value="Dashboard Real-time">
+                            <label
+                                class="flex items-center gap-3 text-slate-500 text-sm cursor-pointer hover:text-slate-900 transition-colors p-3 bg-slate-50 rounded-2xl border border-slate-200/60 hover:border-slate-300">
+                                <input type="checkbox"
+                                    class="feature-checkbox accent-brand w-5 h-5 rounded-lg border-slate-300 bg-white focus:ring-brand"
+                                    value="Dashboard Real-time">
                                 <span>Dashboard Real-time</span>
                             </label>
-                            <label class="flex items-center gap-3 text-slate-500 text-sm cursor-pointer hover:text-slate-900 transition-colors p-3 bg-slate-50 rounded-2xl border border-slate-200/60 hover:border-slate-300">
-                                <input type="checkbox" class="feature-checkbox accent-brand w-5 h-5 rounded-lg border-slate-300 bg-white focus:ring-brand" value="Struktur Bonus Tier">
+                            <label
+                                class="flex items-center gap-3 text-slate-500 text-sm cursor-pointer hover:text-slate-900 transition-colors p-3 bg-slate-50 rounded-2xl border border-slate-200/60 hover:border-slate-300">
+                                <input type="checkbox"
+                                    class="feature-checkbox accent-brand w-5 h-5 rounded-lg border-slate-300 bg-white focus:ring-brand"
+                                    value="Struktur Bonus Tier">
                                 <span>Struktur Bonus Tier</span>
                             </label>
-                            <label class="flex items-center gap-3 text-slate-500 text-sm cursor-pointer hover:text-slate-900 transition-colors p-3 bg-slate-50 rounded-2xl border border-slate-200/60 hover:border-slate-300">
-                                <input type="checkbox" class="feature-checkbox accent-brand w-5 h-5 rounded-lg border-slate-300 bg-white focus:ring-brand" value="Kalkulator Simulasi">
+                            <label
+                                class="flex items-center gap-3 text-slate-500 text-sm cursor-pointer hover:text-slate-900 transition-colors p-3 bg-slate-50 rounded-2xl border border-slate-200/60 hover:border-slate-300">
+                                <input type="checkbox"
+                                    class="feature-checkbox accent-brand w-5 h-5 rounded-lg border-slate-300 bg-white focus:ring-brand"
+                                    value="Kalkulator Simulasi">
                                 <span>Kalkulator Simulasi</span>
                             </label>
-                            <label class="flex items-center gap-3 text-slate-500 text-sm cursor-pointer hover:text-slate-900 transition-colors p-3 bg-slate-50 rounded-2xl border border-slate-200/60 hover:border-slate-300">
-                                <input type="checkbox" class="feature-checkbox accent-brand w-5 h-5 rounded-lg border-slate-300 bg-white focus:ring-brand" value="Testimoni Agent">
+                            <label
+                                class="flex items-center gap-3 text-slate-500 text-sm cursor-pointer hover:text-slate-900 transition-colors p-3 bg-slate-50 rounded-2xl border border-slate-200/60 hover:border-slate-300">
+                                <input type="checkbox"
+                                    class="feature-checkbox accent-brand w-5 h-5 rounded-lg border-slate-300 bg-white focus:ring-brand"
+                                    value="Testimoni Agent">
                                 <span>Testimoni Agent Lain</span>
                             </label>
-                            <label class="flex items-center gap-3 text-slate-500 text-sm cursor-pointer hover:text-slate-900 transition-colors p-3 bg-slate-50 rounded-2xl border border-slate-200/60 hover:border-slate-300">
-                                <input type="checkbox" class="feature-checkbox accent-brand w-5 h-5 rounded-lg border-slate-300 bg-white focus:ring-brand" value="Lainnya">
+                            <label
+                                class="flex items-center gap-3 text-slate-500 text-sm cursor-pointer hover:text-slate-900 transition-colors p-3 bg-slate-50 rounded-2xl border border-slate-200/60 hover:border-slate-300">
+                                <input type="checkbox"
+                                    class="feature-checkbox accent-brand w-5 h-5 rounded-lg border-slate-300 bg-white focus:ring-brand"
+                                    value="Lainnya">
                                 <span>Lainnya</span>
                             </label>
                         </div>
@@ -770,19 +914,23 @@
                             Apakah Anda akan merekomendasikan program ini ke rekan Anda?
                         </label>
                         <div class="flex flex-wrap gap-4 p-3 bg-slate-50 border border-slate-200 rounded-2xl">
-                            <label class="flex items-center gap-2 text-slate-500 text-sm cursor-pointer hover:text-slate-900 transition-colors">
+                            <label
+                                class="flex items-center gap-2 text-slate-500 text-sm cursor-pointer hover:text-slate-900 transition-colors">
                                 <input type="radio" name="rekomendasi" value="Ya, pasti!" class="accent-brand w-4 h-4">
                                 <span>Ya, pasti!</span>
                             </label>
-                            <label class="flex items-center gap-2 text-slate-500 text-sm cursor-pointer hover:text-slate-900 transition-colors">
+                            <label
+                                class="flex items-center gap-2 text-slate-500 text-sm cursor-pointer hover:text-slate-900 transition-colors">
                                 <input type="radio" name="rekomendasi" value="Mungkin" class="accent-brand w-4 h-4">
                                 <span>Mungkin</span>
                             </label>
-                            <label class="flex items-center gap-2 text-slate-500 text-sm cursor-pointer hover:text-slate-900 transition-colors">
+                            <label
+                                class="flex items-center gap-2 text-slate-500 text-sm cursor-pointer hover:text-slate-900 transition-colors">
                                 <input type="radio" name="rekomendasi" value="Belum tahu" class="accent-brand w-4 h-4">
                                 <span>Belum tahu</span>
                             </label>
-                            <label class="flex items-center gap-2 text-slate-500 text-sm cursor-pointer hover:text-slate-900 transition-colors">
+                            <label
+                                class="flex items-center gap-2 text-slate-500 text-sm cursor-pointer hover:text-slate-900 transition-colors">
                                 <input type="radio" name="rekomendasi" value="Tidak" class="accent-brand w-4 h-4">
                                 <span>Tidak</span>
                             </label>
@@ -792,7 +940,8 @@
                     <!-- Submit Button -->
                     <button type="submit" id="submitBtn"
                         class="w-full bg-brand hover:bg-brand-dark text-white font-bold py-4 rounded-2xl transition-all duration-300 text-sm hover:scale-[1.01] active:scale-[0.99] flex items-center justify-center gap-2 shadow-lg shadow-brand/10 hover:shadow-brand/25">
-                        <span id="submitSpinner" class="hidden animate-spin h-4 w-4 border-2 border-white border-t-transparent rounded-full"></span>
+                        <span id="submitSpinner"
+                            class="hidden animate-spin h-4 w-4 border-2 border-white border-t-transparent rounded-full"></span>
                         <i class="ti ti-send text-base" id="submitIcon" aria-hidden="true"></i>
                         <span id="btnText">Kirim Penilaian</span>
                     </button>
@@ -814,7 +963,8 @@
     <footer class="bg-slate-900 text-slate-400 py-16 px-5 border-t border-slate-800">
         <div class="max-w-6xl mx-auto flex flex-col md:flex-row items-center justify-between gap-6">
             <div class="flex items-center gap-2">
-                <i class="ti ti-school text-brand text-2xl filter drop-shadow-[0_2px_4px_rgba(1,142,214,0.2)]" aria-hidden="true"></i>
+                <i class="ti ti-school text-brand text-2xl filter drop-shadow-[0_2px_4px_rgba(1,142,214,0.2)]"
+                    aria-hidden="true"></i>
                 <span class="text-white text-base font-bold">Agent PMB <span class="text-brand">Metamedia</span></span>
             </div>
             <div class="flex gap-8 font-semibold text-sm">
