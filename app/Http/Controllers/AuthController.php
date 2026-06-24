@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\Admin;
 use App\Models\User;
+use App\Models\Agent;
+use App\Models\Komisi;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -319,9 +321,91 @@ class AuthController extends Controller
 
     public function adminDashboard()
     {
-        $agents = User::latest()->get();
+        // 1. Metric Cards: Total Camaba counts across all prodis
+        $totalProspek = Agent::where('status', 'Prospek')->count();
+        $totalSudahDaftar = Agent::where('status', 'Sudah Daftar')->count();
+        $totalRegistrasiUlang = Agent::where('status', 'Registrasi Ulang')->count();
+        $totalCamaba = Agent::count();
 
-        return view('auth.admin.dashboard.dashboard', compact('agents'));
+        // 2. Calculate Bonus Berjalan across all agents
+        $totalBonusBerjalan = 0;
+
+        $komisiMao = Komisi::where('kategori', 'mao')->where('is_active', true)->first();
+        $komisiDosen = Komisi::where('kategori', 'dosen_karyawan')->where('is_active', true)->first();
+        $komisiMitra = Komisi::where('kategori', 'mitra')->where('is_active', true)->first();
+
+        // Count of Registrasi Ulang grouped by agent_id
+        $agentCounts = Agent::where('status', 'Registrasi Ulang')
+            ->select('agent_id')
+            ->selectRaw('count(*) as total')
+            ->groupBy('agent_id')
+            ->pluck('total', 'agent_id')
+            ->all();
+
+        $users = User::all();
+        foreach ($users as $user) {
+            $status = $user->status;
+            $komisi = match ($status) {
+                'dosen_karyawan' => $komisiDosen,
+                'mitra' => $komisiMitra,
+                default => $komisiMao,
+            };
+
+            if (!$komisi || $komisi->nominal_fleksibel) {
+                continue;
+            }
+
+            $regCount = $agentCounts[$user->id] ?? 0;
+            $bonusSummary = $komisi->hitungBonus($regCount);
+            $totalBonusBerjalan += (int) ($bonusSummary['total_bonus'] ?? 0);
+        }
+
+        // 3. Agent statistics (Total, Active, Top 3 Agents)
+        $totalAgent = User::count();
+        $activeAgent = User::where('is_active', true)->count();
+        
+        // Top agents by registered Camaba count
+        $topAgents = User::withCount(['camabas' => function ($q) {
+            $q->where('status', 'Registrasi Ulang');
+        }])
+        ->orderByDesc('camabas_count')
+        ->take(3)
+        ->get();
+
+        // 4. Latest Camabas with their agents
+        $camabaTerbaru = Agent::with('agent')->latest()->take(5)->get();
+
+        // 5. Chart data for the last 6 months
+        $chartStart = now()->startOfMonth()->subMonths(5);
+        $camabaPerBulan = Agent::where('created_at', '>=', $chartStart)
+            ->get()
+            ->groupBy(fn ($camaba) => $camaba->created_at->format('Y-m'));
+
+        $chartLabels = [];
+        $chartData = [];
+
+        for ($i = 0; $i < 6; $i++) {
+            $month = $chartStart->copy()->addMonths($i);
+            $chartLabels[] = match((int) $month->format('n')) {
+                1 => 'Jan', 2 => 'Feb', 3 => 'Mar', 4 => 'Apr', 5 => 'Mei', 6 => 'Jun',
+                7 => 'Jul', 8 => 'Agu', 9 => 'Sep', 10 => 'Okt', 11 => 'Nov', 12 => 'Des',
+            } . ' ' . $month->format('Y');
+            $chartData[] = $camabaPerBulan->get($month->format('Y-m'), collect())->count();
+        }
+
+        return view('auth.admin.dashboard.dashboard', compact(
+            'totalProspek',
+            'totalSudahDaftar',
+            'totalRegistrasiUlang',
+            'totalCamaba',
+            'totalBonusBerjalan',
+            'totalAgent',
+            'activeAgent',
+            'topAgents',
+            'camabaTerbaru',
+            'chartLabels',
+            'chartData'
+        ));
     }
 
     public function adminLogout(Request $request)

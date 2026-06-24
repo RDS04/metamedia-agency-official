@@ -5,6 +5,7 @@ use App\Http\Controllers\AuthController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\ImportController;
 use App\Http\Controllers\KomisiController;
+use App\Http\Controllers\PesanController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\FormController;
 
@@ -12,6 +13,9 @@ use App\Http\Controllers\FormController;
 Route::controller(DashboardController::class)->prefix('agent')->group(function () {
     Route::get('/', 'informasi')->name('informasi');
 });
+
+// Kepuasan Agent - store (publik, siapapun bisa submit)
+Route::post('/agent/kepuasan', [PesanController::class, 'store'])->name('pesan.store');
 
 // Authentication Routes (Guest Only)
 Route::controller(AuthController::class)->prefix('agent')->middleware('guest')->group(function () {
@@ -124,6 +128,14 @@ Route::middleware('auth:admin')->prefix('agent')->group(function () {
         Route::delete('/{id}', 'destroyMahasiswa')
             ->name('mahasiswa.destroy')
             ->whereNumber('id');
+    });
+
+    // Kepuasan Agent - Admin CRUD
+    Route::controller(PesanController::class)->prefix('admin/kepuasan')->group(function () {
+        Route::get('/', 'index')->name('pesan.index');
+        Route::get('/{pesan}', 'show')->name('pesan.show')->whereNumber('pesan');
+        Route::patch('/{pesan}/toggle', 'toggleTampil')->name('pesan.toggle')->whereNumber('pesan');
+        Route::delete('/{pesan}', 'destroy')->name('pesan.destroy')->whereNumber('pesan');
     });
 
 });

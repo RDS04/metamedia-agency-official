@@ -5,15 +5,15 @@
         ? Auth::guard('admin')->user()->name
         : (Auth::user()->name ?? 'Agent');
 
-    $isActive = fn (...$routes) => request()->routeIs($routes);
+    $isActive = fn(...$routes) => request()->routeIs($routes);
 
-    $linkClass = fn ($active = false) => 'flex items-center px-4 py-3 rounded-lg transition ' .
+    $linkClass = fn($active = false) => 'flex items-center px-4 py-3 rounded-lg transition ' .
         ($active ? 'bg-[#018FD7] text-white font-medium' : 'text-gray-300 hover:bg-gray-800 hover:text-white');
 
-    $childLinkClass = fn ($active = false) => 'block py-2 px-4 rounded transition ' .
+    $childLinkClass = fn($active = false) => 'block py-2 px-4 rounded transition ' .
         ($active ? 'bg-[#018FD7] text-white font-medium' : 'text-gray-300 hover:bg-gray-700 hover:text-white');
 
-    $groupButtonClass = fn ($active = false) => 'w-full flex items-center justify-between px-4 py-3 rounded-lg transition ' .
+    $groupButtonClass = fn($active = false) => 'w-full flex items-center justify-between px-4 py-3 rounded-lg transition ' .
         ($active ? 'bg-gray-800 text-white font-medium' : 'text-gray-300 hover:bg-gray-800 hover:text-white');
 
     $masterOpen = $isActive('listAgent', 'priode');
@@ -31,14 +31,14 @@
             <span class="text-white font-bold text-lg">A</span>
         </div>
         @if ($isAdmin)
-        <span class="ml-3 text-xl font-bold text-white">
-            Admin Agent PMB
-        </span>
+            <span class="ml-3 text-xl font-bold text-white">
+                Admin Agent PMB
+            </span>
         @endif
         @if (!$isAdmin)
-        <span class="ml-3 text-xl font-bold text-white">
-            Agent PMB
-        </span>
+            <span class="ml-3 text-xl font-bold text-white">
+                Agent PMB
+            </span>
         @endif
 
     </div>
@@ -70,8 +70,7 @@
     <nav class="mt-4 px-3">
         @if(!$isAdmin)
             {{-- DASHBOARD --}}
-            <a href="{{ route('dashboard') }}"
-                class="{{ $linkClass($isActive('dashboard')) }}">
+            <a href="{{ route('dashboard') }}" class="{{ $linkClass($isActive('dashboard')) }}">
 
                 <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
                     <path d="M3 13h2v8H3zm4-8h2v16H7zm4-2h2v18h-2zm4 4h2v14h-2zm4-2h2v16h-2z" />
@@ -85,8 +84,7 @@
         @endif
         @if($isAdmin)
             {{-- DASHBOARD --}}
-            <a href="{{ route('dashboard.admin') }}"
-                class="{{ $linkClass($isActive('dashboard.admin')) }}">
+            <a href="{{ route('dashboard.admin') }}" class="{{ $linkClass($isActive('dashboard.admin')) }}">
 
                 <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
                     <path d="M3 13h2v8H3zm4-8h2v16H7zm4-2h2v18h-2zm4 4h2v14h-2zm4-2h2v16h-2z" />
@@ -103,8 +101,7 @@
 
             <div x-data="{ open: {{ $masterOpen ? 'true' : 'false' }} }" class="mt-3">
 
-                <button @click="open = !open"
-                    class="{{ $groupButtonClass($masterOpen) }}">
+                <button @click="open = !open" class="{{ $groupButtonClass($masterOpen) }}">
 
                     <div class="flex items-center">
 
@@ -143,8 +140,7 @@
 
             <div x-data="{ open: {{ $agentOpen ? 'true' : 'false' }} }" class="mt-3">
 
-                <button @click="open = !open"
-                    class="{{ $groupButtonClass($agentOpen) }}">
+                <button @click="open = !open" class="{{ $groupButtonClass($agentOpen) }}">
 
                     <div class="flex items-center">
 
@@ -169,7 +165,8 @@
                         Tambah Mahasiswa Baru
                     </a>
 
-                    <a href="{{ route('agen.Show') }}" class="{{ $childLinkClass($isActive('agen.Show', 'agen.Detail', 'agen.Edit')) }}">
+                    <a href="{{ route('agen.Show') }}"
+                        class="{{ $childLinkClass($isActive('agen.Show', 'agen.Detail', 'agen.Edit')) }}">
                         Daftar Mahasiswa
                     </a>
 
@@ -184,8 +181,7 @@
 
             <div x-data="{ open: {{ $komisiOpen ? 'true' : 'false' }} }" class="mt-3">
 
-                <button @click="open = !open"
-                    class="{{ $groupButtonClass($komisiOpen) }}">
+                <button @click="open = !open" class="{{ $groupButtonClass($komisiOpen) }}">
 
                     <div class="flex items-center">
                         <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
@@ -207,7 +203,8 @@
                         Mahasiswa & Ortu & Alumni
                     </a>
 
-                    <a href="{{ route('komisi.dosen-karyawan') }}" class="{{ $childLinkClass($isActive('komisi.dosen-karyawan')) }}">
+                    <a href="{{ route('komisi.dosen-karyawan') }}"
+                        class="{{ $childLinkClass($isActive('komisi.dosen-karyawan')) }}">
                         Dosen & Karyawan
                     </a>
 
@@ -222,8 +219,7 @@
         @if ($isAdmin)
             <div x-data="{ open: {{ $importOpen ? 'true' : 'false' }} }" class="mt-3">
 
-                <button @click="open = !open"
-                    class="{{ $groupButtonClass($importOpen) }}">
+                <button @click="open = !open" class="{{ $groupButtonClass($importOpen) }}">
 
                     <div class="flex items-center">
                         <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
@@ -245,7 +241,8 @@
                         Import / Input Mahasiswa
                     </a>
 
-                    <a href="{{ route('mahasiswa.index') }}" class="{{ $childLinkClass($isActive('mahasiswa.index', 'mahasiswa.edit')) }}">
+                    <a href="{{ route('mahasiswa.index') }}"
+                        class="{{ $childLinkClass($isActive('mahasiswa.index', 'mahasiswa.edit')) }}">
                         Data Mahasiswa
                     </a>
 
@@ -271,8 +268,6 @@
             </a>
         @endif
         @if ($isAdmin)
-
-
             {{-- LAPORAN --}}
             <a href="{{ route('dataCamaba') }}" class="{{ $linkClass($isActive('dataCamaba')) }} mt-3">
 
@@ -287,18 +282,18 @@
 
             </a>
         @endif
-        {{-- PENGATURAN (ADMIN ONLY) --}}
+        {{-- DAFTAR PESAN DAN KESAN (ADMIN ONLY) --}}
         @if($isAdmin)
 
-            <a href="#" class="flex items-center px-4 py-3 mt-3 rounded-lg hover:bg-gray-800">
+            <a href="{{ route('pesan.index') }}" class="{{ $linkClass($isActive('pesan.*')) }} mt-3">
 
                 <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
                     <path
-                        d="M19.14 12.94c.04-.3.06-.61.06-.94 0-.32-.02-.64-.07-.94l1.72-1.34c.15-.12.19-.34.1-.51l-1.63-2.83c-.12-.22-.39-.3-.61-.22l-2.03.81c-.42-.32-.86-.58-1.35-.78l-.31-2.15c-.04-.24-.24-.41-.48-.41h-3.26c-.24 0-.43.17-.47.41l-.31 2.15c-.48.2-.93.46-1.35.78l-2.03-.81c-.22-.09-.49 0-.61.22L2.86 8.86c-.1.16-.06.39.1.51l1.72 1.34c-.05.3-.07.62-.07.94s.02.64.07.94l-1.72 1.34c-.16.12-.2.35-.1.51l1.63 2.83c.12.22.39.3.61.22l2.03-.81c.42.32.86.58 1.35.78l.31 2.15c.05.24.24.41.48.41h3.26c.24 0 .44-.17.47-.41l.31-2.15c.49-.2.94-.47 1.35-.78l2.03.81c.22.09.49 0 .61-.22l1.63-2.83c.1-.16.06-.39-.1-.51l-1.72-1.34zM12 15.6c-1.98 0-3.6-1.62-3.6-3.6s1.62-3.6 3.6-3.6 3.6 1.62 3.6 3.6-1.62 3.6-3.6 3.6z" />
+                        d="M20 2H4c-1.1 0-1.99.9-1.99 2L2 22l4-4h14c1.1 0 2-.9 2-2V4c0-1.1-.9-2-2-2zm-2 12H6v-2h12v2zm0-3H6V9h12v2zm0-3H6V6h12v2z" />
                 </svg>
 
                 <span class="ml-3">
-                    Pengaturan
+                    Daftar Pesan Dan Kesan
                 </span>
 
             </a>

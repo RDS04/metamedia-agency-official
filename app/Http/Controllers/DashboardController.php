@@ -6,6 +6,7 @@ use App\Helpers\StatusHelper;
 use App\Models\Agent;
 use App\Models\Komisi;
 use App\Models\Periode;
+use App\Models\Pesan;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
@@ -31,7 +32,12 @@ class DashboardController extends Controller
 
     public function informasi()
     {
-        return view('informasi');
+        $testimoni = Pesan::tampil()
+            ->latest()
+            ->take(6)
+            ->get();
+
+        return view('informasi', compact('testimoni'));
     }
 
     public function dashboard(Request $request)

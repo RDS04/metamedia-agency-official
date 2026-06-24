@@ -161,6 +161,86 @@
             outline-offset: 4px;
         }
 
+        /* ===== MARQUEE TESTIMONI ===== */
+        @keyframes marquee-scroll {
+            0%   { transform: translateX(0); }
+            100% { transform: translateX(-50%); }
+        }
+
+        .marquee-track {
+            display: flex;
+            gap: 1.5rem;
+            width: max-content;
+            animation: marquee-scroll 28s linear infinite;
+        }
+
+        .marquee-track:hover {
+            animation-play-state: paused;
+        }
+
+        .marquee-card {
+            width: 340px;
+            flex-shrink: 0;
+        }
+
+        /* Gold star color for testimonial icons */
+        .star-gold { color: #F59E0B; }
+        .star-empty { color: #CBD5E1; }
+
+        /* ===== MOBILE NAV ===== */
+        #mobile-menu {
+            display: none;
+            flex-direction: column;
+            gap: 0.25rem;
+            padding: 1rem 1.25rem 1.5rem;
+            background: rgba(255,255,255,0.98);
+            border-top: 1px solid rgba(0,0,0,0.06);
+            backdrop-filter: blur(12px);
+        }
+        #mobile-menu.open { display: flex; }
+        #mobile-menu a {
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: #475569;
+            padding: 0.65rem 0.75rem;
+            border-radius: 0.75rem;
+            transition: background 0.15s, color 0.15s;
+        }
+        #mobile-menu a:hover { background: #EFF6FF; color: #018FD7; }
+        #mobile-menu .mobile-cta {
+            margin-top: 0.5rem;
+            background: #018FD7;
+            color: #fff !important;
+            text-align: center;
+            border-radius: 0.875rem;
+            font-weight: 700;
+        }
+        #mobile-menu .mobile-cta:hover { background: #007ec2 !important; }
+
+        /* Hamburger icon lines */
+        .ham-line {
+            display: block;
+            width: 20px;
+            height: 2px;
+            background: #475569;
+            border-radius: 2px;
+            transition: transform 0.25s, opacity 0.25s;
+        }
+        #ham-btn.open .ham-line:nth-child(1) { transform: translateY(6px) rotate(45deg); }
+        #ham-btn.open .ham-line:nth-child(2) { opacity: 0; }
+        #ham-btn.open .ham-line:nth-child(3) { transform: translateY(-6px) rotate(-45deg); }
+
+        /* Marquee card width — narrower on mobile */
+        @media (max-width: 640px) {
+            .marquee-card { width: 280px; }
+            .marquee-track { animation-duration: 20s; }
+        }
+
+        /* Hero: image below text on mobile */
+        @media (max-width: 767px) {
+            .hero-grid { display: flex; flex-direction: column-reverse; gap: 2rem; }
+        }
+
         /* Reduced Motion Settings */
         @media (prefers-reduced-motion: reduce) {
             * {
@@ -200,6 +280,7 @@
     <nav class="bg-white/80 backdrop-blur-lg border-b border-slate-200/50 sticky top-0 z-50">
         <div class="max-w-6xl mx-auto px-5 flex items-center justify-between h-16">
 
+            {{-- Logo --}}
             <div class="flex items-center gap-2">
                 <i class="ti ti-school text-structure text-2xl filter drop-shadow-[0_2px_4px_rgba(48,90,166,0.2)]"
                     aria-hidden="true"></i>
@@ -208,34 +289,53 @@
                 </span>
             </div>
 
+            {{-- Desktop Nav Links --}}
             <div class="hidden md:flex items-center gap-8">
-                <a href="#keuntungan"
-                    class="text-slate-600 hover:text-brand text-sm font-semibold transition-colors">Keuntungan</a>
-                <a href="#bonus"
-                    class="text-slate-600 hover:text-brand text-sm font-semibold transition-colors">Bonus</a>
-                <a href="#cara-daftar"
-                    class="text-slate-600 hover:text-brand text-sm font-semibold transition-colors">Cara Daftar</a>
+                <a href="#keuntungan" class="text-slate-600 hover:text-brand text-sm font-semibold transition-colors">Keuntungan</a>
+                <a href="#bonus" class="text-slate-600 hover:text-brand text-sm font-semibold transition-colors">Bonus</a>
+                <a href="#cara-daftar" class="text-slate-600 hover:text-brand text-sm font-semibold transition-colors">Cara Daftar</a>
             </div>
 
-            <div class="flex items-center gap-3">
+            {{-- Desktop Buttons + Mobile Hamburger --}}
+            <div class="flex items-center gap-2">
                 @if(Auth::check())
                     <a href="{{ route('dashboard') }}"
-                        class="bg-brand hover:bg-brand-dark text-[#018FD7] text-sm font-bold px-5 py-2.5 rounded-xl transition-all duration-200 shadow-md shadow-brand/10 hover:shadow-brand/25 hover:scale-[1.02] active:scale-[0.98]">
+                        class="bg-brand hover:bg-brand-dark text-white text-sm font-bold px-5 py-2.5 rounded-xl transition-all duration-200 shadow-md shadow-brand/10 hover:scale-[1.02] active:scale-[0.98]">
                         Dashboard
                     </a>
                 @else
                     <a href="{{ route('auth.login') }}"
-                        class="text-slate-700 hover:text-brand text-sm font-semibold px-4 py-2.5 rounded-xl border border-slate-200 hover:border-brand/40 hover:bg-slate-50 transition-all duration-200">
+                        class="hidden sm:inline-flex text-slate-700 hover:text-brand text-sm font-semibold px-4 py-2.5 rounded-xl border border-slate-200 hover:border-brand/40 hover:bg-slate-50 transition-all duration-200">
                         Login
                     </a>
-
                     <a href="{{ route('auth.register') }}"
-                        class="bg-brand hover:bg-brand-dark text-[#018FD7] text-sm font-bold px-5 py-2.5 rounded-xl transition-all duration-200 shadow-md shadow-brand/10 hover:shadow-brand/25 hover:scale-[1.02] active:scale-[0.98]">
-                        Register
+                        class="hidden sm:inline-flex bg-brand hover:bg-brand-dark text-white text-sm font-bold px-5 py-2.5 rounded-xl transition-all duration-200 shadow-md shadow-brand/10 hover:scale-[1.02] active:scale-[0.98]">
+                        Daftar
                     </a>
                 @endif
+
+                {{-- Hamburger button (mobile only) --}}
+                <button id="ham-btn" aria-label="Buka menu" aria-expanded="false" aria-controls="mobile-menu"
+                    class="md:hidden flex flex-col gap-1.5 p-2 rounded-lg hover:bg-slate-100 transition-colors">
+                    <span class="ham-line"></span>
+                    <span class="ham-line"></span>
+                    <span class="ham-line"></span>
+                </button>
             </div>
 
+        </div>
+
+        {{-- Mobile Menu Drawer --}}
+        <div id="mobile-menu" role="navigation" aria-label="Menu mobile">
+            <a href="#keuntungan" class="mobile-nav-link">Keuntungan</a>
+            <a href="#bonus" class="mobile-nav-link">Bonus</a>
+            <a href="#cara-daftar" class="mobile-nav-link">Cara Daftar</a>
+            @if(Auth::check())
+                <a href="{{ route('dashboard') }}" class="mobile-cta">Dashboard</a>
+            @else
+                <a href="{{ route('auth.login') }}" class="mobile-nav-link">Login</a>
+                <a href="{{ route('auth.register') }}" class="mobile-cta">Daftar Sekarang</a>
+            @endif
         </div>
     </nav>
 
@@ -248,7 +348,7 @@
         <div class="radial-glow bg-accent-light w-[400px] h-[400px] -bottom-20 -right-20 opacity-20"></div>
 
         <div class="max-w-6xl mx-auto relative z-10">
-            <div class="grid md:grid-cols-2 gap-12 items-center">
+            <div class="hero-grid grid md:grid-cols-2 gap-8 md:gap-12 items-center">
 
                 <!-- Left: Image Gedung Metamedia -->
                 <div class="scroll-animate from-left">
@@ -283,7 +383,7 @@
                     </div>
 
                     <h1
-                        class="text-4xl md:text-5xl font-black text-slate-900 leading-tight mb-6 tracking-tight text-wrap-balance">
+                        class="text-3xl md:text-5xl font-black text-slate-900 leading-tight mb-5 md:mb-6 tracking-tight">
                         Bantu Calon Mahasiswa,<br>
                         <span class="text-[#018FD7]">Dapatkan Bonus Tunai</span>
                     </h1>
@@ -642,100 +742,78 @@
 
 
     <!-- ===== TESTIMONI ===== -->
-    <section class="bg-transparent py-24 px-5 relative overflow-hidden">
-        <div class="max-w-6xl mx-auto">
-
+    <section class="bg-transparent py-24 relative overflow-hidden">
+        <div class="max-w-6xl mx-auto px-5">
             <div class="text-center mb-16 scroll-animate from-bottom">
                 <p class="text-brand text-xs font-bold uppercase tracking-widest mb-3">Testimonial</p>
                 <h2 class="text-3xl md:text-4xl font-extrabold text-slate-900 mb-4 tracking-tight">Kisah Sukses Agent
                     Kami</h2>
-            </div>
-
-            <div class="grid md:grid-cols-3 gap-6">
-
-                <div
-                    class="bg-slate-50 border border-slate-200/60 rounded-3xl p-6 stagger-item from-bottom delay-1 flex flex-col justify-between hover:shadow-md hover:border-slate-300 transition-all shadow-sm">
-                    <div>
-                        <div class="flex items-center gap-1 mb-5" aria-label="Rating 5 Bintang">
-                            <i class="ti ti-star-filled text-gold text-sm" aria-hidden="true"></i>
-                            <i class="ti ti-star-filled text-gold text-sm" aria-hidden="true"></i>
-                            <i class="ti ti-star-filled text-gold text-sm" aria-hidden="true"></i>
-                            <i class="ti ti-star-filled text-gold text-sm" aria-hidden="true"></i>
-                            <i class="ti ti-star-filled text-gold text-sm" aria-hidden="true"></i>
-                        </div>
-                        <p class="text-slate-600 text-sm leading-relaxed mb-6 italic font-medium">
-                            “Dalam 2&nbsp;bulan pertama saya berhasil mengundang 12&nbsp;mahasiswa. Bonusnya langsung
-                            dicairkan ke rekening, prosesnya transparan dan sangat mudah!”
-                        </p>
-                    </div>
-                    <div class="flex items-center gap-3 pt-4 border-t border-slate-200/80">
-                        <div
-                            class="w-10 h-10 rounded-full bg-brand-light flex items-center justify-center text-brand text-sm font-bold shadow-inner">
-                            RA
-                        </div>
-                        <div>
-                            <p class="text-slate-900 text-sm font-bold">Rizky Aditya</p>
-                            <p class="text-slate-500 text-xs mt-0.5 font-medium">Agent Silver · Surabaya</p>
-                        </div>
-                    </div>
-                </div>
-
-                <div
-                    class="bg-slate-50 border border-slate-200/60 rounded-3xl p-6 stagger-item from-bottom delay-2 flex flex-col justify-between hover:shadow-md hover:border-slate-300 transition-all shadow-sm">
-                    <div>
-                        <div class="flex items-center gap-1 mb-5" aria-label="Rating 5 Bintang">
-                            <i class="ti ti-star-filled text-gold text-sm" aria-hidden="true"></i>
-                            <i class="ti ti-star-filled text-gold text-sm" aria-hidden="true"></i>
-                            <i class="ti ti-star-filled text-gold text-sm" aria-hidden="true"></i>
-                            <i class="ti ti-star-filled text-gold text-sm" aria-hidden="true"></i>
-                            <i class="ti ti-star-filled text-gold text-sm" aria-hidden="true"></i>
-                        </div>
-                        <p class="text-slate-600 text-sm leading-relaxed mb-6 italic font-medium">
-                            “Alhamdulillah sudah mencapai tier Gold. Penghasilan tambahan ini sangat membantu untuk
-                            menopang kebutuhan biaya kuliah saya sehari-hari.”
-                        </p>
-                    </div>
-                    <div class="flex items-center gap-3 pt-4 border-t border-slate-200/80">
-                        <div
-                            class="w-10 h-10 rounded-full bg-slate-200 flex items-center justify-center text-structure text-sm font-bold shadow-inner">
-                            DP
-                        </div>
-                        <div>
-                            <p class="text-slate-900 text-sm font-bold">Dinda Putri</p>
-                            <p class="text-slate-500 text-xs mt-0.5 font-medium">Agent Gold · Bandung</p>
-                        </div>
-                    </div>
-                </div>
-
-                <div
-                    class="bg-slate-50 border border-slate-200/60 rounded-3xl p-6 stagger-item from-bottom delay-3 flex flex-col justify-between hover:shadow-md hover:border-slate-300 transition-all shadow-sm">
-                    <div>
-                        <div class="flex items-center gap-1 mb-5" aria-label="Rating 5 Bintang">
-                            <i class="ti ti-star-filled text-gold text-sm" aria-hidden="true"></i>
-                            <i class="ti ti-star-filled text-gold text-sm" aria-hidden="true"></i>
-                            <i class="ti ti-star-filled text-gold text-sm" aria-hidden="true"></i>
-                            <i class="ti ti-star-filled text-gold text-sm" aria-hidden="true"></i>
-                            <i class="ti ti-star-filled text-gold text-sm" aria-hidden="true"></i>
-                        </div>
-                        <p class="text-slate-600 text-sm leading-relaxed mb-6 italic font-medium">
-                            “Saya rekomendasikan ke komunitas alumni. Sekarang sudah mencapai tier Platinum dan
-                            menghasilkan lebih dari Rp&nbsp;20&nbsp;juta. Benar-benar tepercaya!”
-                        </p>
-                    </div>
-                    <div class="flex items-center gap-3 pt-4 border-t border-slate-200/80">
-                        <div
-                            class="w-10 h-10 rounded-full bg-slate-200 flex items-center justify-center text-slate-600 text-sm font-bold shadow-inner">
-                            MH
-                        </div>
-                        <div>
-                            <p class="text-slate-900 text-sm font-bold">Muhamad Haris</p>
-                            <p class="text-slate-500 text-xs mt-0.5 font-medium">Agent Platinum · Jakarta</p>
-                        </div>
-                    </div>
-                </div>
-
+                <p class="text-slate-500 text-sm max-w-md mx-auto leading-relaxed font-medium">
+                    Pendapat nyata dari para agent yang telah bergabung bersama kami.
+                </p>
             </div>
         </div>
+
+        @if($testimoni->isNotEmpty())
+            {{-- Marquee: overflow full-width, no px padding --}}
+            <div class="overflow-hidden w-full" aria-label="Testimoni Agent">
+                <div class="marquee-track">
+
+                    {{-- Render dua kali untuk loop seamless --}}
+                    @foreach([1,2] as $_loop)
+                        @foreach($testimoni as $index => $t)
+                            @php
+                                $bgColors   = ['#EFF6FF','#F0F9FF','#F0FDF4'];
+                                $dotColors  = ['#018FD7','#0a3575','#16a34a'];
+                                $bgColor    = $bgColors[$index % 3];
+                                $dotColor   = $dotColors[$index % 3];
+                            @endphp
+                            <div class="marquee-card bg-white border border-slate-200/70 rounded-3xl p-6 shadow-sm flex flex-col justify-between hover:shadow-lg hover:border-slate-300 transition-shadow duration-300">
+                                <div>
+                                    {{-- Rating bintang: hanya tampilkan bintang terisi sesuai rating --}}
+                                    <div class="flex items-center gap-0.5 mb-4" aria-label="Rating {{ $t->rating }} dari 5">
+                                        @for($s = 1; $s <= $t->rating; $s++)
+                                            <i class="ti ti-star-filled text-lg star-gold" aria-hidden="true"></i>
+                                        @endfor
+                                        <span class="ml-2 text-xs font-bold" style="color:#F59E0B">{{ $t->rating }}/5</span>
+                                    </div>
+
+                                    {{-- Isi Testimoni --}}
+                                    <p class="text-slate-600 text-sm leading-relaxed italic font-medium line-clamp-4">
+                                        &ldquo;{{ $t->saran ?: 'Terima kasih atas program yang luar biasa ini!' }}&rdquo;
+                                    </p>
+                                </div>
+
+                                {{-- Footer --}}
+                                <div class="flex items-center gap-3 pt-4 mt-5 border-t border-slate-100">
+                                    <div class="w-10 h-10 rounded-full flex items-center justify-center text-sm font-bold shadow-sm flex-shrink-0"
+                                        style="background:{{ $bgColor }}; color:{{ $dotColor }};">
+                                        {{ $t->inisial }}
+                                    </div>
+                                    <div class="min-w-0">
+                                        <p class="text-slate-900 text-sm font-bold truncate">{{ $t->nama_lengkap }}</p>
+                                        @if($t->rekomendasi)
+                                            <p class="text-slate-400 text-xs mt-0.5 font-medium truncate">{{ $t->rekomendasi }}</p>
+                                        @else
+                                            <p class="text-slate-400 text-xs mt-0.5 font-medium">Agent Terverifikasi ✓</p>
+                                        @endif
+                                    </div>
+                                </div>
+                            </div>
+                        @endforeach
+                    @endforeach
+
+                </div>
+            </div>
+        @else
+            <div class="text-center py-12 px-5">
+                <div class="w-16 h-16 bg-brand-light rounded-full flex items-center justify-center mx-auto mb-4">
+                    <i class="ti ti-messages text-brand text-2xl"></i>
+                </div>
+                <p class="text-slate-500 text-sm font-medium">Belum ada testimonial. Jadilah yang pertama berbagi pengalaman!</p>
+                <a href="#daftar" class="inline-block mt-4 text-brand text-sm font-bold hover:underline">Tulis Testimoni &rarr;</a>
+            </div>
+        @endif
     </section>
 
 
@@ -763,8 +841,28 @@
                 <div class="absolute inset-0 bg-gradient-to-br from-slate-50/50 to-transparent pointer-events-none">
                 </div>
 
-                <form id="surveyForm" onsubmit="handleSurvey(event)" data-loading-ignore="true"
+                {{-- Flash success --}}
+                @if(session('success'))
+                    <div class="mb-6 flex items-start gap-3 bg-green-50 border border-green-200 text-green-800 rounded-2xl px-5 py-4 text-sm font-medium">
+                        <i class="ti ti-circle-check-filled text-green-500 text-xl mt-0.5 flex-shrink-0"></i>
+                        <span>{{ session('success') }}</span>
+                    </div>
+                @endif
+                {{-- Validation errors --}}
+                @if($errors->any())
+                    <div class="mb-6 flex items-start gap-3 bg-red-50 border border-red-200 text-red-800 rounded-2xl px-5 py-4 text-sm font-medium">
+                        <i class="ti ti-alert-circle-filled text-red-500 text-xl mt-0.5 flex-shrink-0"></i>
+                        <ul class="list-disc list-inside space-y-1">
+                            @foreach($errors->all() as $err)
+                                <li>{{ $err }}</li>
+                            @endforeach
+                        </ul>
+                    </div>
+                @endif
+
+                <form id="surveyForm" method="POST" action="{{ route('pesan.store') }}"
                     class="space-y-6 relative z-10">
+                    @csrf
 
                     <!-- 1. Nama Lengkap -->
                     <div>
@@ -772,7 +870,8 @@
                             <i class="ti ti-user text-brand text-base" aria-hidden="true"></i>
                             Nama Lengkap
                         </label>
-                        <input type="text" id="fullName" placeholder="Masukkan nama lengkap Anda…" required
+                        <input type="text" id="fullName" name="nama_lengkap" placeholder="Masukkan nama lengkap Anda…" required
+                            value="{{ old('nama_lengkap') }}"
                             class="w-full bg-slate-50 border border-slate-200 hover:border-slate-300 focus:border-brand text-slate-900 text-sm placeholder-slate-400 px-4 py-3.5 rounded-2xl transition-colors duration-200 outline-none focus:ring-2 focus:ring-brand/20">
                     </div>
 
@@ -782,7 +881,8 @@
                             <i class="ti ti-mail text-brand text-base" aria-hidden="true"></i>
                             Email Resmi
                         </label>
-                        <input type="email" id="emailAddr" placeholder="nama@email.com…" required spellcheck="false"
+                        <input type="email" id="emailAddr" name="email" placeholder="nama@email.com…" required spellcheck="false"
+                            value="{{ old('email') }}"
                             class="w-full bg-slate-50 border border-slate-200 hover:border-slate-300 focus:border-brand text-slate-900 text-sm placeholder-slate-400 px-4 py-3.5 rounded-2xl transition-colors duration-200 outline-none focus:ring-2 focus:ring-brand/20">
                     </div>
 
@@ -795,52 +895,47 @@
                         <div class="rating-stars flex gap-2 justify-center my-3" id="ratingStars" role="radiogroup"
                             aria-label="Rating Kepuasan">
                             <button type="button"
-                                class="star group p-1 text-slate-300 hover:scale-110 active:scale-95 transition-all focus:outline-none focus-visible:ring-2 focus-visible:ring-brand rounded-xl"
+                                class="star group p-1 hover:scale-110 active:scale-95 transition-all focus:outline-none focus-visible:ring-2 focus-visible:ring-brand rounded-xl"
                                 data-value="1" onclick="setRating(1)" role="radio" aria-checked="false"
                                 aria-label="Sangat Tidak Puas">
-                                <svg class="w-8 h-8 fill-current transition-colors text-slate-300" viewBox="0 0 24 24">
-                                    <path
-                                        d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z" />
+                                <svg class="w-8 h-8 fill-current transition-colors" style="color:#CBD5E1" viewBox="0 0 24 24">
+                                    <path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z" />
                                 </svg>
                             </button>
                             <button type="button"
-                                class="star group p-1 text-slate-300 hover:scale-110 active:scale-95 transition-all focus:outline-none focus-visible:ring-2 focus-visible:ring-brand rounded-xl"
+                                class="star group p-1 hover:scale-110 active:scale-95 transition-all focus:outline-none focus-visible:ring-2 focus-visible:ring-brand rounded-xl"
                                 data-value="2" onclick="setRating(2)" role="radio" aria-checked="false"
                                 aria-label="Tidak Puas">
-                                <svg class="w-8 h-8 fill-current transition-colors text-slate-300" viewBox="0 0 24 24">
-                                    <path
-                                        d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z" />
+                                <svg class="w-8 h-8 fill-current transition-colors" style="color:#CBD5E1" viewBox="0 0 24 24">
+                                    <path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z" />
                                 </svg>
                             </button>
                             <button type="button"
-                                class="star group p-1 text-slate-300 hover:scale-110 active:scale-95 transition-all focus:outline-none focus-visible:ring-2 focus-visible:ring-brand rounded-xl"
+                                class="star group p-1 hover:scale-110 active:scale-95 transition-all focus:outline-none focus-visible:ring-2 focus-visible:ring-brand rounded-xl"
                                 data-value="3" onclick="setRating(3)" role="radio" aria-checked="false"
                                 aria-label="Cukup Puas">
-                                <svg class="w-8 h-8 fill-current transition-colors text-slate-300" viewBox="0 0 24 24">
-                                    <path
-                                        d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z" />
+                                <svg class="w-8 h-8 fill-current transition-colors" style="color:#CBD5E1" viewBox="0 0 24 24">
+                                    <path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z" />
                                 </svg>
                             </button>
                             <button type="button"
-                                class="star group p-1 text-slate-300 hover:scale-110 active:scale-95 transition-all focus:outline-none focus-visible:ring-2 focus-visible:ring-brand rounded-xl"
+                                class="star group p-1 hover:scale-110 active:scale-95 transition-all focus:outline-none focus-visible:ring-2 focus-visible:ring-brand rounded-xl"
                                 data-value="4" onclick="setRating(4)" role="radio" aria-checked="false"
                                 aria-label="Puas">
-                                <svg class="w-8 h-8 fill-current transition-colors text-slate-300" viewBox="0 0 24 24">
-                                    <path
-                                        d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z" />
+                                <svg class="w-8 h-8 fill-current transition-colors" style="color:#CBD5E1" viewBox="0 0 24 24">
+                                    <path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z" />
                                 </svg>
                             </button>
                             <button type="button"
-                                class="star group p-1 text-slate-300 hover:scale-110 active:scale-95 transition-all focus:outline-none focus-visible:ring-2 focus-visible:ring-brand rounded-xl"
+                                class="star group p-1 hover:scale-110 active:scale-95 transition-all focus:outline-none focus-visible:ring-2 focus-visible:ring-brand rounded-xl"
                                 data-value="5" onclick="setRating(5)" role="radio" aria-checked="false"
                                 aria-label="Sangat Puas">
-                                <svg class="w-8 h-8 fill-current transition-colors text-slate-300" viewBox="0 0 24 24">
-                                    <path
-                                        d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z" />
+                                <svg class="w-8 h-8 fill-current transition-colors" style="color:#CBD5E1" viewBox="0 0 24 24">
+                                    <path d="M12 17.27L18.18 21l-1.64-7.03L22 9.24l-7.19-.61L12 2 9.19 8.63 2 9.24l5.46 4.73L5.82 21z" />
                                 </svg>
                             </button>
                         </div>
-                        <input type="hidden" id="ratingValue" value="0" required>
+                        <input type="hidden" id="ratingValue" name="rating" value="{{ old('rating', 0) }}">
                         <p class="text-center text-slate-400 text-xs mt-2" id="ratingLabel">Klik salah satu bintang di
                             atas untuk menilai</p>
                     </div>
@@ -856,42 +951,42 @@
                                 class="flex items-center gap-3 text-slate-500 text-sm cursor-pointer hover:text-slate-900 transition-colors p-3 bg-slate-50 rounded-2xl border border-slate-200/60 hover:border-slate-300">
                                 <input type="checkbox"
                                     class="feature-checkbox accent-brand w-5 h-5 rounded-lg border-slate-300 bg-white focus:ring-brand"
-                                    value="Bonus Langsung Cair">
+                                    name="fitur_favorit[]" value="Bonus Langsung Cair">
                                 <span>Bonus Langsung Cair</span>
                             </label>
                             <label
                                 class="flex items-center gap-3 text-slate-500 text-sm cursor-pointer hover:text-slate-900 transition-colors p-3 bg-slate-50 rounded-2xl border border-slate-200/60 hover:border-slate-300">
                                 <input type="checkbox"
                                     class="feature-checkbox accent-brand w-5 h-5 rounded-lg border-slate-300 bg-white focus:ring-brand"
-                                    value="Dashboard Real-time">
+                                    name="fitur_favorit[]" value="Dashboard Real-time">
                                 <span>Dashboard Real-time</span>
                             </label>
                             <label
                                 class="flex items-center gap-3 text-slate-500 text-sm cursor-pointer hover:text-slate-900 transition-colors p-3 bg-slate-50 rounded-2xl border border-slate-200/60 hover:border-slate-300">
                                 <input type="checkbox"
                                     class="feature-checkbox accent-brand w-5 h-5 rounded-lg border-slate-300 bg-white focus:ring-brand"
-                                    value="Struktur Bonus Tier">
+                                    name="fitur_favorit[]" value="Struktur Bonus Tier">
                                 <span>Struktur Bonus Tier</span>
                             </label>
                             <label
                                 class="flex items-center gap-3 text-slate-500 text-sm cursor-pointer hover:text-slate-900 transition-colors p-3 bg-slate-50 rounded-2xl border border-slate-200/60 hover:border-slate-300">
                                 <input type="checkbox"
                                     class="feature-checkbox accent-brand w-5 h-5 rounded-lg border-slate-300 bg-white focus:ring-brand"
-                                    value="Kalkulator Simulasi">
+                                    name="fitur_favorit[]" value="Kalkulator Simulasi">
                                 <span>Kalkulator Simulasi</span>
                             </label>
                             <label
                                 class="flex items-center gap-3 text-slate-500 text-sm cursor-pointer hover:text-slate-900 transition-colors p-3 bg-slate-50 rounded-2xl border border-slate-200/60 hover:border-slate-300">
                                 <input type="checkbox"
                                     class="feature-checkbox accent-brand w-5 h-5 rounded-lg border-slate-300 bg-white focus:ring-brand"
-                                    value="Testimoni Agent">
+                                    name="fitur_favorit[]" value="Testimoni Agent">
                                 <span>Testimoni Agent Lain</span>
                             </label>
                             <label
                                 class="flex items-center gap-3 text-slate-500 text-sm cursor-pointer hover:text-slate-900 transition-colors p-3 bg-slate-50 rounded-2xl border border-slate-200/60 hover:border-slate-300">
                                 <input type="checkbox"
                                     class="feature-checkbox accent-brand w-5 h-5 rounded-lg border-slate-300 bg-white focus:ring-brand"
-                                    value="Lainnya">
+                                    name="fitur_favorit[]" value="Lainnya">
                                 <span>Lainnya</span>
                             </label>
                         </div>
@@ -903,13 +998,13 @@
                             <i class="ti ti-message-circle text-brand text-base" aria-hidden="true"></i>
                             Saran &amp; Masukan
                         </label>
-                        <textarea id="suggestion" placeholder="Tuliskan masukan berharga Anda di sini…"
-                            class="w-full bg-slate-50 border border-slate-200 hover:border-slate-300 focus:border-brand text-slate-900 text-sm placeholder-slate-400 px-4 py-3.5 rounded-2xl transition-colors duration-200 outline-none focus:ring-2 focus:ring-brand/20 h-28 resize-y"></textarea>
+                        <textarea id="suggestion" name="saran" placeholder="Tuliskan masukan berharga Anda di sini…"
+                            class="w-full bg-slate-50 border border-slate-200 hover:border-slate-300 focus:border-brand text-slate-900 text-sm placeholder-slate-400 px-4 py-3.5 rounded-2xl transition-colors duration-200 outline-none focus:ring-2 focus:ring-brand/20 h-28 resize-y">{{ old('saran') }}</textarea>
                     </div>
 
                     <!-- 6. Rekomendasi -->
                     <div>
-                        <label class="text-sm text-slate-300 font-bold mb-3 flex items-center gap-2">
+                        <label class="text-sm text-slate-700 font-bold mb-3 flex items-center gap-2">
                             <i class="ti ti-share text-brand text-base" aria-hidden="true"></i>
                             Apakah Anda akan merekomendasikan program ini ke rekan Anda?
                         </label>
@@ -979,6 +1074,38 @@
 
     <!-- ===== SCRIPTS ===== -->
     <script>
+        // ===== HAMBURGER MENU =====
+        (function () {
+            const btn  = document.getElementById('ham-btn');
+            const menu = document.getElementById('mobile-menu');
+            if (!btn || !menu) return;
+
+            btn.addEventListener('click', function () {
+                const isOpen = menu.classList.toggle('open');
+                btn.classList.toggle('open', isOpen);
+                btn.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
+                btn.setAttribute('aria-label', isOpen ? 'Tutup menu' : 'Buka menu');
+            });
+
+            // Close menu when a nav link is clicked
+            menu.querySelectorAll('a').forEach(function (link) {
+                link.addEventListener('click', function () {
+                    menu.classList.remove('open');
+                    btn.classList.remove('open');
+                    btn.setAttribute('aria-expanded', 'false');
+                });
+            });
+
+            // Close on outside click
+            document.addEventListener('click', function (e) {
+                if (!btn.contains(e.target) && !menu.contains(e.target)) {
+                    menu.classList.remove('open');
+                    btn.classList.remove('open');
+                    btn.setAttribute('aria-expanded', 'false');
+                }
+            });
+        })();
+
         // Kalkulator bonus
         function calcBonus() {
             const n = parseInt(document.getElementById('mhsSlider').value);
@@ -1018,12 +1145,10 @@
                 const svg = star.querySelector('svg');
                 if (index < value) {
                     star.setAttribute('aria-checked', 'true');
-                    svg.classList.add('text-gold');
-                    svg.classList.remove('text-slate-300');
+                    svg.style.color = '#F59E0B'; // amber-400 = gold
                 } else {
                     star.setAttribute('aria-checked', 'false');
-                    svg.classList.remove('text-gold');
-                    svg.classList.add('text-slate-300');
+                    svg.style.color = '#CBD5E1'; // slate-300
                 }
             });
 
@@ -1038,26 +1163,14 @@
                 const stars = document.querySelectorAll('#ratingStars .star');
                 stars.forEach((s, index) => {
                     const svg = s.querySelector('svg');
-                    if (index < value) {
-                        svg.classList.add('text-gold');
-                        svg.classList.remove('text-slate-300');
-                    } else {
-                        svg.classList.remove('text-gold');
-                        svg.classList.add('text-slate-300');
-                    }
+                    svg.style.color = index < value ? '#F59E0B' : '#CBD5E1';
                 });
             });
             star.addEventListener('mouseleave', function () {
                 const stars = document.querySelectorAll('#ratingStars .star');
                 stars.forEach((s, index) => {
                     const svg = s.querySelector('svg');
-                    if (index < selectedRating) {
-                        svg.classList.add('text-gold');
-                        svg.classList.remove('text-slate-300');
-                    } else {
-                        svg.classList.remove('text-gold');
-                        svg.classList.add('text-slate-300');
-                    }
+                    svg.style.color = index < selectedRating ? '#F59E0B' : '#CBD5E1';
                 });
             });
         });

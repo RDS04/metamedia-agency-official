@@ -53,4 +53,9 @@ class User extends Authenticatable
             'is_active' => 'boolean',
         ];
     }
+
+    public function camabas(): \Illuminate\Database\Eloquent\Relations\HasMany
+    {
+        return $this->hasMany(Agent::class, 'agent_id');
+    }
 }
