@@ -66,48 +66,56 @@
         @endif
 
         <!-- ── Filter bar ── -->
-        <div class="bg-white rounded-xl border border-slate-100 px-5 py-4">
+        <form method="GET" action="{{ route('listAgent') }}" class="bg-white rounded-xl border border-slate-100 px-5 py-4">
             <div class="grid grid-cols-1 md:grid-cols-4 gap-3">
                 <!-- Search -->
                 <div class="relative">
                     <i class="ti ti-search text-slate-400 text-sm absolute left-2.5 top-1/2 -translate-y-1/2" aria-hidden="true"></i>
                     <input
                         type="text"
-                        placeholder="Cari agent..."
+                        name="search"
+                        value="{{ request('search') }}"
+                        placeholder="Cari nama, email, hp, referral..."
                         class="w-full text-xs pl-7 pr-3 py-2 border border-slate-200 rounded-md focus:outline-none focus:ring-1 focus:ring-brand-400 placeholder-slate-400">
                 </div>
 
                 <!-- Role -->
-                <select class="text-xs text-slate-600 border border-slate-200 rounded-md px-3 py-2 bg-white focus:outline-none focus:ring-1 focus:ring-brand-400">
+                <select name="status" class="text-xs text-slate-600 border border-slate-200 rounded-md px-3 py-2 bg-white focus:outline-none focus:ring-1 focus:ring-brand-400">
                     <option value="">Semua Role</option>
-                    <option>Mahasiswa</option>
-                    <option>Alumni</option>
-                    <option>Orang Tua</option>
-                    <option>Dosen</option>
-                    <option>Karyawan</option>
-                    <option>Mitra</option>
+                    <option value="mahasiswa" {{ request('status') == 'mahasiswa' ? 'selected' : '' }}>Mahasiswa</option>
+                    <option value="alumni" {{ request('status') == 'alumni' ? 'selected' : '' }}>Alumni</option>
+                    <option value="orang_tua" {{ request('status') == 'orang_tua' ? 'selected' : '' }}>Orang Tua</option>
+                    <option value="dosen_karyawan" {{ request('status') == 'dosen_karyawan' ? 'selected' : '' }}>Dosen / Karyawan</option>
+                    <option value="mitra" {{ request('status') == 'mitra' ? 'selected' : '' }}>Mitra / Instansi</option>
                 </select>
 
                 <!-- Status -->
-                <select class="text-xs text-slate-600 border border-slate-200 rounded-md px-3 py-2 bg-white focus:outline-none focus:ring-1 focus:ring-brand-400">
+                <select name="active" class="text-xs text-slate-600 border border-slate-200 rounded-md px-3 py-2 bg-white focus:outline-none focus:ring-1 focus:ring-brand-400">
                     <option value="">Semua Status</option>
-                    <option>Aktif</option>
-                    <option>Non Aktif</option>
+                    <option value="1" {{ request('active') === '1' ? 'selected' : '' }}>Aktif</option>
+                    <option value="0" {{ request('active') === '0' ? 'selected' : '' }}>Non Aktif</option>
                 </select>
 
-                <!-- Filter button -->
-                <button class="flex items-center justify-center gap-1.5 text-xs bg-slate-800 text-white px-3 py-2 rounded-md hover:bg-slate-700 transition-colors">
-                    <i class="ti ti-filter text-sm" aria-hidden="true"></i>
-                    Filter
-                </button>
+                <!-- Action Buttons -->
+                <div class="flex gap-2">
+                    <button type="submit" class="flex-1 flex items-center justify-center gap-1.5 text-xs bg-slate-800 text-white px-3 py-2 rounded-md hover:bg-slate-700 transition-colors">
+                        <i class="ti ti-filter text-sm" aria-hidden="true"></i>
+                        Filter
+                    </button>
+                    @if(request()->anyFilled(['search', 'status', 'active']))
+                        <a href="{{ route('listAgent') }}" class="flex items-center justify-center gap-1.5 text-xs bg-slate-100 text-slate-600 border border-slate-200 px-3 py-2.5 rounded-md hover:bg-slate-200 transition-colors">
+                            Clear
+                        </a>
+                    @endif
+                </div>
             </div>
-        </div>
+        </form>
 
         <!-- ── Table ── -->
         <div class="bg-white rounded-xl border border-slate-100 overflow-hidden">
             <div class="flex items-center justify-between px-5 py-4 border-b border-slate-100">
                 <p class="text-sm font-medium text-slate-800">List Agent</p>
-                <p class="text-xs text-slate-400">Menampilkan 5 dari 24 agent</p>
+                <p class="text-xs text-slate-400">Menampilkan {{ $agents->count() }} dari {{ $agents->total() }} agent</p>
             </div>
 
             <div class="overflow-x-auto">
@@ -164,19 +172,46 @@
             </div>
 
             <!-- Table footer / pagination -->
-            <div class="px-5 py-3 border-t border-slate-100 flex items-center justify-between">
-                <p class="text-xs text-slate-400">Menampilkan 5 dari 24 agent</p>
-                <div class="flex items-center gap-1">
-                    <button class="text-xs text-slate-500 border border-slate-200 px-2.5 py-1 rounded hover:bg-slate-50 transition-colors">
-                        <i class="ti ti-chevron-left text-sm" aria-hidden="true"></i>
-                    </button>
-                    <button class="text-xs bg-brand-600 text-white px-2.5 py-1 rounded">1</button>
-                    <button class="text-xs text-slate-500 border border-slate-200 px-2.5 py-1 rounded hover:bg-slate-50 transition-colors">2</button>
-                    <button class="text-xs text-slate-500 border border-slate-200 px-2.5 py-1 rounded hover:bg-slate-50 transition-colors">3</button>
-                    <button class="text-xs text-slate-500 border border-slate-200 px-2.5 py-1 rounded hover:bg-slate-50 transition-colors">
-                        <i class="ti ti-chevron-right text-sm" aria-hidden="true"></i>
-                    </button>
-                </div>
+            <div class="px-5 py-3 border-t border-slate-100 flex items-center justify-between flex-wrap gap-3">
+                <p class="text-xs text-slate-400">
+                    Menampilkan {{ $agents->firstItem() ?? 0 }} sampai {{ $agents->lastItem() ?? 0 }} dari {{ $agents->total() }} agent
+                </p>
+                @if($agents->hasPages())
+                    <div class="flex items-center gap-1">
+                        {{-- Previous Page Link --}}
+                        @if($agents->onFirstPage())
+                            <span class="text-xs text-slate-300 border border-slate-100 px-2.5 py-1.5 rounded cursor-not-allowed">
+                                <i class="ti ti-chevron-left text-sm" aria-hidden="true"></i>
+                            </span>
+                        @else
+                            <a href="{{ $agents->appends(request()->query())->previousPageUrl() }}" class="text-xs text-slate-500 border border-slate-200 px-2.5 py-1.5 rounded hover:bg-slate-50 transition-colors">
+                                <i class="ti ti-chevron-left text-sm" aria-hidden="true"></i>
+                            </a>
+                        @endif
+
+                        {{-- Pagination Elements --}}
+                        @foreach(range(1, $agents->lastPage()) as $i)
+                            @if($i >= $agents->currentPage() - 2 && $i <= $agents->currentPage() + 2)
+                                @if($i == $agents->currentPage())
+                                    <span class="text-xs bg-brand-600 text-white px-2.5 py-1.5 rounded font-medium">{{ $i }}</span>
+                                @else
+                                    <a href="{{ $agents->appends(request()->query())->url($i) }}" class="text-xs text-slate-500 border border-slate-200 px-2.5 py-1.5 rounded hover:bg-slate-50 transition-colors">{{ $i }}</a>
+                                @endif
+                            @endif
+                        @endforeach
+
+                        {{-- Next Page Link --}}
+                        @if($agents->hasMorePages())
+                            <a href="{{ $agents->appends(request()->query())->nextPageUrl() }}" class="text-xs text-slate-500 border border-slate-200 px-2.5 py-1.5 rounded hover:bg-slate-50 transition-colors">
+                                <i class="ti ti-chevron-right text-sm" aria-hidden="true"></i>
+                            </a>
+                        @else
+                            <span class="text-xs text-slate-300 border border-slate-100 px-2.5 py-1.5 rounded cursor-not-allowed">
+                                <i class="ti ti-chevron-right text-sm" aria-hidden="true"></i>
+                            </span>
+                        @endif
+                    </div>
+                @endif
             </div>
         </div>
 

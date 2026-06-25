@@ -22,22 +22,39 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@tabler/icons-webfont@3.19.0/dist/tabler-icons.min.css">
 
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <style>
+        [x-cloak] { display: none !important; }
+    </style>
 </head>
 
 <body class="bg-gray-100">
 
-    <div class="flex h-screen">
+    <div class="flex h-screen overflow-hidden" x-data="{ sidebarOpen: false }">
+
+        {{-- Backdrop for Mobile Sidebar --}}
+        <div 
+            x-show="sidebarOpen" 
+            @click="sidebarOpen = false" 
+            class="fixed inset-0 z-30 bg-black/50 transition-opacity md:hidden"
+            x-cloak
+            x-transition:enter="transition ease-out duration-300"
+            x-transition:enter-start="opacity-0"
+            x-transition:enter-end="opacity-100"
+            x-transition:leave="transition ease-in duration-200"
+            x-transition:leave-start="opacity-100"
+            x-transition:leave-end="opacity-0">
+        </div>
 
         {{-- Sidebar --}}
         @include('auth.layout.sidebar')
 
-        <div class="flex-1 flex flex-col">
+        <div class="flex-1 flex flex-col min-w-0 overflow-hidden">
 
             {{-- Header --}}
             @include('auth.layout.header')
 
             {{-- Content --}}
-            <main class="flex-1 overflow-y-auto p-6">
+            <main class="flex-1 overflow-y-auto p-4 md:p-6">
                 @yield('content')
             </main>
 

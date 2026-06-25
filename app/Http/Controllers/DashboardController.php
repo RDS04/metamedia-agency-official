@@ -413,9 +413,29 @@ class DashboardController extends Controller
             'jumlah_bonus_per_mahasiswa' => 0,
         ];
     }
-    public function listAgent()
+    public function listAgent(Request $request)
     {
-        $agents = User::latest()->get();
+        $query = User::query();
+
+        if ($request->filled('search')) {
+            $search = $request->input('search');
+            $query->where(function ($q) use ($search) {
+                $q->where('name', 'like', "%{$search}%")
+                  ->orWhere('email', 'like', "%{$search}%")
+                  ->orWhere('phone', 'like', "%{$search}%")
+                  ->orWhere('kode_referral', 'like', "%{$search}%");
+            });
+        }
+
+        if ($request->filled('status')) {
+            $query->where('status', $request->input('status'));
+        }
+
+        if ($request->filled('active')) {
+            $query->where('is_active', $request->input('active'));
+        }
+
+        $agents = $query->latest()->paginate(10);
 
         return view('auth.admin.dashboard.listAgent', compact('agents'));
     }

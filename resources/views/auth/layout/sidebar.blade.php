@@ -22,24 +22,35 @@
     $importOpen = $isActive('mahasiswa.*');
 @endphp
 
-<aside class="w-72 bg-gray-900 text-gray-300 min-h-screen border-r border-gray-800 overflow-y-auto">
+<aside 
+    :class="sidebarOpen ? 'translate-x-0' : '-translate-x-full'" 
+    class="fixed inset-y-0 left-0 z-40 w-72 bg-gray-900 text-gray-300 border-r border-gray-800 overflow-y-auto transition-transform duration-300 ease-in-out md:translate-x-0 md:relative md:flex md:flex-col md:h-screen">
 
     <!-- Logo -->
-    <div class="h-16 flex items-center px-6 border-b border-gray-800">
+    <div class="h-16 flex items-center justify-between px-6 border-b border-gray-800">
 
-        <div class="w-10 h-10 rounded-full bg-[#018FD7] flex items-center justify-center">
-            <span class="text-white font-bold text-lg">A</span>
+        <div class="flex items-center">
+            <div class="w-10 h-10 rounded-full bg-[#018FD7] flex items-center justify-center">
+                <span class="text-white font-bold text-lg">A</span>
+            </div>
+            @if ($isAdmin)
+                <span class="ml-3 text-xl font-bold text-white">
+                    Admin Agent PMB
+                </span>
+            @endif
+            @if (!$isAdmin)
+                <span class="ml-3 text-xl font-bold text-white">
+                    Agent PMB
+                </span>
+            @endif
         </div>
-        @if ($isAdmin)
-            <span class="ml-3 text-xl font-bold text-white">
-                Admin Agent PMB
-            </span>
-        @endif
-        @if (!$isAdmin)
-            <span class="ml-3 text-xl font-bold text-white">
-                Agent PMB
-            </span>
-        @endif
+
+        <!-- Close Button (Mobile Only) -->
+        <button @click="sidebarOpen = false" class="text-gray-400 hover:text-white focus:outline-none md:hidden">
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+            </svg>
+        </button>
 
     </div>
 
