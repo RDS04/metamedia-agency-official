@@ -309,7 +309,7 @@
                         Login
                     </a>
                     <a href="{{ route('auth.register') }}"
-                        class="hidden sm:inline-flex bg-brand hover:bg-brand-dark text- text-sm font-bold px-5 py-2.5 rounded-xl transition-all duration-200 shadow-md shadow-brand/10 hover:scale-[1.02] active:scale-[0.98]">
+                        class="hidden sm:inline-flex bg-[#018FD7] hover:bg-brand-dark text-white text-sm font-bold px-5 py-2.5 rounded-xl transition-all duration-200 shadow-md shadow-brand/10 hover:scale-[1.02] active:scale-[0.98]">
                         Daftar
                     </a>
                 @endif
@@ -760,7 +760,7 @@
                 <div class="marquee-track">
 
                     {{-- Render dua kali untuk loop seamless --}}
-                    @foreach([1,2] as $_loop)
+                    @foreach([1] as $_loop)
                         @foreach($testimoni as $index => $t)
                             @php
                                 $bgColors   = ['#EFF6FF','#F0F9FF','#F0FDF4'];
@@ -879,7 +879,7 @@
                     <div>
                         <label for="emailAddr" class="text-sm text-slate-700 font-bold mb-2 flex items-center gap-2">
                             <i class="ti ti-mail text-brand text-base" aria-hidden="true"></i>
-                            Email Resmi
+                            Email
                         </label>
                         <input type="email" id="emailAddr" name="email" placeholder="nama@email.com…" required spellcheck="false"
                             value="{{ old('email') }}"
@@ -1034,7 +1034,7 @@
 
                     <!-- Submit Button -->
                     <button type="submit" id="submitBtn"
-                        class="w-full bg-brand hover:bg-brand-dark text-white font-bold py-4 rounded-2xl transition-all duration-300 text-sm hover:scale-[1.01] active:scale-[0.99] flex items-center justify-center gap-2 shadow-lg shadow-brand/10 hover:shadow-brand/25">
+                        class="w-full bg-[#018FD7] hover:bg-brand-dark text-white font-bold py-4 rounded-2xl transition-all duration-300 text-sm hover:scale-[1.01] active:scale-[0.99] flex items-center justify-center gap-2 shadow-lg shadow-brand/10 hover:shadow-brand/25">
                         <span id="submitSpinner"
                             class="hidden animate-spin h-4 w-4 border-2 border-white border-t-transparent rounded-full"></span>
                         <i class="ti ti-send text-base" id="submitIcon" aria-hidden="true"></i>

@@ -151,6 +151,7 @@ Route::middleware('auth:admin')->prefix('agent')->group(function () {
         Route::post('/preview', 'preview')->name('exportregister.preview');
         Route::post('/confirm', 'confirm')->name('exportregister.confirm');
         Route::get('/template', 'downloadTemplate')->name('exportregister.template');
+        Route::post('/manual', 'storeManual')->name('exportregister.storeManual');
     });
 
 });

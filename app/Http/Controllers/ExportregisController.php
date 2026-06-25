@@ -177,4 +177,49 @@ class ExportregisController extends Controller
 
         return $code;
     }
+
+    /**
+     * Daftarkan agent baru secara manual.
+     */
+    public function storeManual(Request $request)
+    {
+        $validated = $request->validate([
+            'name' => 'required|string|max:255',
+            'email' => 'required|email|unique:users,email',
+            'phone' => 'required|string|unique:users,phone',
+            'status' => 'required|in:mahasiswa,alumni,orang_tua,dosen_karyawan,mitra',
+            'password' => 'required|string|min:6',
+        ], [
+            'name.required' => 'Nama harus diisi',
+            'email.required' => 'Email harus diisi',
+            'email.email' => 'Format email tidak valid',
+            'email.unique' => 'Email sudah terdaftar',
+            'phone.required' => 'Nomor WhatsApp harus diisi',
+            'phone.unique' => 'Nomor WhatsApp sudah terdaftar',
+            'status.required' => 'Status harus dipilih',
+            'password.required' => 'Password harus diisi',
+            'password.min' => 'Password minimal 6 karakter',
+        ]);
+
+        try {
+            User::create([
+                'name' => $validated['name'],
+                'email' => $validated['email'],
+                'phone' => $validated['phone'],
+                'status' => $validated['status'],
+                'password' => Hash::make($validated['password']),
+                'kode_referral' => $this->generateUniqueReferralCode(),
+                'is_active' => true,
+                'email_verified_at' => now(),
+            ]);
+
+            return redirect()
+                ->route('exportregister.index')
+                ->with('success', 'Agent baru berhasil didaftarkan secara manual.');
+        } catch (\Exception $e) {
+            return back()
+                ->withErrors(['error' => 'Gagal mendaftarkan agent secara manual: ' . $e->getMessage()])
+                ->withInput();
+        }
+    }
 }

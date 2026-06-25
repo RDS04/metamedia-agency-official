@@ -116,104 +116,202 @@
     ══════════════════════════════════════════════════════════ --}}
     @if(!isset($preview))
 
-    {{-- Panduan Kolom Excel --}}
-    <div class="bg-white rounded-2xl border border-slate-100 shadow-sm p-5">
-        <div class="flex items-center gap-2 mb-4">
-            <div class="w-8 h-8 rounded-lg bg-brand-50 flex items-center justify-center">
-                <i class="ti ti-info-circle text-brand-600 text-base"></i>
-            </div>
-            <h2 class="text-sm font-semibold text-slate-800">Format Excel yang Diperlukan</h2>
-        </div>
-        <div class="overflow-x-auto">
-            <table class="w-full text-xs">
-                <thead>
-                    <tr class="bg-brand-600 text-white">
-                        <th class="px-4 py-2.5 text-left rounded-tl-lg font-medium">Kolom</th>
-                        <th class="px-4 py-2.5 text-left font-medium">Nama Header</th>
-                        <th class="px-4 py-2.5 text-left font-medium">Contoh Nilai</th>
-                        <th class="px-4 py-2.5 text-left rounded-tr-lg font-medium">Keterangan</th>
-                    </tr>
-                </thead>
-                <tbody class="divide-y divide-slate-100">
-                    <tr class="hover:bg-slate-50 transition-colors">
-                        <td class="px-4 py-2.5 font-mono text-brand-600 font-semibold">A</td>
-                        <td class="px-4 py-2.5 font-mono text-slate-700">name</td>
-                        <td class="px-4 py-2.5 text-slate-500">Budi Santoso</td>
-                        <td class="px-4 py-2.5 text-slate-500">Nama lengkap agent <span class="text-red-500">*</span></td>
-                    </tr>
-                    <tr class="hover:bg-slate-50 transition-colors">
-                        <td class="px-4 py-2.5 font-mono text-brand-600 font-semibold">B</td>
-                        <td class="px-4 py-2.5 font-mono text-slate-700">email</td>
-                        <td class="px-4 py-2.5 text-slate-500">budi@email.com</td>
-                        <td class="px-4 py-2.5 text-slate-500">Alamat email unik <span class="text-red-500">*</span></td>
-                    </tr>
-                    <tr class="hover:bg-slate-50 transition-colors">
-                        <td class="px-4 py-2.5 font-mono text-brand-600 font-semibold">C</td>
-                        <td class="px-4 py-2.5 font-mono text-slate-700">phone</td>
-                        <td class="px-4 py-2.5 text-slate-500">081234567890</td>
-                        <td class="px-4 py-2.5 text-slate-500">Nomor WhatsApp unik <span class="text-red-500">*</span></td>
-                    </tr>
-                    <tr class="hover:bg-slate-50 transition-colors">
-                        <td class="px-4 py-2.5 font-mono text-brand-600 font-semibold">D</td>
-                        <td class="px-4 py-2.5 font-mono text-slate-700">status</td>
-                        <td class="px-4 py-2.5 text-slate-500">mahasiswa</td>
-                        <td class="px-4 py-2.5 text-slate-500">mahasiswa / alumni / orang_tua / dosen_karyawan / mitra <span class="text-red-500">*</span></td>
-                    </tr>
-                    <tr class="hover:bg-slate-50 transition-colors">
-                        <td class="px-4 py-2.5 font-mono text-brand-600 font-semibold">E</td>
-                        <td class="px-4 py-2.5 font-mono text-slate-700">password</td>
-                        <td class="px-4 py-2.5 text-slate-500">password123</td>
-                        <td class="px-4 py-2.5 text-slate-500">Password awal agent <span class="text-red-500">*</span></td>
-                    </tr>
-                </tbody>
-            </table>
-        </div>
-        <p class="mt-3 text-xs text-slate-400"><span class="text-red-500">*</span> Wajib diisi. Baris dengan data tidak valid akan dilewati.</p>
+    <!-- Tabs Navigation -->
+    <div class="flex border-b border-slate-100 mb-6">
+        <button id="tabExcelBtn" onclick="switchTab('excel')" class="px-5 py-2.5 font-semibold text-sm border-b-2 border-brand-600 text-brand-600 focus:outline-none flex items-center gap-2">
+            <i class="ti ti-file-spreadsheet text-base"></i>Import via Excel
+        </button>
+        <button id="tabManualBtn" onclick="switchTab('manual')" class="px-5 py-2.5 font-semibold text-sm border-b-2 border-transparent text-slate-500 hover:text-slate-800 focus:outline-none flex items-center gap-2">
+            <i class="ti ti-user-plus text-base"></i>Input Manual
+        </button>
     </div>
 
-    {{-- Upload Card --}}
-    <div class="bg-white rounded-2xl border border-slate-100 shadow-sm p-6">
-        <div class="flex items-center gap-2 mb-6">
-            <div class="w-8 h-8 rounded-lg bg-brand-50 flex items-center justify-center">
-                <i class="ti ti-upload text-brand-600 text-base"></i>
+    <!-- Excel Input Tab Content -->
+    <div id="excelTabContent" class="space-y-6">
+        {{-- Panduan Kolom Excel --}}
+        <div class="bg-white rounded-2xl border border-slate-100 shadow-sm p-5">
+            <div class="flex items-center gap-2 mb-4">
+                <div class="w-8 h-8 rounded-lg bg-brand-50 flex items-center justify-center">
+                    <i class="ti ti-info-circle text-brand-600 text-base"></i>
+                </div>
+                <h2 class="text-sm font-semibold text-slate-800">Format Excel yang Diperlukan</h2>
             </div>
-            <h2 class="text-sm font-semibold text-slate-800">Upload File Excel</h2>
+            <div class="overflow-x-auto">
+                <table class="w-full text-xs">
+                    <thead>
+                        <tr class="bg-brand-600 text-white">
+                            <th class="px-4 py-2.5 text-left rounded-tl-lg font-medium">Kolom</th>
+                            <th class="px-4 py-2.5 text-left font-medium">Nama Header</th>
+                            <th class="px-4 py-2.5 text-left font-medium">Contoh Nilai</th>
+                            <th class="px-4 py-2.5 text-left rounded-tr-lg font-medium">Keterangan</th>
+                        </tr>
+                    </thead>
+                    <tbody class="divide-y divide-slate-100">
+                        <tr class="hover:bg-slate-50 transition-colors">
+                            <td class="px-4 py-2.5 font-mono text-brand-600 font-semibold">A</td>
+                            <td class="px-4 py-2.5 font-mono text-slate-700">name</td>
+                            <td class="px-4 py-2.5 text-slate-500">Budi Santoso</td>
+                            <td class="px-4 py-2.5 text-slate-500">Nama lengkap agent <span class="text-red-500">*</span></td>
+                        </tr>
+                        <tr class="hover:bg-slate-50 transition-colors">
+                            <td class="px-4 py-2.5 font-mono text-brand-600 font-semibold">B</td>
+                            <td class="px-4 py-2.5 font-mono text-slate-700">email</td>
+                            <td class="px-4 py-2.5 text-slate-500">budi@email.com</td>
+                            <td class="px-4 py-2.5 text-slate-500">Alamat email unik <span class="text-red-500">*</span></td>
+                        </tr>
+                        <tr class="hover:bg-slate-50 transition-colors">
+                            <td class="px-4 py-2.5 font-mono text-brand-600 font-semibold">C</td>
+                            <td class="px-4 py-2.5 font-mono text-slate-700">phone</td>
+                            <td class="px-4 py-2.5 text-slate-500">081234567890</td>
+                            <td class="px-4 py-2.5 text-slate-500">Nomor WhatsApp unik <span class="text-red-500">*</span></td>
+                        </tr>
+                        <tr class="hover:bg-slate-50 transition-colors">
+                            <td class="px-4 py-2.5 font-mono text-brand-600 font-semibold">D</td>
+                            <td class="px-4 py-2.5 font-mono text-slate-700">status</td>
+                            <td class="px-4 py-2.5 text-slate-500">mahasiswa</td>
+                            <td class="px-4 py-2.5 text-slate-500">mahasiswa / alumni / orang_tua / dosen_karyawan / mitra <span class="text-red-500">*</span></td>
+                        </tr>
+                        <tr class="hover:bg-slate-50 transition-colors">
+                            <td class="px-4 py-2.5 font-mono text-brand-600 font-semibold">E</td>
+                            <td class="px-4 py-2.5 font-mono text-slate-700">password</td>
+                            <td class="px-4 py-2.5 text-slate-500">password123</td>
+                            <td class="px-4 py-2.5 text-slate-500">Password awal agent <span class="text-red-500">*</span></td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <p class="mt-3 text-xs text-slate-400"><span class="text-red-500">*</span> Wajib diisi. Baris dengan data tidak valid akan dilewati.</p>
         </div>
 
-        <form action="{{ route('exportregister.preview') }}" method="POST" enctype="multipart/form-data" id="uploadForm">
-            @csrf
-
-            {{-- Drop Zone --}}
-            <div id="dropzone"
-                 class="dropzone rounded-2xl p-10 flex flex-col items-center justify-center gap-3 cursor-pointer bg-slate-50 mb-5"
-                 onclick="document.getElementById('fileInput').click()">
-
-                <div class="w-16 h-16 rounded-2xl bg-brand-50 flex items-center justify-center">
-                    <i class="ti ti-file-spreadsheet text-brand-600 text-3xl"></i>
+        {{-- Upload Card --}}
+        <div class="bg-white rounded-2xl border border-slate-100 shadow-sm p-6">
+            <div class="flex items-center gap-2 mb-6">
+                <div class="w-8 h-8 rounded-lg bg-brand-50 flex items-center justify-center">
+                    <i class="ti ti-upload text-brand-600 text-base"></i>
                 </div>
-
-                <div class="text-center">
-                    <p class="text-sm font-semibold text-slate-700">Klik atau seret file ke sini</p>
-                    <p class="text-xs text-slate-400 mt-1">Format: .xlsx, .xls, .csv — Maks. 5 MB</p>
-                </div>
-
-                {{-- File name preview --}}
-                <div id="fileNameDisplay" class="hidden items-center gap-2 text-xs font-medium text-brand-600 bg-brand-50 px-3 py-1.5 rounded-lg">
-                    <i class="ti ti-file-check text-base"></i>
-                    <span id="fileNameText"></span>
-                </div>
-
-                <input type="file" id="fileInput" name="file" accept=".xlsx,.xls,.csv" class="hidden">
+                <h2 class="text-sm font-semibold text-slate-800">Upload File Excel</h2>
             </div>
 
-            {{-- Submit --}}
-            <button type="submit" id="submitBtn"
-                    class="w-full flex items-center justify-center gap-2 bg-brand-600 hover:bg-brand-700 text-white text-sm font-semibold py-3.5 rounded-xl transition-all duration-200 shadow-md hover:shadow-lg disabled:opacity-50 disabled:cursor-not-allowed"
-                    disabled>
-                <i class="ti ti-search text-base" id="btnIcon"></i>
-                <span id="btnText">Preview Data Agent</span>
-            </button>
-        </form>
+            <form action="{{ route('exportregister.preview') }}" method="POST" enctype="multipart/form-data" id="uploadForm">
+                @csrf
+
+                {{-- Drop Zone --}}
+                <div id="dropzone"
+                     class="dropzone rounded-2xl p-10 flex flex-col items-center justify-center gap-3 cursor-pointer bg-slate-50 mb-5"
+                     onclick="document.getElementById('fileInput').click()">
+
+                    <div class="w-16 h-16 rounded-2xl bg-brand-50 flex items-center justify-center">
+                        <i class="ti ti-file-spreadsheet text-brand-600 text-3xl"></i>
+                    </div>
+
+                    <div class="text-center">
+                        <p class="text-sm font-semibold text-slate-700">Klik atau seret file ke sini</p>
+                        <p class="text-xs text-slate-400 mt-1">Format: .xlsx, .xls, .csv — Maks. 5 MB</p>
+                    </div>
+
+                    {{-- File name preview --}}
+                    <div id="fileNameDisplay" class="hidden items-center gap-2 text-xs font-medium text-brand-600 bg-brand-50 px-3 py-1.5 rounded-lg">
+                        <i class="ti ti-file-check text-base"></i>
+                        <span id="fileNameText"></span>
+                    </div>
+
+                    <input type="file" id="fileInput" name="file" accept=".xlsx,.xls,.csv" class="hidden">
+                </div>
+
+                {{-- Submit --}}
+                <button type="submit" id="submitBtn"
+                        class="w-full flex items-center justify-center gap-2 bg-brand-600 hover:bg-brand-700 text-white text-sm font-semibold py-3.5 rounded-xl transition-all duration-200 shadow-md hover:shadow-lg disabled:opacity-50 disabled:cursor-not-allowed"
+                        disabled>
+                    <i class="ti ti-search text-base" id="btnIcon"></i>
+                    <span id="btnText">Preview Data Agent</span>
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Manual Input Tab Content -->
+    <div id="manualTabContent" class="hidden space-y-6">
+        <div class="bg-white rounded-2xl border border-slate-100 shadow-sm p-6">
+            <div class="flex items-center gap-2 mb-6">
+                <div class="w-8 h-8 rounded-lg bg-brand-50 flex items-center justify-center">
+                    <i class="ti ti-user-plus text-brand-600 text-base"></i>
+                </div>
+                <h2 class="text-sm font-semibold text-slate-800">Registrasi Agent Baru Secara Manual</h2>
+            </div>
+
+            <form action="{{ route('exportregister.storeManual') }}" method="POST" id="manualForm" class="space-y-5">
+                @csrf
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+                    <!-- Nama -->
+                    <div>
+                        <label class="block mb-2 text-xs font-semibold text-slate-700">
+                            Nama Lengkap
+                        </label>
+                        <input type="text" name="name" value="{{ old('name') }}" placeholder="Nama lengkap agent" required
+                            class="w-full px-4 py-2.5 border border-slate-200 rounded-xl text-sm focus:ring-4 focus:ring-brand-50 focus:border-brand-600 outline-none transition duration-150">
+                    </div>
+
+                    <!-- Email -->
+                    <div>
+                        <label class="block mb-2 text-xs font-semibold text-slate-700">
+                            Alamat Email
+                        </label>
+                        <input type="email" name="email" value="{{ old('email') }}" placeholder="agent@email.com" required
+                            class="w-full px-4 py-2.5 border border-slate-200 rounded-xl text-sm focus:ring-4 focus:ring-brand-50 focus:border-brand-600 outline-none transition duration-150">
+                    </div>
+
+                    <!-- WhatsApp -->
+                    <div>
+                        <label class="block mb-2 text-xs font-semibold text-slate-700">
+                            Nomor WhatsApp
+                        </label>
+                        <input type="text" name="phone" value="{{ old('phone') }}" placeholder="Contoh: 081234567890" required
+                            class="w-full px-4 py-2.5 border border-slate-200 rounded-xl text-sm focus:ring-4 focus:ring-brand-50 focus:border-brand-600 outline-none transition duration-150">
+                    </div>
+
+                    <!-- Status -->
+                    <div>
+                        <label class="block mb-2 text-xs font-semibold text-slate-700">
+                            Status Agent
+                        </label>
+                        <select name="status" required
+                            class="w-full px-4 py-2.5 border border-slate-200 rounded-xl text-sm focus:ring-4 focus:ring-brand-50 focus:border-brand-600 outline-none transition duration-150 bg-white">
+                            <option value="">-- Pilih Status --</option>
+                            <option value="mahasiswa" {{ old('status') == 'mahasiswa' ? 'selected' : '' }}>Mahasiswa</option>
+                            <option value="alumni" {{ old('status') == 'alumni' ? 'selected' : '' }}>Alumni</option>
+                            <option value="orang_tua" {{ old('status') == 'orang_tua' ? 'selected' : '' }}>Orang Tua</option>
+                            <option value="dosen_karyawan" {{ old('status') == 'dosen_karyawan' ? 'selected' : '' }}>Dosen / Karyawan</option>
+                            <option value="mitra" {{ old('status') == 'mitra' ? 'selected' : '' }}>Mitra</option>
+                        </select>
+                    </div>
+
+                    <!-- Password -->
+                    <div class="md:col-span-2">
+                        <label class="block mb-2 text-xs font-semibold text-slate-700">
+                            Password Awal
+                        </label>
+                        <div class="relative">
+                            <input type="password" name="password" id="manual_password" placeholder="Masukkan password" required
+                                class="w-full px-4 py-2.5 pr-12 border border-slate-200 rounded-xl text-sm focus:ring-4 focus:ring-brand-50 focus:border-brand-600 outline-none transition duration-150">
+                            <button type="button" onclick="togglePasswordVisibility('manual_password', 'eyeIconManualPassword')"
+                                class="absolute inset-y-0 right-0 flex items-center pr-4 text-slate-400 hover:text-slate-600 focus:outline-none">
+                                <svg id="eyeIconManualPassword" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+                                </svg>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <button type="submit" id="manualSubmitBtn"
+                        class="w-full flex items-center justify-center gap-2 bg-brand-600 hover:bg-brand-700 text-white text-sm font-semibold py-3.5 rounded-xl transition-all duration-200 shadow-md hover:shadow-lg">
+                    <i class="ti ti-user-plus text-base" id="manualBtnIcon"></i>
+                    <span id="manualBtnText">Daftarkan Agent Baru</span>
+                </button>
+            </form>
+        </div>
     </div>
 
     {{-- ══════════════════════════════════════════════════════════
@@ -484,6 +582,65 @@
     function confirmSubmit() {
         return confirm('Yakin ingin mendaftarkan semua agent valid?\nProses ini tidak dapat dibatalkan.');
     }
+
+    // ── Tab Switching ─────────────────────────────────────────
+    function switchTab(tab) {
+        const tabExcelBtn = document.getElementById('tabExcelBtn');
+        const tabManualBtn = document.getElementById('tabManualBtn');
+        const excelTabContent = document.getElementById('excelTabContent');
+        const manualTabContent = document.getElementById('manualTabContent');
+
+        if (!tabExcelBtn || !tabManualBtn || !excelTabContent || !manualTabContent) return;
+
+        if (tab === 'excel') {
+            tabExcelBtn.classList.remove('border-transparent', 'text-slate-500');
+            tabExcelBtn.classList.add('border-brand-600', 'text-brand-600');
+
+            tabManualBtn.classList.remove('border-brand-600', 'text-brand-600');
+            tabManualBtn.classList.add('border-transparent', 'text-slate-500');
+
+            excelTabContent.classList.remove('hidden');
+            manualTabContent.classList.add('hidden');
+        } else {
+            tabManualBtn.classList.remove('border-transparent', 'text-slate-500');
+            tabManualBtn.classList.add('border-brand-600', 'text-brand-600');
+
+            tabExcelBtn.classList.remove('border-brand-600', 'text-brand-600');
+            tabExcelBtn.classList.add('border-transparent', 'text-slate-500');
+
+            manualTabContent.classList.remove('hidden');
+            excelTabContent.classList.add('hidden');
+        }
+    }
+
+    // ── Password Visibility Toggle ────────────────────────────
+    function togglePasswordVisibility(inputId, iconId) {
+        const input = document.getElementById(inputId);
+        const icon = document.getElementById(iconId);
+        if (!input || !icon) return;
+
+        if (input.type === 'password') {
+            input.type = 'text';
+            icon.innerHTML = `
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13.875 18.825A10.05 10.05 0 0112 19c-4.478 0-8.268-2.943-9.542-7a9.97 9.97 0 011.563-3.029m5.858.908a3 3 0 114.243 4.243M9.878 9.878l4.242 4.242M9.88 9.88l-3.29-3.29m7.532 7.532l3.29 3.29M3 3l18 18" />
+            `;
+        } else {
+            input.type = 'password';
+            icon.innerHTML = `
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+            `;
+        }
+    }
+
+    // ── Manual Form Submit Loader ─────────────────────────────
+    document.getElementById('manualForm')?.addEventListener('submit', function () {
+        const manualSubmitBtn = document.getElementById('manualSubmitBtn');
+        if (!manualSubmitBtn) return;
+        manualSubmitBtn.disabled = true;
+        document.getElementById('manualBtnIcon').className = 'ti ti-loader-2 animate-spin text-base';
+        document.getElementById('manualBtnText').textContent = 'Memproses...';
+    });
 </script>
 
 @endsection

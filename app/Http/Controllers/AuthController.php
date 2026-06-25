@@ -179,10 +179,20 @@ class AuthController extends Controller
         }
 
         Mail::raw(
-            "Kode OTP registrasi Agent PMB Metamedia Anda adalah: {$otp}\n\nKode ini berlaku selama 10 menit. Abaikan email ini jika Anda tidak melakukan registrasi.",
+            "Halo,\n\n" .
+            "Terima kasih telah melakukan pendaftaran Agent PMB Metamedia.\n\n" .
+            "Kode OTP verifikasi Anda adalah:\n\n" .
+            "OTP: {$otp}\n\n" .
+            "Kode OTP ini berlaku selama 10 menit dan hanya dapat digunakan satu kali.\n\n" .
+            "Pendaftaran Agent PMB:\n" .
+            "https://musiindahlogistik.co.id/agent/\n\n" .
+            "Pendaftaran Mahasiswa Metamedia:\n" .
+            "https://spmb.metamedia.ac.id/\n\n" .
+            "Jika Anda tidak merasa melakukan pendaftaran ini, silakan abaikan email ini.\n\n" .
+            "Salam,\nTim PMB Metamedia",
             function ($message) use ($email) {
                 $message->to($email)
-                    ->subject('Kode OTP Registrasi Agent PMB Metamedia');
+                    ->subject('🔐 Kode OTP Verifikasi Agent PMB Metamedia');
             }
         );
     }
@@ -204,7 +214,7 @@ class AuthController extends Controller
             return "{$prefix} Aplikasi tidak bisa terhubung ke SMTP Gmail. Periksa internet, firewall, host, dan port SMTP.";
         }
 
-        return "{$prefix} Periksa konfigurasi SMTP email aplikasi.";
+        return "{$prefix} OTP Gagal Di Kirim Coba Lagi .";
     }
 
     /**
@@ -216,7 +226,7 @@ class AuthController extends Controller
             // Format: REF-XXXXXXXX (REF- prefix + 8 random alphanumeric)
             $code = 'REF-' . strtoupper(\Illuminate\Support\Str::random(8));
         } while (User::where('kode_referral', $code)->exists());
-        
+
         return $code;
     }
 
@@ -343,14 +353,16 @@ class AuthController extends Controller
         // 3. Agent statistics (Total, Active, Top 3 Agents)
         $totalAgent = User::count();
         $activeAgent = User::where('is_active', true)->count();
-        
+
         // Top agents by registered Camaba count
-        $topAgents = User::withCount(['camabas' => function ($q) {
-            $q->where('status', 'Registrasi Ulang');
-        }])
-        ->orderByDesc('camabas_count')
-        ->take(3)
-        ->get();
+        $topAgents = User::withCount([
+            'camabas' => function ($q) {
+                $q->where('status', 'Registrasi Ulang');
+            }
+        ])
+            ->orderByDesc('camabas_count')
+            ->take(3)
+            ->get();
 
         // 4. Latest Camabas with their agents
         $camabaTerbaru = Agent::with('agent')->latest()->take(5)->get();
@@ -359,14 +371,14 @@ class AuthController extends Controller
         $chartStart = now()->startOfMonth()->subMonths(5);
         $camabaPerBulan = Agent::where('created_at', '>=', $chartStart)
             ->get()
-            ->groupBy(fn ($camaba) => $camaba->created_at->format('Y-m'));
+            ->groupBy(fn($camaba) => $camaba->created_at->format('Y-m'));
 
         $chartLabels = [];
         $chartData = [];
 
         for ($i = 0; $i < 6; $i++) {
             $month = $chartStart->copy()->addMonths($i);
-            $chartLabels[] = match((int) $month->format('n')) {
+            $chartLabels[] = match ((int) $month->format('n')) {
                 1 => 'Jan', 2 => 'Feb', 3 => 'Mar', 4 => 'Apr', 5 => 'Mei', 6 => 'Jun',
                 7 => 'Jul', 8 => 'Agu', 9 => 'Sep', 10 => 'Okt', 11 => 'Nov', 12 => 'Des',
             } . ' ' . $month->format('Y');
