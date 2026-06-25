@@ -8,6 +8,7 @@ use App\Http\Controllers\KomisiController;
 use App\Http\Controllers\PesanController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\FormController;
+use App\Http\Controllers\ExportregisController;
 
 // Public Routes
 Route::controller(DashboardController::class)->prefix('agent')->group(function () {
@@ -136,6 +137,14 @@ Route::middleware('auth:admin')->prefix('agent')->group(function () {
         Route::get('/{pesan}', 'show')->name('pesan.show')->whereNumber('pesan');
         Route::patch('/{pesan}/toggle', 'toggleTampil')->name('pesan.toggle')->whereNumber('pesan');
         Route::delete('/{pesan}', 'destroy')->name('pesan.destroy')->whereNumber('pesan');
+    });
+
+    // Export Register Agent (Import via Excel)
+    Route::controller(ExportregisController::class)->prefix('admin/export-register')->group(function () {
+        Route::get('/', 'index')->name('exportregister.index');
+        Route::post('/preview', 'preview')->name('exportregister.preview');
+        Route::post('/confirm', 'confirm')->name('exportregister.confirm');
+        Route::get('/template', 'downloadTemplate')->name('exportregister.template');
     });
 
 });

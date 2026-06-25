@@ -16,7 +16,7 @@
     $groupButtonClass = fn($active = false) => 'w-full flex items-center justify-between px-4 py-3 rounded-lg transition ' .
         ($active ? 'bg-gray-800 text-white font-medium' : 'text-gray-300 hover:bg-gray-800 hover:text-white');
 
-    $masterOpen = $isActive('listAgent', 'priode');
+    $masterOpen = $isActive('listAgent', 'priode', 'exportregister.*');
     $agentOpen = $isActive('agen.*');
     $komisiOpen = $isActive('komisi.*');
     $importOpen = $isActive('mahasiswa.*');
@@ -126,6 +126,10 @@
                     </a>
                     <a href="{{ route('priode') }}" class="{{ $childLinkClass($isActive('priode')) }}">
                         Priode PMB
+                    </a>
+                    <a href="{{ route('exportregister.index') }}" class="{{ $childLinkClass($isActive('exportregister.*')) }} flex items-center gap-2">
+                        <i class="ti ti-file-import text-sm"></i>
+                        Registrasi via Excel
                     </a>
 
 
