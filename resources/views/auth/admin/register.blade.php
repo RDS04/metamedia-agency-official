@@ -128,7 +128,7 @@
                             Sudah memiliki akun?
                         </span>
 
-                        <a href="{{ route('login.admin') }}" class="text-[#018FD7] font-semibold hover:underline">
+                        <a href="{{ route('auth.login') }}" class="text-[#018FD7] font-semibold hover:underline">
 
                             Login Sekarang
 

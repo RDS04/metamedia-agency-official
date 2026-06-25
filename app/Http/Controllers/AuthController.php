@@ -244,6 +244,16 @@ class AuthController extends Controller
         // Support remember me
         $remember = $request->has('remember');
 
+        // Coba login sebagai Admin terlebih dahulu
+        if (Auth::guard('admin')->attempt($credentials, $remember)) {
+            $request->session()->regenerate();
+
+            return redirect()
+                ->intended(route('dashboard.admin'))
+                ->with('success', 'Selamat datang kembali, Admin!');
+        }
+
+        // Coba login sebagai User biasa
         if (Auth::attempt($credentials, $remember)) {
             $request->session()->regenerate();
 
@@ -257,15 +267,11 @@ class AuthController extends Controller
             ->with('error', 'Email atau Password salah');
     }
 
-    public function loginAdmin(Request $request)
-    {
-        return view('auth.admin.login');
-    }
-
     public function registerAdmin(Request $request)
     {
         return view('auth.admin.register');
     }
+
     public function adminregisterStore(Request $request)
     {
         $validated = $request->validate([
@@ -289,34 +295,8 @@ class AuthController extends Controller
         ]);
 
         return redirect()
-            ->route('login.admin')
+            ->route('auth.login')
             ->with('success', 'Registrasi berhasil, silakan login.');
-    }
-    public function adminlogin(Request $request)
-    {
-        $validated = $request->validate([
-            'email' => 'required|email',
-            'password' => 'required',
-        ], [
-            'email.required' => 'Email harus diisi',
-            'email.email' => 'Format email tidak valid',
-            'password.required' => 'Password harus diisi',
-        ]);
-
-        $remember = $request->has('remember');
-
-        if (Auth::guard('admin')->attempt($validated, $remember)) {
-
-            $request->session()->regenerate();
-
-            return redirect()
-                ->intended(route('dashboard.admin'))
-                ->with('success', 'Selamat datang, admin!');
-        }
-
-        return back()
-            ->withInput()
-            ->with('error', 'Email atau Password salah');
     }
 
     public function adminDashboard()
@@ -414,7 +394,7 @@ class AuthController extends Controller
         $request->session()->invalidate();
         $request->session()->regenerateToken();
 
-        return redirect()->route('login.admin');
+        return redirect()->route('auth.login');
     }
 
 
@@ -425,5 +405,188 @@ class AuthController extends Controller
         $request->session()->invalidate();
         $request->session()->regenerateToken();
         return redirect()->route('auth.login');
+    }
+
+    public function forgotPassword()
+    {
+        return view('auth.forgot-password');
+    }
+
+    public function sendResetOtp(Request $request)
+    {
+        $validated = $request->validate([
+            'email' => 'required|email',
+        ], [
+            'email.required' => 'Email harus diisi',
+            'email.email' => 'Format email tidak valid',
+        ]);
+
+        $isAdmin = Admin::where('email', $validated['email'])->exists();
+        $isUser = User::where('email', $validated['email'])->exists();
+
+        if (!$isAdmin && !$isUser) {
+            return back()->with('error', 'Email tidak terdaftar.')->withInput();
+        }
+
+        $otp = (string) random_int(100000, 999999);
+
+        $request->session()->put('pending_password_reset', [
+            'email' => $validated['email'],
+            'role' => $isAdmin ? 'admin' : 'user',
+            'otp_hash' => Hash::make($otp),
+            'expires_at' => now()->addMinutes(10)->toDateTimeString(),
+            'attempts' => 0,
+        ]);
+
+        try {
+            $this->sendPasswordResetOtp($validated['email'], $otp);
+        } catch (\Throwable $e) {
+            Log::error('Gagal mengirim OTP reset password.', [
+                'email' => $validated['email'],
+                'message' => $e->getMessage(),
+            ]);
+
+            $request->session()->forget('pending_password_reset');
+
+            return back()->with('error', $this->mailFailureMessage($e));
+        }
+
+        return back()->with('success', 'Kode OTP reset password telah dikirim ke email Anda. Silakan verifikasi untuk melanjutkan.');
+    }
+
+    private function sendPasswordResetOtp(string $email, string $otp): void
+    {
+        $password = (string) config('mail.mailers.smtp.password');
+
+        if (config('mail.default') === 'smtp' && ($password === '' || $password === 'isi_app_password_gmail' || $password === 'app_password_gmail')) {
+            throw new \RuntimeException('MAIL_PASSWORD belum diisi dengan Google App Password.');
+        }
+
+        Mail::raw(
+            "Kode OTP Reset Password Anda adalah: {$otp}\n\nKode ini berlaku selama 10 menit. Abaikan email ini jika Anda tidak meminta reset password.",
+            function ($message) use ($email) {
+                $message->to($email)
+                    ->subject('Kode OTP Reset Password');
+            }
+        );
+    }
+
+    public function verifyResetOtp(Request $request)
+    {
+        $validated = $request->validate([
+            'otp' => 'required|digits:6',
+        ], [
+            'otp.required' => 'Kode OTP harus diisi',
+            'otp.digits' => 'Kode OTP harus 6 digit',
+        ]);
+
+        $pending = $request->session()->get('pending_password_reset');
+
+        if (!$pending) {
+            return redirect()
+                ->route('password.request')
+                ->with('error', 'Sesi reset password tidak ditemukan. Silakan masukkan email kembali.');
+        }
+
+        if (now()->greaterThan($pending['expires_at'])) {
+            return redirect()
+                ->route('password.request')
+                ->with('error', 'Kode OTP sudah kedaluwarsa. Silakan masukkan email kembali.');
+        }
+
+        if (($pending['attempts'] ?? 0) >= 5) {
+            $request->session()->forget('pending_password_reset');
+
+            return redirect()
+                ->route('password.request')
+                ->with('error', 'Terlalu banyak percobaan OTP. Silakan mulai kembali.');
+        }
+
+        if (!Hash::check($validated['otp'], $pending['otp_hash'])) {
+            $pending['attempts'] = ($pending['attempts'] ?? 0) + 1;
+            $request->session()->put('pending_password_reset', $pending);
+
+            return back()->with('error', 'Kode OTP tidak sesuai.');
+        }
+
+        $request->session()->put('password_reset_otp_verified', true);
+
+        return back()->with('success', 'Kode OTP berhasil diverifikasi. Silakan masukkan password baru Anda.');
+    }
+
+    public function resendResetOtp(Request $request)
+    {
+        $pending = $request->session()->get('pending_password_reset');
+
+        if (!$pending) {
+            return redirect()
+                ->route('password.request')
+                ->with('error', 'Sesi reset password tidak ditemukan.');
+        }
+
+        $otp = (string) random_int(100000, 999999);
+        $pending['otp_hash'] = Hash::make($otp);
+        $pending['expires_at'] = now()->addMinutes(10)->toDateTimeString();
+        $pending['attempts'] = 0;
+
+        try {
+            $this->sendPasswordResetOtp($pending['email'], $otp);
+        } catch (\Throwable $e) {
+            Log::error('Gagal mengirim ulang OTP reset password.', [
+                'email' => $pending['email'],
+                'message' => $e->getMessage(),
+            ]);
+
+            return back()->with('error', $this->mailFailureMessage($e, true));
+        }
+
+        $request->session()->put('pending_password_reset', $pending);
+
+        return back()->with('success', 'Kode OTP baru sudah dikirim ke email Anda.');
+    }
+
+    public function cancelReset(Request $request)
+    {
+        $request->session()->forget(['pending_password_reset', 'password_reset_otp_verified']);
+        return redirect()->route('password.request');
+    }
+
+    public function resetPassword(Request $request)
+    {
+        $validated = $request->validate([
+            'password' => 'required|string|min:6|confirmed',
+        ], [
+            'password.required' => 'Password baru harus diisi',
+            'password.min' => 'Password minimal 6 karakter',
+            'password.confirmed' => 'Konfirmasi password tidak sesuai',
+        ]);
+
+        if (!$request->session()->get('password_reset_otp_verified')) {
+            return redirect()
+                ->route('password.request')
+                ->with('error', 'Akses tidak sah.');
+        }
+
+        $pending = $request->session()->get('pending_password_reset');
+
+        if (!$pending) {
+            return redirect()
+                ->route('password.request')
+                ->with('error', 'Sesi reset password tidak ditemukan.');
+        }
+
+        $hashedPassword = Hash::make($validated['password']);
+
+        if ($pending['role'] === 'admin') {
+            Admin::where('email', $pending['email'])->update(['password' => $hashedPassword]);
+        } else {
+            User::where('email', $pending['email'])->update(['password' => $hashedPassword]);
+        }
+
+        $request->session()->forget(['pending_password_reset', 'password_reset_otp_verified']);
+
+        return redirect()
+            ->route('auth.login')
+            ->with('success', 'Password berhasil diubah. Silakan login menggunakan password baru.');
     }
 }

@@ -309,7 +309,7 @@
                         Login
                     </a>
                     <a href="{{ route('auth.register') }}"
-                        class="hidden sm:inline-flex bg-brand hover:bg-brand-dark text-white text-sm font-bold px-5 py-2.5 rounded-xl transition-all duration-200 shadow-md shadow-brand/10 hover:scale-[1.02] active:scale-[0.98]">
+                        class="hidden sm:inline-flex bg-brand hover:bg-brand-dark text- text-sm font-bold px-5 py-2.5 rounded-xl transition-all duration-200 shadow-md shadow-brand/10 hover:scale-[1.02] active:scale-[0.98]">
                         Daftar
                     </a>
                 @endif

@@ -27,10 +27,16 @@ Route::controller(AuthController::class)->prefix('agent')->middleware('guest')->
     Route::post('/register/verify-otp', 'verifyRegistrationOtp')->name('register.verify-otp');
     Route::post('/register/resend-otp', 'resendRegistrationOtp')->name('register.resend-otp');
     Route::post('/register/change-data', 'changeRegistrationData')->name('register.change-data');
-    Route::get('/loginAdmin', 'loginAdmin')->name('login.admin');
     Route::get('/registerAdmin', 'registerAdmin')->name('register.admin');
-    Route::post('/loginAdmin', 'adminlogin')->name('login.admin.process');
     Route::post('/registerAdmin', 'adminregisterStore')->name('adminregisterStore');
+
+    // Forgot Password Routes
+    Route::get('/forgot-password', 'forgotPassword')->name('password.request');
+    Route::post('/forgot-password', 'sendResetOtp')->name('password.email');
+    Route::post('/forgot-password/verify', 'verifyResetOtp')->name('password.verify-otp');
+    Route::post('/forgot-password/resend', 'resendResetOtp')->name('password.resend-otp');
+    Route::post('/forgot-password/cancel', 'cancelReset')->name('password.cancel');
+    Route::post('/forgot-password/reset', 'resetPassword')->name('password.update');
 
 });
 
