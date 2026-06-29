@@ -73,6 +73,58 @@ class DashboardController extends Controller
 
         $statusOptions = self::CAMABA_STATUSES;
 
+        // Status monitoring breakdown
+        $statusMonitor = [
+            [
+                'label' => 'Prospek',
+                'count' => (clone $camabaQuery)->where('status', 'Prospek')->count(),
+                'bg'    => 'bg-amber-50',
+                'text'  => 'text-amber-700',
+                'bar'   => 'bg-amber-400',
+                'icon'  => 'ti-user-search',
+            ],
+            [
+                'label' => 'Dihubungi',
+                'count' => (clone $camabaQuery)->where('status', 'Dihubungi')->count(),
+                'bg'    => 'bg-cyan-50',
+                'text'  => 'text-cyan-700',
+                'bar'   => 'bg-cyan-400',
+                'icon'  => 'ti-phone-call',
+            ],
+            [
+                'label' => 'Sudah Daftar',
+                'count' => $sudahDaftar,
+                'bg'    => 'bg-blue-50',
+                'text'  => 'text-blue-700',
+                'bar'   => 'bg-blue-500',
+                'icon'  => 'ti-clipboard-check',
+            ],
+            [
+                'label' => 'Registrasi',
+                'count' => (clone $camabaQuery)->where('status', 'Registrasi')->count(),
+                'bg'    => 'bg-violet-50',
+                'text'  => 'text-violet-700',
+                'bar'   => 'bg-violet-500',
+                'icon'  => 'ti-school',
+            ],
+            [
+                'label' => 'Registrasi Ulang',
+                'count' => $registrasiUlang,
+                'bg'    => 'bg-emerald-50',
+                'text'  => 'text-emerald-700',
+                'bar'   => 'bg-emerald-500',
+                'icon'  => 'ti-circle-check',
+            ],
+            [
+                'label' => 'Batal',
+                'count' => (clone $camabaQuery)->where('status', 'Batal')->count(),
+                'bg'    => 'bg-red-50',
+                'text'  => 'text-red-600',
+                'bar'   => 'bg-red-400',
+                'icon'  => 'ti-user-x',
+            ],
+        ];
+
         return view('auth.agent.dashboard', compact(
             'agent',
             'totalCamaba',
@@ -84,7 +136,8 @@ class DashboardController extends Controller
             'camabaTerbaru',
             'chartLabels',
             'chartData',
-            'statusOptions'
+            'statusOptions',
+            'statusMonitor'
         ));
     }
 
