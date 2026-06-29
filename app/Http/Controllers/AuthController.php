@@ -11,6 +11,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Log;
+use Str;
 use Throwable;
 
 class AuthController extends Controller
@@ -224,7 +225,7 @@ class AuthController extends Controller
     {
         do {
             // Format: REF-XXXXXXXX (REF- prefix + 8 random alphanumeric)
-            $code = 'REF-' . strtoupper(\Illuminate\Support\Str::random(8));
+            $code = 'REF-' . strtoupper(Str::random(8));
         } while (User::where('kode_referral', $code)->exists());
 
         return $code;
@@ -308,7 +309,6 @@ class AuthController extends Controller
             ->route('auth.login')
             ->with('success', 'Registrasi berhasil, silakan login.');
     }
-
     public function adminDashboard()
     {
         // 1. Metric Cards: Total Camaba counts across all prodis
@@ -350,11 +350,9 @@ class AuthController extends Controller
             $totalBonusBerjalan += (int) ($bonusSummary['total_bonus'] ?? 0);
         }
 
-        // 3. Agent statistics (Total, Active, Top 3 Agents)
         $totalAgent = User::count();
         $activeAgent = User::where('is_active', true)->count();
 
-        // Top agents by registered Camaba count
         $topAgents = User::withCount([
             'camabas' => function ($q) {
                 $q->where('status', 'Registrasi Ulang');
@@ -364,10 +362,8 @@ class AuthController extends Controller
             ->take(3)
             ->get();
 
-        // 4. Latest Camabas with their agents
         $camabaTerbaru = Agent::with('agent')->latest()->take(5)->get();
 
-        // 5. Chart data for the last 6 months
         $chartStart = now()->startOfMonth()->subMonths(5);
         $camabaPerBulan = Agent::where('created_at', '>=', $chartStart)
             ->get()
@@ -408,8 +404,6 @@ class AuthController extends Controller
 
         return redirect()->route('auth.login');
     }
-
-
 
     public function logout(Request $request)
     {
@@ -452,7 +446,7 @@ class AuthController extends Controller
 
         try {
             $this->sendPasswordResetOtp($validated['email'], $otp);
-        } catch (\Throwable $e) {
+        } catch (Throwable $e) {
             Log::error('Gagal mengirim OTP reset password.', [
                 'email' => $validated['email'],
                 'message' => $e->getMessage(),
@@ -465,7 +459,6 @@ class AuthController extends Controller
 
         return back()->with('success', 'Kode OTP reset password telah dikirim ke email Anda. Silakan verifikasi untuk melanjutkan.');
     }
-
     private function sendPasswordResetOtp(string $email, string $otp): void
     {
         $password = (string) config('mail.mailers.smtp.password');
@@ -525,7 +518,6 @@ class AuthController extends Controller
 
         return back()->with('success', 'Kode OTP berhasil diverifikasi. Silakan masukkan password baru Anda.');
     }
-
     public function resendResetOtp(Request $request)
     {
         $pending = $request->session()->get('pending_password_reset');
@@ -543,7 +535,7 @@ class AuthController extends Controller
 
         try {
             $this->sendPasswordResetOtp($pending['email'], $otp);
-        } catch (\Throwable $e) {
+        } catch (Throwable $e) {
             Log::error('Gagal mengirim ulang OTP reset password.', [
                 'email' => $pending['email'],
                 'message' => $e->getMessage(),

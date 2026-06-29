@@ -28,9 +28,9 @@ class ExportregisController extends Controller
         $request->validate([
             'file' => 'required|mimes:xlsx,xls,csv|max:5120',
         ], [
-            'file.required'  => 'File Excel harus diupload.',
-            'file.mimes'     => 'Format file harus .xlsx, .xls, atau .csv.',
-            'file.max'       => 'Ukuran file maksimal 5 MB.',
+            'file.required' => 'File Excel harus diupload.',
+            'file.mimes' => 'Format file harus .xlsx, .xls, atau .csv.',
+            'file.max' => 'Ukuran file maksimal 5 MB.',
         ]);
 
         try {
@@ -65,7 +65,8 @@ class ExportregisController extends Controller
             $preview = array_map(function ($row) use ($validStatuses) {
                 $errors = [];
 
-                if (empty($row['name'])) $errors[] = 'Nama wajib diisi';
+                if (empty($row['name']))
+                    $errors[] = 'Nama wajib diisi';
                 if (empty($row['email'])) {
                     $errors[] = 'Email wajib diisi';
                 } elseif (!filter_var($row['email'], FILTER_VALIDATE_EMAIL)) {
@@ -83,10 +84,11 @@ class ExportregisController extends Controller
                 } elseif (!in_array(strtolower(trim($row['status'])), $validStatuses)) {
                     $errors[] = 'Status tidak valid (gunakan: mahasiswa/alumni/orang_tua/dosen_karyawan/mitra)';
                 }
-                if (empty($row['password'])) $errors[] = 'Password wajib diisi';
+                if (empty($row['password']))
+                    $errors[] = 'Password wajib diisi';
 
-                $row['_errors']  = $errors;
-                $row['_valid']   = empty($errors);
+                $row['_errors'] = $errors;
+                $row['_valid'] = empty($errors);
                 return $row;
             }, $preview);
 
@@ -95,8 +97,8 @@ class ExportregisController extends Controller
 
             return view('auth.admin.dashboard.exportRegister', [
                 'preview' => $preview,
-                'totalRows'   => count($preview),
-                'validRows'   => count(array_filter($preview, fn($r) => $r['_valid'])),
+                'totalRows' => count($preview),
+                'validRows' => count(array_filter($preview, fn($r) => $r['_valid'])),
                 'invalidRows' => count(array_filter($preview, fn($r) => !$r['_valid'])),
             ]);
         } catch (\Exception $e) {
@@ -106,9 +108,6 @@ class ExportregisController extends Controller
         }
     }
 
-    /**
-     * Konfirmasi & simpan data valid ke tabel users.
-     */
     public function confirm(Request $request)
     {
         $data = session('export_register_data');
@@ -119,7 +118,7 @@ class ExportregisController extends Controller
         }
 
         $berhasil = 0;
-        $gagal    = 0;
+        $gagal = 0;
 
         foreach ($data as $row) {
             if (!$row['_valid']) {
@@ -129,13 +128,13 @@ class ExportregisController extends Controller
 
             try {
                 User::create([
-                    'name'             => $row['name'],
-                    'email'            => $row['email'],
-                    'phone'            => $row['phone'],
-                    'status'           => strtolower(trim($row['status'])),
-                    'password'         => Hash::make($row['password']),
-                    'kode_referral'    => $this->generateUniqueReferralCode(),
-                    'is_active'        => true,
+                    'name' => $row['name'],
+                    'email' => $row['email'],
+                    'phone' => $row['phone'],
+                    'status' => strtolower(trim($row['status'])),
+                    'password' => Hash::make($row['password']),
+                    'kode_referral' => $this->generateUniqueReferralCode(),
+                    'is_active' => true,
                     'email_verified_at' => now(),
                 ]);
                 $berhasil++;

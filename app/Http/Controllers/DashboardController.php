@@ -471,7 +471,6 @@ class DashboardController extends Controller
             ->with('success', 'Agent berhasil ditambahkan');
     }
 
-    // Tampilkan data agent
     public function agenShow()
     {
         $agents = Agent::where('agent_id', Auth::id())
@@ -489,7 +488,6 @@ class DashboardController extends Controller
         return view("auth.agent.addAgent.detailAgent", compact('agent', 'statusOptions'));
     }
 
-    // Tampilkan form edit agent
     public function agenEdit($id)
     {
         $agent = Agent::where('agent_id', Auth::id())->findOrFail($id);
@@ -507,7 +505,6 @@ class DashboardController extends Controller
         return view("auth.agent.addAgent.editAgent", compact('agent', 'periodes'));
     }
 
-    // Update agent
     public function agenUpdate(Request $request, $id)
     {
         $agent = Agent::where('agent_id', Auth::id())->find($id);
@@ -558,7 +555,6 @@ class DashboardController extends Controller
             ->with('success', 'Agent berhasil diperbarui');
     }
 
-    // Hapus agent
     public function agenDestroy($id)
     {
         $agent = Agent::where('agent_id', Auth::id())->find($id);
@@ -578,8 +574,7 @@ class DashboardController extends Controller
         return redirect()->route('agen.Show')
             ->with('success', 'Agent berhasil dihapus');
     }
-
-    // Toggle Agent Status
+    
     public function toggleAgent($id)
     {
         $agent = User::find($id);
