@@ -166,8 +166,8 @@ Route::middleware('auth:admin')->prefix('agent')->group(function () {
 
 // Guest routes (Agent Umum belum login)
 Route::controller(AgentLuarAuthController::class)
-    ->prefix('meta-agent')
-    ->middleware('guest:meta-agent')
+    ->prefix('agent-umum')
+    ->middleware('guest:agent_luar')
     ->group(function () {
         Route::get('/register', 'register')->name('agent-luar.register');
         Route::post('/register', 'registerStore')->name('agent-luar.register.store');

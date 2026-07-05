@@ -56,53 +56,6 @@
         </a>
     </div>
 
-    @if($targetBonusUkt)
-    <div class="rounded-2xl border border-slate-200 bg-white p-6 shadow-sm">
-        <div class="flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
-            <div>
-                <p class="text-sm font-semibold text-slate-800">
-                    {{ $isMitra ? 'Progress Bonus Mitra' : 'Progress Potongan UKT' }}
-                </p>
-                <p class="mt-1 text-sm text-slate-500">
-                    @if($isMitra)
-                    Anda memiliki {{ $targetProgressCount }} dari target {{ $targetBonusUkt }} mahasiswa registrasi ulang.
-                    @else
-                    Anda sudah mendaftarkan {{ $targetProgressCount }} dari target {{ $targetBonusUkt }} calon mahasiswa.
-                    @endif
-                </p>
-            </div>
-
-            <div class="flex flex-col gap-3 sm:flex-row sm:items-center">
-                <div class="min-w-48">
-                    <div class="h-2 overflow-hidden rounded-full bg-slate-100">
-                        <div class="h-full rounded-full bg-[#018FD7]"
-                            style="width: {{ min(100, round(($targetProgressCount / max(1, $targetBonusUkt)) * 100)) }}%">
-                        </div>
-                    </div>
-                </div>
-
-                @if($potonganUktTercapai)
-                <span class="inline-flex items-center justify-center rounded-lg bg-emerald-50 px-4 py-2 text-sm font-semibold text-emerald-700">
-                    @if($isMitra)
-                    Bonus Rp {{ number_format($komisiAktif->bonus_pertama, 0, ',', '.') }} tercapai
-                    @else
-                    Potongan UKT {{ $komisiAktif->potongan_ukt_persen }}% aktif
-                    @endif
-                </span>
-                @elseif($akanTercapaiSetelahSimpan)
-                <span class="inline-flex items-center justify-center rounded-lg bg-blue-50 px-4 py-2 text-sm font-semibold text-blue-700">
-                    Simpan 1 camaba lagi untuk aktif
-                </span>
-                @else
-                <span class="inline-flex items-center justify-center rounded-lg bg-amber-50 px-4 py-2 text-sm font-semibold text-amber-700">
-                    Kurang {{ $sisaTargetUkt }} {{ $isMitra ? 'registrasi ulang' : 'camaba' }} lagi
-                </span>
-                @endif
-            </div>
-        </div>
-    </div>
-    @endif
-
     <div class="overflow-hidden rounded-[28px] border border-slate-200 bg-white shadow-[0_25px_80px_-30px_rgba(1,143,215,0.45)]">
         <div class="border-b border-slate-100 bg-gradient-to-r from-[#018FD7] to-[#0177BB] px-6 py-5 lg:px-8">
             <div class="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
