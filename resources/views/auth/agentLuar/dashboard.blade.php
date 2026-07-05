@@ -15,25 +15,7 @@
                 · Rekruter: <span class="text-white font-semibold">{{ $agentLuar->agentInternal->name ?? 'N/A' }}</span>
             </p>
         </div>
-        <div class="text-right">
-            <p class="text-blue-200 text-xs mb-1">Kode Referral Anda</p>
-            <div class="flex items-center gap-2">
-                <span id="kodeReferral" class="text-white font-mono font-bold text-lg tracking-widest">
-                    {{ $agentLuar->kode_referral ?? 'Belum ada' }}
-                </span>
-                <button onclick="copyKode()" title="Salin kode"
-                    class="text-blue-200 hover:text-white transition-colors">
-                    <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
-                            d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"/>
-                    </svg>
-                </button>
-            </div>
-            <p id="copyMsg" class="text-xs text-emerald-300 mt-0.5 hidden">✓ Tersalin!</p>
-            <p class="text-blue-200 text-xs mt-2">
-                Kode Referral Agen Internal: <span class="text-white font-semibold">{{ optional($agentLuar->agentInternal)->kode_referral ?? 'Belum ada' }}</span>
-            </p>
-        </div>
+     
     </div>
 
     {{-- Alert messages --}}

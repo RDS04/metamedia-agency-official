@@ -8,6 +8,17 @@
             ? Auth::guard('agent_luar')->user()->name
             : (Auth::user()->name ?? 'Agent'));
 
+    $initials = '';
+    $nameParts = preg_split('/\s+/', trim($userName));
+    if (count($nameParts) > 0) {
+        $initials = strtoupper(substr($nameParts[0], 0, 1));
+        if (count($nameParts) > 1) {
+            $initials .= strtoupper(substr($nameParts[1], 0, 1));
+        } elseif (strlen($nameParts[0]) > 1) {
+            $initials .= strtoupper(substr($nameParts[0], 1, 1));
+        }
+    }
+
     $isActive = fn(...$routes) => request()->routeIs($routes);
 
     $linkClass = fn($active = false) => 'flex items-center px-4 py-3 rounded-lg transition ' .
@@ -33,9 +44,7 @@
     <div class="h-16 flex items-center justify-between px-6 border-b border-gray-800">
 
         <div class="flex items-center">
-            <div class="w-10 h-10 rounded-full bg-[#018FD7] flex items-center justify-center">
-                <span class="text-white font-bold text-lg">A</span>
-            </div>
+            <img src="{{ asset('storage/logo.png') }}" alt="Logo" class="w-10 h-10 rounded-full object-cover">
             @if ($isAdmin)
                 <span class="ml-3 text-xl font-bold text-white">
                     Admin Agent PMB
@@ -66,7 +75,9 @@
 
         <div class="flex items-center">
 
-            <img src="https://i.pravatar.cc/50" class="w-12 h-12 rounded-full">
+            <div class="flex h-12 w-12 items-center justify-center rounded-full bg-[#018FD7] text-sm font-semibold text-white">
+                {{ $initials ?: 'A' }}
+            </div>
 
             <div class="ml-3">
 

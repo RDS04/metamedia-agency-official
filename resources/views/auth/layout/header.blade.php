@@ -17,18 +17,20 @@
 
         <div class="flex items-center gap-3">
 
-            <img
-                src="https://i.pravatar.cc/40"
-                class="w-10 h-10 rounded-full">
-
             <div>
 
                 <div class="font-semibold">
-                    {{ Auth::guard('admin')->user()->name ?? Auth::user()->name ?? 'Admin' }}
+                    {{ Auth::guard('admin')->user()->name ?? Auth::guard('agent_luar')->user()->name ?? Auth::user()->name ?? 'Admin' }}
                 </div>
 
                 <div class="text-xs text-gray-500">
-                    {{ \App\Helpers\StatusHelper::formatStatus(Auth::user()->status ?? 'User') }}
+                    @php
+                        $statusUser = Auth::guard('admin')->user()?->status
+                            ?? Auth::guard('agent_luar')->user()?->status
+                            ?? Auth::user()?->status
+                            ?? 'User';
+                    @endphp
+                    {{ \App\Helpers\StatusHelper::formatStatus($statusUser) }}
                 </div>
 
             </div>
