@@ -126,6 +126,7 @@
                             <th class="text-left text-xs font-medium text-slate-400 uppercase tracking-wide px-5 py-3">Agent Role</th>
                             <th class="text-left text-xs font-medium text-slate-400 uppercase tracking-wide px-5 py-3">No HP</th>
                             <th class="text-left text-xs font-medium text-slate-400 uppercase tracking-wide px-5 py-3">Kode Referral</th>
+                            <th class="text-left text-xs font-medium text-slate-400 uppercase tracking-wide px-5 py-3">Mahasiswa Terdaftar</th>
                             <th class="text-left text-xs font-medium text-slate-400 uppercase tracking-wide px-5 py-3">Status</th>
                             <th class="text-center text-xs font-medium text-slate-400 uppercase tracking-wide px-5 py-3">Aktif</th>
                         </tr>
@@ -144,6 +145,12 @@
                             <td class="px-5 py-3.5 text-slate-600 text-xs">{{ $agent->phone }}</td>
                             <td class="px-5 py-3.5">
                                 <span class="font-mono text-xs text-slate-700 bg-slate-100 px-2 py-1 rounded">{{ $agent->kode_referral }}</span>
+                            </td>
+                            <td class="px-5 py-3.5">
+                                <div class="flex flex-col">
+                                    <span class="text-sm font-semibold text-slate-800">{{ $agent->camabas_count ?? 0 }} mahasiswa</span>
+                                    <span class="text-xs text-slate-400">terdaftar melalui agent ini</span>
+                                </div>
                             </td>
                             <td class="px-5 py-3.5">
                                 <span data-status-badge class="inline-flex items-center text-xs font-medium px-2.5 py-1 rounded-full transition-colors duration-300 {{ $agent->is_active ? 'bg-teal-50 text-teal-700' : 'bg-slate-100 text-slate-500' }}">

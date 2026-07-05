@@ -152,7 +152,7 @@
                 <!-- Back to internal -->
                 <p class="text-center text-xs text-slate-400 mt-4">
                     Login sebagai Agent Internal?
-                    <a href="{{ route('auth.login') }}" class="text-slate-500 hover:text-[#018FD7] underline">Klik di sini</a>
+                    <a href="{{ route('agent-luar.login') }}" class="text-slate-500 hover:text-[#018FD7] underline">Klik di sini</a>
                 </p>
 
             </div>

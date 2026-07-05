@@ -264,8 +264,8 @@ class AuthController extends Controller
                 ->with('success', 'Selamat datang kembali, Admin!');
         }
 
-        // Coba login sebagai User biasa
-        if (Auth::attempt($credentials, $remember)) {
+        // Coba login sebagai User internal (tabel users)
+        if (Auth::guard('web')->attempt($credentials, $remember)) {
             $request->session()->regenerate();
 
             return redirect()
@@ -402,7 +402,7 @@ class AuthController extends Controller
         $request->session()->invalidate();
         $request->session()->regenerateToken();
 
-        return redirect()->route('auth.login');
+        return redirect()->route('agent-luar.login');
     }
 
     public function logout(Request $request)
@@ -410,7 +410,7 @@ class AuthController extends Controller
         Auth::logout();
         $request->session()->invalidate();
         $request->session()->regenerateToken();
-        return redirect()->route('auth.login');
+        return redirect()->route('agent-luar.login');
     }
 
     public function forgotPassword()

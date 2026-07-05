@@ -489,7 +489,7 @@ class DashboardController extends Controller
             $query->where('is_active', $request->input('active'));
         }
 
-        $agents = $query->latest()->paginate(10);
+        $agents = $query->withCount('camabas')->latest()->paginate(10);
 
         return view('auth.admin.dashboard.listAgent', compact('agents'));
     }
