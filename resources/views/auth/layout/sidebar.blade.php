@@ -1,9 +1,12 @@
 @php
     $isAdmin = Auth::guard('admin')->check();
+    $isAgentLuar = Auth::guard('agent_luar')->check();
 
     $userName = $isAdmin
         ? Auth::guard('admin')->user()->name
-        : (Auth::user()->name ?? 'Agent');
+        : ($isAgentLuar
+            ? Auth::guard('agent_luar')->user()->name
+            : (Auth::user()->name ?? 'Agent'));
 
     $isActive = fn(...$routes) => request()->routeIs($routes);
 
@@ -18,12 +21,12 @@
 
     $masterOpen = $isActive('listAgent', 'priode', 'exportregister.*');
     $agentOpen = $isActive('agen.*');
+    $agentLuarCamabaOpen = $isActive('agent-luar.camaba.*');
     $komisiOpen = $isActive('komisi.*');
     $importOpen = $isActive('mahasiswa.*');
 @endphp
 
-<aside 
-    :class="sidebarOpen ? 'translate-x-0' : '-translate-x-full'" 
+<aside :class="sidebarOpen ? 'translate-x-0' : '-translate-x-full'"
     class="fixed inset-y-0 left-0 z-40 w-72 bg-gray-900 text-gray-300 border-r border-gray-800 overflow-y-auto transition-transform duration-300 ease-in-out md:translate-x-0 md:relative md:flex md:flex-col md:h-screen">
 
     <!-- Logo -->
@@ -37,8 +40,11 @@
                 <span class="ml-3 text-xl font-bold text-white">
                     Admin Agent PMB
                 </span>
-            @endif
-            @if (!$isAdmin)
+            @elseif($isAgentLuar)
+                <span class="ml-3 text-xl font-bold text-white">
+                    Agent Umum
+                </span>
+            @else
                 <span class="ml-3 text-xl font-bold text-white">
                     Agent PMB
                 </span>
@@ -47,7 +53,8 @@
 
         <!-- Close Button (Mobile Only) -->
         <button @click="sidebarOpen = false" class="text-gray-400 hover:text-white focus:outline-none md:hidden">
-            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"
+                xmlns="http://www.w3.org/2000/svg">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
             </svg>
         </button>
@@ -79,18 +86,22 @@
     </div>
 
     <nav class="mt-4 px-3">
-        @if(!$isAdmin)
-            {{-- DASHBOARD --}}
+        @if(!$isAdmin && !$isAgentLuar)
+            {{-- DASHBOARD Agent Internal --}}
             <a href="{{ route('dashboard') }}" class="{{ $linkClass($isActive('dashboard')) }}">
-
                 <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
                     <path d="M3 13h2v8H3zm4-8h2v16H7zm4-2h2v18h-2zm4 4h2v14h-2zm4-2h2v16h-2z" />
                 </svg>
-
-                <span class="ml-3">
-                    Dashboard
-                </span>
-
+                <span class="ml-3">Dashboard</span>
+            </a>
+        @endif
+        @if($isAgentLuar)
+            {{-- DASHBOARD Agent Umum --}}
+            <a href="{{ route('agent-luar.dashboard') }}" class="{{ $linkClass($isActive('agent-luar.dashboard')) }}">
+                <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                    <path d="M3 13h2v8H3zm4-8h2v16H7zm4-2h2v18h-2zm4 4h2v14h-2zm4-2h2v16h-2z" />
+                </svg>
+                <span class="ml-3">Dashboard</span>
             </a>
         @endif
         @if($isAdmin)
@@ -138,7 +149,8 @@
                     <a href="{{ route('priode') }}" class="{{ $childLinkClass($isActive('priode')) }}">
                         Priode PMB
                     </a>
-                    <a href="{{ route('exportregister.index') }}" class="{{ $childLinkClass($isActive('exportregister.*')) }} flex items-center gap-2">
+                    <a href="{{ route('exportregister.index') }}"
+                        class="{{ $childLinkClass($isActive('exportregister.*')) }} flex items-center gap-2">
                         <i class="ti ti-file-import text-sm"></i>
                         Registrasi via Excel
                     </a>
@@ -150,12 +162,55 @@
 
         @endif
 
-        {{-- AGENT (USER ONLY) --}}
-        @if(!$isAdmin)
+        {{-- AGENT INTERNAL — Camaba (USER ONLY) --}}
+        @if(!$isAdmin && !$isAgentLuar)
 
             <div x-data="{ open: {{ $agentOpen ? 'true' : 'false' }} }" class="mt-3">
 
                 <button @click="open = !open" class="{{ $groupButtonClass($agentOpen) }}">
+
+                    <div class="flex items-center">
+
+                        <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                            <path
+                                d="M16.5 12c1.38 0 2.49-1.12 2.49-2.5S17.88 7 16.5 7 14 8.12 14 9.5s1.12 2.5 2.5 2.5zm-9-2c1.66 0 2.99-1.34 2.99-3S8.66 4 7 4 4 5.34 4 7s1.34 3 3 3z" />
+                        </svg>
+
+                        <span class="ml-3">
+                            Master Data
+                        </span>
+
+                    </div>
+
+                    <span x-text="open ? '-' : '+'"></span>
+
+                </button>
+
+                <div x-show="open" x-transition class="mt-2 bg-gray-800 rounded-lg p-2">
+
+                    <a href="{{ route('agen.Create') }}" class="{{ $childLinkClass($isActive('agen.Create')) }}">
+                        Tambah Agent
+                    </a>
+
+                    <a href="{{ route('agen.Show') }}"
+                        class="{{ $childLinkClass($isActive('agen.Show', 'agen.Detail', 'agen.Edit')) }}">
+                        Daftar Agent
+                    </a>
+                    <a href="{{ route('agen.ShowMahasiswa') }}"
+                        class="{{ $childLinkClass($isActive('agen.ShowMahasiswa')) }}">
+                        Daftar Mahasiswa
+                    </a>
+
+                </div>
+
+            </div>
+
+        @endif
+        @if($isAgentLuar)
+
+            <div x-data="{ open: {{ $agentLuarCamabaOpen ? 'true' : 'false' }} }" class="mt-3">
+
+                <button @click="open = !open" class="{{ $groupButtonClass($agentLuarCamabaOpen) }}">
 
                     <div class="flex items-center">
 
@@ -176,12 +231,12 @@
 
                 <div x-show="open" x-transition class="mt-2 bg-gray-800 rounded-lg p-2">
 
-                    <a href="{{ route('agen.Create') }}" class="{{ $childLinkClass($isActive('agen.Create')) }}">
+                    <a href="{{ route('agent-luar.camaba.create') }}" class="{{ $childLinkClass($isActive('agent-luar.camaba.create')) }}">
                         Tambah Mahasiswa Baru
                     </a>
 
-                    <a href="{{ route('agen.Show') }}"
-                        class="{{ $childLinkClass($isActive('agen.Show', 'agen.Detail', 'agen.Edit')) }}">
+                    <a href="{{ route('agent-luar.camaba.index') }}"
+                        class="{{ $childLinkClass($isActive('agent-luar.camaba.index')) }}">
                         Daftar Mahasiswa
                     </a>
 
@@ -265,21 +320,14 @@
 
             </div>
         @endif
-        @if (!$isAdmin)
-
-
-            {{-- LAPORAN --}}
+        {{-- LAPORAN (AGENT INTERNAL ONLY) --}}
+        @if (!$isAdmin && !$isAgentLuar)
             <a href="{{ route('laporan') }}" class="{{ $linkClass($isActive('laporan')) }} mt-3">
-
                 <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
                     <path
                         d="M19 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2h14c1.1 0 2-.9 2-2V5c0-1.1-.9-2-2-2zm0 16H5V5h14v14zm-5.04-6.71l-2.75 3.54-1.3-1.54-4.5 5.71h12l-3.45-4.71z" />
                 </svg>
-
-                <span class="ml-3">
-                    Laporan
-                </span>
-
+                <span class="ml-3">Laporan</span>
             </a>
         @endif
         @if ($isAdmin)
@@ -318,11 +366,13 @@
         <div class="border-t border-gray-700 my-4"></div>
 
         {{-- LOGOUT --}}
-        <form action="{{ $isAdmin ? route('logout.admin') : route('auth.logout') }}" method="POST">
+        <form
+            action="{{ $isAdmin ? route('logout.admin') : ($isAgentLuar ? route('agent-luar.logout') : route('auth.logout')) }}"
+            method="POST">
 
             @csrf
 
-            @unless($isAdmin)
+            @unless($isAdmin || $isAgentLuar)
                 @method('PUT')
             @endunless
 

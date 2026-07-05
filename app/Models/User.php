@@ -58,4 +58,12 @@ class User extends Authenticatable
     {
         return $this->hasMany(Agent::class, 'agent_id');
     }
+
+    /**
+     * Agent Luar (agent umum) yang direkrut oleh agent internal ini.
+     */
+    public function agentLuars(): \Illuminate\Database\Eloquent\Relations\HasMany
+    {
+        return $this->hasMany(AgentLuar::class, 'agent_internal_id');
+    }
 }

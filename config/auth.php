@@ -48,6 +48,11 @@ return [
             'driver' => 'session',
             'provider' => 'admins',
         ],
+
+        'agent_luar' => [
+            'driver' => 'session',
+            'provider' => 'agent_luars',
+        ],
     ],
 
     /*
@@ -77,6 +82,11 @@ return [
         'admins' => [
             'driver' => 'eloquent',
             'model' => App\Models\Admin::class,
+        ],
+
+        'agent_luars' => [
+            'driver' => 'eloquent',
+            'model' => App\Models\AgentLuar::class,
         ],
     ],
 

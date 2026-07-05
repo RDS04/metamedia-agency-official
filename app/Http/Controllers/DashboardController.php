@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Helpers\StatusHelper;
 use App\Models\Agent;
+use App\Models\AgentLuar;
 use App\Models\Komisi;
 use App\Models\Periode;
 use App\Models\Pesan;
@@ -526,11 +527,29 @@ class DashboardController extends Controller
 
     public function agenShow()
     {
-        $agents = Agent::where('agent_id', Auth::id())
+        // Ambil Agent Umum yang mendaftar menggunakan kode referral Agent Internal ini
+        $kodeReferral = Auth::user()->kode_referral;
+        $agentUmumList = AgentLuar::where('kode_referral_dipakai', $kodeReferral)
+            ->latest()
+            ->get();
+        $agentUmumCount = $agentUmumList->count();
+
+        return view('auth.agent.addAgent.showAgent', compact('agentUmumList', 'agentUmumCount', 'kodeReferral'));
+    }
+
+    public function agenShowMahasiswa()
+    {
+        $kodeReferral = Auth::user()->kode_referral;
+        $agentLuarIds = AgentLuar::where('kode_referral_dipakai', $kodeReferral)
+            ->pluck('id');
+
+        $mahasiswa = Agent::whereIn('agent_luar_id', $agentLuarIds)
             ->latest()
             ->get();
 
-        return view("auth.agent.addAgent.showAgent", ['agents' => $agents]);
+        $mahasiswaCount = $mahasiswa->count();
+
+        return view('auth.agent.addAgent.showMahasiswa', compact('mahasiswa', 'mahasiswaCount', 'kodeReferral'));
     }
 
     public function agenDetail($id)

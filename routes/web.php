@@ -1,6 +1,8 @@
 <?php
 
 use App\Http\Controllers\AdminController;
+use App\Http\Controllers\AgentLuarAuthController;
+use App\Http\Controllers\AgentLuarDashboardController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\ImportController;
@@ -9,6 +11,7 @@ use App\Http\Controllers\PesanController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\FormController;
 use App\Http\Controllers\ExportregisController;
+
 
 // Public Routes
 Route::controller(DashboardController::class)->prefix('agent')->group(function () {
@@ -58,6 +61,7 @@ Route::middleware('auth')->prefix('agent')->group(function () {
         Route::get('/create', 'tambahAgent')->name('agen.Create');
         Route::post('/store', 'agenStore')->name('agen.Store');
         Route::get('/show', 'agenShow')->name('agen.Show');
+        Route::get('/show-mahasiswa', 'agenShowMahasiswa')->name('agen.ShowMahasiswa');
         Route::get('/agent/{id}', 'agenDetail')->name('agen.Detail')->whereNumber('id');
         Route::get('/agent/{id}/edit', 'agenEdit')->name('agen.Edit')->whereNumber('id');
         Route::put('/agent/{id}', 'agenUpdate')->name('agen.Update')->whereNumber('id');
@@ -155,3 +159,42 @@ Route::middleware('auth:admin')->prefix('agent')->group(function () {
     });
 
 });
+
+// ─────────────────────────────────────────────────────────────────────────────
+// AGENT UMUM (Agent Luar) Routes
+// ─────────────────────────────────────────────────────────────────────────────
+
+// Guest routes (Agent Umum belum login)
+Route::controller(AgentLuarAuthController::class)
+    ->prefix('agent-umum')
+    ->middleware('guest:agent_luar')
+    ->group(function () {
+        Route::get('/register', 'register')->name('agent-luar.register');
+        Route::post('/register', 'registerStore')->name('agent-luar.register.store');
+        Route::get('/login', 'login')->name('agent-luar.login');
+        Route::post('/login', 'loginProcess')->name('agent-luar.login.proses');
+    });
+
+// Authenticated routes (Agent Umum sudah login)
+Route::prefix('agent-umum')
+    ->middleware('auth:agent_luar')
+    ->group(function () {
+
+        // Logout
+        Route::post('/logout', [AgentLuarAuthController::class, 'logout'])->name('agent-luar.logout');
+
+        // Dashboard
+        Route::get('/dashboard', [AgentLuarDashboardController::class, 'dashboard'])->name('agent-luar.dashboard');
+
+        // CRUD Camaba
+        Route::controller(AgentLuarDashboardController::class)->group(function () {
+            Route::get('/camaba',               'camabaIndex')  ->name('agent-luar.camaba.index');
+            Route::get('/camaba/create',        'tambahCamaba') ->name('agent-luar.camaba.create');
+            Route::post('/camaba',              'camabaSimpan') ->name('agent-luar.camaba.store');
+            Route::get('/camaba/{id}',          'camabaDetail') ->name('agent-luar.camaba.show')   ->whereNumber('id');
+            Route::get('/camaba/{id}/edit',     'camabaEdit')   ->name('agent-luar.camaba.edit')   ->whereNumber('id');
+            Route::put('/camaba/{id}',          'camabaUpdate') ->name('agent-luar.camaba.update') ->whereNumber('id');
+            Route::delete('/camaba/{id}',       'camabaDestroy')->name('agent-luar.camaba.destroy')->whereNumber('id');
+        });
+    });
+

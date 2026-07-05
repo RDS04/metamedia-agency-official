@@ -304,11 +304,11 @@
                         Dashboard
                     </a>
                 @else
-                    <a href="{{ route('auth.login') }}"
+                    <a href="{{ route('agent-luar.login') }}"
                         class="hidden sm:inline-flex text-slate-700 hover:text-brand text-sm font-semibold px-4 py-2.5 rounded-xl border border-slate-200 hover:border-brand/40 hover:bg-slate-50 transition-all duration-200">
                         Login
                     </a>
-                    <a href="{{ route('auth.register') }}"
+                    <a href="{{ route('agent-luar.register') }}"
                         class="hidden sm:inline-flex bg-[#018FD7] hover:bg-brand-dark text-white text-sm font-bold px-5 py-2.5 rounded-xl transition-all duration-200 shadow-md shadow-brand/10 hover:scale-[1.02] active:scale-[0.98]">
                         Daftar
                     </a>
