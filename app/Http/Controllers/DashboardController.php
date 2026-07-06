@@ -489,9 +489,26 @@ class DashboardController extends Controller
             $query->where('is_active', $request->input('active'));
         }
 
-        $agents = $query->withCount('camabas')->latest()->paginate(10);
+        $agents = $query
+            ->with(['camabas' => function ($q) {
+                $q->latest();
+            }])
+            ->withCount('camabas')
+            ->latest()
+            ->paginate(10);
 
         return view('auth.admin.dashboard.listAgent', compact('agents'));
+    }
+
+    public function listMahasiswaAgent(User $user)
+    {
+        $agent = $user;
+
+        $mahasiswa = Agent::where('agent_id', $agent->id)
+            ->latest()
+            ->get();
+
+        return view('auth.admin.dashboard.listMahasiswaAgent', compact('agent', 'mahasiswa'));
     }
 
     // Simpan agent baru

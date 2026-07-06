@@ -84,6 +84,9 @@ Route::middleware('auth:admin')->prefix('agent')->group(function () {
 
         Route::get('/admin/listAgent', 'listAgent')
             ->name('listAgent');
+        Route::get('/admin/listAgent/{user}', 'listMahasiswaAgent')
+            ->name('listMahasiswaAgent')
+            ->whereNumber('user');
 
         Route::patch('/agent/{id}/toggle', 'toggleAgent')
             ->name('agent.toggle')

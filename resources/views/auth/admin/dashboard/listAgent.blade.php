@@ -147,9 +147,12 @@
                                 <span class="font-mono text-xs text-slate-700 bg-slate-100 px-2 py-1 rounded">{{ $agent->kode_referral }}</span>
                             </td>
                             <td class="px-5 py-3.5">
-                                <div class="flex flex-col">
+                                <div class="flex flex-col gap-2">
                                     <span class="text-sm font-semibold text-slate-800">{{ $agent->camabas_count ?? 0 }} mahasiswa</span>
-                                    <span class="text-xs text-slate-400">terdaftar melalui agent ini</span>
+                                    <a href="{{ route('listMahasiswaAgent', $agent->id) }}" class="inline-flex items-center gap-1 text-sm font-medium text-brand-600 hover:text-brand-800">
+                                        Lihat detail
+                                        <span class="text-[11px]">↗</span>
+                                    </a>
                                 </div>
                             </td>
                             <td class="px-5 py-3.5">
