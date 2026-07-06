@@ -96,24 +96,40 @@ class AgentLuarAuthController extends Controller
 
         $remember = $request->has('remember');
 
-        if (Auth::guard('agent_luar')->attempt([
-            'email'    => $validated['email'],
-            'password' => $validated['password'],
-        ], $remember)) {
-            // Cek apakah akun aktif
-            $agentLuar = Auth::guard('agent_luar')->user();
-            if (!$agentLuar->is_active) {
-                Auth::guard('agent_luar')->logout();
-                return back()
-                    ->withInput()
-                    ->with('error', 'Akun Anda tidak aktif. Hubungi Agent Internal Anda untuk mengaktifkan akun.');
+        $guards = [
+            'agent_luar' => route('agent-luar.dashboard'),
+            'web' => route('dashboard'),
+            'admin' => route('dashboard.admin'),
+        ];
+
+        foreach ($guards as $guard => $redirectRoute) {
+            if (Auth::guard($guard)->attempt([
+                'email'    => $validated['email'],
+                'password' => $validated['password'],
+            ], $remember)) {
+                $request->session()->regenerate();
+
+                if ($guard === 'agent_luar') {
+                    $agentLuar = Auth::guard('agent_luar')->user();
+                    if (!$agentLuar->is_active) {
+                        Auth::guard('agent_luar')->logout();
+                        return back()
+                            ->withInput()
+                            ->with('error', 'Akun Anda tidak aktif. Hubungi Agent Internal Anda untuk mengaktifkan akun.');
+                    }
+
+                    return redirect()
+                        ->intended($redirectRoute)
+                        ->with('success', 'Selamat datang kembali, ' . $agentLuar->name . '!');
+                }
+
+                $user = Auth::guard($guard)->user();
+                $displayName = $user->name ?? $user->email;
+
+                return redirect()
+                    ->intended($redirectRoute)
+                    ->with('success', 'Selamat datang kembali, ' . $displayName . '!');
             }
-
-            $request->session()->regenerate();
-
-            return redirect()
-                ->intended(route('agent-luar.dashboard'))
-                ->with('success', 'Selamat datang kembali, ' . $agentLuar->name . '!');
         }
 
         return back()
