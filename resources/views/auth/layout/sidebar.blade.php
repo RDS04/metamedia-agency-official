@@ -209,7 +209,7 @@
                     </a>
                     <a href="{{ route('agen.ShowMahasiswa') }}"
                         class="{{ $childLinkClass($isActive('agen.ShowMahasiswa')) }}">
-                        Daftar Mahasiswa (Mitra)
+                        Daftar Mahasiswa
                     </a>
 
                 </div>

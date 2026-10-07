@@ -17,6 +17,9 @@ use App\Http\Controllers\ExportregisController;
 Route::controller(DashboardController::class)->prefix('agent')->group(function () {
     Route::get('/', 'informasi')->name('informasi');
 });
+Route::controller(DashboardController::class)->group(function () {
+    Route::get('/', 'informasi')->name('informasi');
+});
 
 // Kepuasan Agent - store (publik, siapapun bisa submit)
 Route::post('/agent/kepuasan', [PesanController::class, 'store'])->name('pesan.store');

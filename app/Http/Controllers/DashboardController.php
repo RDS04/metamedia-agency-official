@@ -511,7 +511,7 @@ class DashboardController extends Controller
         return view('auth.admin.dashboard.listMahasiswaAgent', compact('agent', 'mahasiswa'));
     }
 
-    // Simpan agent baru
+    // Simpan agent / mahasiswa baru
     public function agenStore(Request $request)
     {
         $validated = $request->validate([
@@ -538,15 +538,16 @@ class DashboardController extends Controller
 
         Agent::create($validated);
 
-        return redirect()->route('agen.Show')
-            ->with('success', 'Agent berhasil ditambahkan');
+        return redirect()->route('agen.ShowMahasiswa')
+            ->with('success', 'Data calon mahasiswa berhasil ditambahkan!');
     }
 
     public function agenShow()
     {
         // Ambil Agent Umum yang mendaftar menggunakan kode referral Agent Internal ini
         $kodeReferral = Auth::user()->kode_referral;
-        $agentUmumList = AgentLuar::where('kode_referral_dipakai', $kodeReferral)
+        $agentUmumList = AgentLuar::with('camabas')
+            ->where('kode_referral_dipakai', $kodeReferral)
             ->latest()
             ->get();
         $agentUmumCount = $agentUmumList->count();
@@ -556,11 +557,16 @@ class DashboardController extends Controller
 
     public function agenShowMahasiswa()
     {
+        $agentId = Auth::id();
         $kodeReferral = Auth::user()->kode_referral;
         $agentLuarIds = AgentLuar::where('kode_referral_dipakai', $kodeReferral)
             ->pluck('id');
 
-        $mahasiswa = Agent::whereIn('agent_luar_id', $agentLuarIds)
+        $mahasiswa = Agent::where(function ($query) use ($agentId, $agentLuarIds) {
+                $query->where('agent_id', $agentId)
+                      ->orWhereIn('agent_luar_id', $agentLuarIds);
+            })
+            ->with(['agent', 'agentLuar'])
             ->latest()
             ->get();
 
@@ -571,7 +577,17 @@ class DashboardController extends Controller
 
     public function agenDetail($id)
     {
-        $agent = Agent::where('agent_id', Auth::id())->findOrFail($id);
+        $agentId = Auth::id();
+        $kodeReferral = Auth::user()->kode_referral;
+        $agentLuarIds = AgentLuar::where('kode_referral_dipakai', $kodeReferral)->pluck('id');
+
+        $agent = Agent::where(function ($query) use ($agentId, $agentLuarIds) {
+                $query->where('agent_id', $agentId)
+                      ->orWhereIn('agent_luar_id', $agentLuarIds);
+            })
+            ->with('agentLuar')
+            ->findOrFail($id);
+
         $statusOptions = self::CAMABA_STATUSES;
 
         return view("auth.agent.addAgent.detailAgent", compact('agent', 'statusOptions'));
