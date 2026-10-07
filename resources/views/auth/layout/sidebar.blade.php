@@ -200,16 +200,16 @@
                 <div x-show="open" x-transition class="mt-2 bg-gray-800 rounded-lg p-2">
 
                     <a href="{{ route('agen.Create') }}" class="{{ $childLinkClass($isActive('agen.Create')) }}">
-                        Tambah Agent
+                        Tambah Mahasiswa Baru
                     </a>
 
                     <a href="{{ route('agen.Show') }}"
                         class="{{ $childLinkClass($isActive('agen.Show', 'agen.Detail', 'agen.Edit')) }}">
-                        Daftar Agent
+                        Daftar Agent Luar
                     </a>
                     <a href="{{ route('agen.ShowMahasiswa') }}"
                         class="{{ $childLinkClass($isActive('agen.ShowMahasiswa')) }}">
-                        Daftar Mahasiswa
+                        Daftar Mahasiswa (Mitra)
                     </a>
 
                 </div>
