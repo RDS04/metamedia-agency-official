@@ -41,7 +41,7 @@
                     <img src="{{ asset('storage/logo.png') }}" alt="Logo Metamedia" class="h-14 w-auto brightness-0 invert opacity-90">
                 </div>
                 <h1 class="text-4xl font-extrabold leading-tight mb-4">
-                    Sistem Agent Umum<br>
+                    Sistem Agent<br>
                     <span class="text-[#7dd3fc]">PMB Metamedia</span>
                 </h1>
                 <p class="text-blue-200 leading-relaxed max-w-sm text-sm">
@@ -148,12 +148,6 @@
 
                     </div>
                 </div>
-
-                <!-- Back to internal -->
-                <p class="text-center text-xs text-slate-400 mt-4">
-                    Login sebagai Agent Internal?
-                    <a href="{{ route('agent-luar.login') }}" class="text-slate-500 hover:text-[#018FD7] underline">Klik di sini</a>
-                </p>
 
             </div>
         </div>
