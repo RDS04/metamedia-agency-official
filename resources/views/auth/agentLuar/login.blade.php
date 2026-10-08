@@ -117,10 +117,15 @@
                                 </div>
                             </div>
 
-                            <!-- Remember -->
-                            <div class="flex items-center">
-                                <input type="checkbox" name="remember" id="remember" class="w-4 h-4 rounded text-[#018FD7]">
-                                <label for="remember" class="ml-2 text-sm text-slate-600">Ingat Saya</label>
+                            <!-- Remember & Forgot Password -->
+                            <div class="flex items-center justify-between">
+                                <div class="flex items-center">
+                                    <input type="checkbox" name="remember" id="remember" class="w-4 h-4 rounded text-[#018FD7]">
+                                    <label for="remember" class="ml-2 text-sm text-slate-600">Ingat Saya</label>
+                                </div>
+                                <a href="{{ route('password.request') }}" class="text-sm font-semibold text-[#018FD7] hover:underline">
+                                    Lupa Password?
+                                </a>
                             </div>
 
                             <button type="submit" class="btn-primary w-full text-white py-3.5 rounded-xl font-semibold text-sm">

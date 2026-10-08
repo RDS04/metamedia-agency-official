@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Admin;
 use App\Models\User;
 use App\Models\Agent;
+use App\Models\AgentLuar;
 use App\Models\Komisi;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Http\Request;
@@ -429,16 +430,18 @@ class AuthController extends Controller
 
         $isAdmin = Admin::where('email', $validated['email'])->exists();
         $isUser = User::where('email', $validated['email'])->exists();
+        $isAgentLuar = AgentLuar::where('email', $validated['email'])->exists();
 
-        if (!$isAdmin && !$isUser) {
+        if (!$isAdmin && !$isUser && !$isAgentLuar) {
             return back()->with('error', 'Email tidak terdaftar.')->withInput();
         }
 
         $otp = (string) random_int(100000, 999999);
+        $role = $isAdmin ? 'admin' : ($isUser ? 'user' : 'agent_luar');
 
         $request->session()->put('pending_password_reset', [
             'email' => $validated['email'],
-            'role' => $isAdmin ? 'admin' : 'user',
+            'role' => $role,
             'otp_hash' => Hash::make($otp),
             'expires_at' => now()->addMinutes(10)->toDateTimeString(),
             'attempts' => 0,
@@ -583,6 +586,8 @@ class AuthController extends Controller
 
         if ($pending['role'] === 'admin') {
             Admin::where('email', $pending['email'])->update(['password' => $hashedPassword]);
+        } elseif ($pending['role'] === 'agent_luar') {
+            AgentLuar::where('email', $pending['email'])->update(['password' => $hashedPassword]);
         } else {
             User::where('email', $pending['email'])->update(['password' => $hashedPassword]);
         }
