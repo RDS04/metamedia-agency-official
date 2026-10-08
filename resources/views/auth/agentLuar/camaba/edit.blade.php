@@ -44,10 +44,10 @@
                             class="w-full px-4 py-2.5 text-sm border border-slate-200 rounded-xl focus:outline-none focus:border-[#018FD7] focus:ring-2 focus:ring-blue-100">
                     </div>
 
-                    <!-- NIK -->
+                    <!-- NIK / NIM -->
                     <div>
                         <label class="block text-sm font-medium text-slate-700 mb-1.5">
-                            NIK <span class="text-red-500">*</span>
+                            NIK / NIM <span class="text-red-500">*</span>
                         </label>
                         <input type="text" name="nik" value="{{ old('nik', $camaba->nik) }}"
                             maxlength="16"

@@ -50,7 +50,7 @@
                 <!-- Search -->
                 <form method="GET" action="{{ route('agent-luar.camaba.index') }}" class="flex gap-2">
                     <input type="text" name="search" value="{{ request('search') }}"
-                        placeholder="Cari nama / NIK..."
+                        placeholder="Cari nama / NIK / NIM..."
                         class="px-3 py-2 text-sm border border-slate-200 rounded-lg focus:outline-none focus:border-[#018FD7] focus:ring-2 focus:ring-blue-100">
 
                     <select name="status" class="px-3 py-2 text-sm border border-slate-200 rounded-lg focus:outline-none focus:border-[#018FD7] bg-white">

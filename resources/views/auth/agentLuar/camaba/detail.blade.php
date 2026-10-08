@@ -26,7 +26,7 @@
             <div class="px-6 py-4 border-b border-slate-100 flex items-center justify-between">
                 <div>
                     <h2 class="text-base font-semibold text-slate-800">{{ $camaba->nama_lengkap }}</h2>
-                    <p class="text-xs text-slate-500 mt-0.5">NIK: {{ $camaba->nik }}</p>
+                    <p class="text-xs text-slate-500 mt-0.5">NIK/NIM: {{ $camaba->nik }}</p>
                 </div>
                 <span class="inline-flex items-center text-xs font-semibold px-3 py-1.5 rounded-full {{ $statusOptions[$camaba->status] ?? $statusOptions['Prospek'] }}">
                     {{ $camaba->status ?? 'Prospek' }}

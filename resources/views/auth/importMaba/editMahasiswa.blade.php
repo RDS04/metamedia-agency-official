@@ -52,11 +52,11 @@
 
             <div class="p-6 grid md:grid-cols-2 gap-6">
 
-                <!-- NIK -->
+                <!-- NIK / NIM -->
                 <div>
 
                     <label class="block mb-2 font-medium">
-                        NIK
+                        NIK / NIM
                     </label>
 
                     <input
@@ -109,11 +109,11 @@
 
                 </div>
 
-                <!-- Tanggal Lahir -->
+                <!-- Tanggal Daftar Ulang -->
                 <div>
 
                     <label class="block mb-2 font-medium">
-                        Tanggal Lahir
+                        Tanggal Daftar Ulang
                     </label>
 
                     <input

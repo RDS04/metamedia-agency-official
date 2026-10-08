@@ -128,7 +128,7 @@
                     <tr class="hover:bg-slate-50 transition-colors">
                         <td class="px-5 py-3.5">
                             <p class="font-medium text-slate-800">{{ $c->nama_lengkap }}</p>
-                            <p class="text-[10px] text-slate-400">NIK: {{ $c->nik }}</p>
+                            <p class="text-[10px] text-slate-400">NIK/NIM: {{ $c->nik }}</p>
                         </td>
                         <td class="px-5 py-3.5 text-slate-600">{{ $c->program_studi }}</td>
                         <td class="px-5 py-3.5 text-slate-600">

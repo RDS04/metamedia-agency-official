@@ -38,10 +38,10 @@ class MahasiswaTemplateExport implements FromArray, WithHeadings, WithStyles
     public function headings(): array
     {
         return [
-            'NIK',
+            'NIK / NIM',
             'No Pendaftaran',
             'Nama Lengkap',
-            'Tanggal Lahir',
+            'Tanggal Daftar Ulang',
             'Jenis Kelamin',
             'Program Studi',
             'Sistem Kuliah',

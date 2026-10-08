@@ -58,13 +58,13 @@
                         @enderror
                     </div>
 
-                    <!-- NIK -->
+                    <!-- NIM -->
                     <div>
                         <label class="block text-sm font-semibold text-gray-700 mb-2">
-                            NIK
+                            NIK / NIM
                         </label>
 
-                        <input type="text" name="nik" placeholder="Masukkan NIK"
+                        <input type="text" name="nik" placeholder="Masukkan NIK / NIM"
                             value="{{ old('nik', $agent->nik) }}"
                             class="w-full rounded-lg border @error('nik') border-red-300 bg-red-50 @else border-gray-300 @enderror px-4 py-3 text-gray-800 focus:border-[#018FD7] focus:ring-2 focus:ring-blue-100 outline-none transition">
                         @error('nik')

@@ -52,7 +52,7 @@
                 </div>
 
                 <div class="rounded-xl border border-slate-100 bg-slate-50/80 p-4">
-                    <p class="text-xs font-semibold uppercase tracking-wider text-slate-400">NIK (Nomor Induk Kependudukan)</p>
+                    <p class="text-xs font-semibold uppercase tracking-wider text-slate-400">NIK / NIM</p>
                     <p class="mt-1 text-base font-mono font-bold text-slate-800">{{ $agent->nik }}</p>
                 </div>
 

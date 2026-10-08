@@ -57,10 +57,10 @@
 
                     <tr>
                         <th class="px-4 py-2.5 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">No</th>
-                        <th class="px-4 py-2.5 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">NIK</th>
+                        <th class="px-4 py-2.5 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">NIK / NIM</th>
                         <th class="px-4 py-2.5 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">No Pendaftaran</th>
                         <th class="px-4 py-2.5 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Nama Lengkap</th>
-                        <th class="px-4 py-2.5 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Tgl Lahir</th>
+                        <th class="px-4 py-2.5 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Tgl Daftar Ulang</th>
                         <th class="px-4 py-2.5 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Jenis Kelamin</th>
                         <th class="px-4 py-2.5 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Program Studi</th>
                         <th class="px-4 py-2.5 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Sistem Kuliah</th>

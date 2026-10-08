@@ -172,7 +172,7 @@
                             <th class="px-4 py-2.5 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">No</th>
                             <th class="px-4 py-2.5 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">No Pendaftaran</th>
                             <th class="px-4 py-2.5 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Nama</th>
-                            <th class="px-4 py-2.5 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">NIK</th>
+                            <th class="px-4 py-2.5 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">NIK / NIM</th>
                             <th class="px-4 py-2.5 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Program Studi</th>
                             <th class="px-4 py-2.5 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Sistem Kuliah</th>
                             <th class="px-4 py-2.5 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">Status</th>

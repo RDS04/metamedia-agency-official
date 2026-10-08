@@ -25,10 +25,10 @@ class MahasiswaExport implements FromQuery, WithHeadings, WithStyles, ShouldAuto
     public function headings(): array
     {
         return [
-            'NIK',
+            'NIK / NIM',
             'No Pendaftaran',
             'Nama Lengkap',
-            'Tanggal Lahir',
+            'Tanggal Daftar Ulang',
             'Jenis Kelamin',
             'Program Studi',
             'Sistem Kuliah',

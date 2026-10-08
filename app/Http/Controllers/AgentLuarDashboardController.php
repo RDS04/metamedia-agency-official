@@ -167,8 +167,8 @@ class AgentLuarDashboardController extends Controller
             'periode'       => 'required|string',
         ], [
             'nama_lengkap.required'  => 'Nama lengkap harus diisi',
-            'nik.required'           => 'NIK harus diisi',
-            'nik.unique'             => 'NIK sudah terdaftar',
+            'nik.required'           => 'NIK/NIM harus diisi',
+            'nik.unique'             => 'NIK/NIM sudah terdaftar',
             'nomor_hp.required'      => 'Nomor HP harus diisi',
             'jenis_kelamin.required' => 'Jenis kelamin harus dipilih',
             'program_studi.required' => 'Program studi harus dipilih',
@@ -244,8 +244,8 @@ class AgentLuarDashboardController extends Controller
             'periode'       => 'required|string',
         ], [
             'nama_lengkap.required'  => 'Nama lengkap harus diisi',
-            'nik.required'           => 'NIK harus diisi',
-            'nik.unique'             => 'NIK sudah terdaftar',
+            'nik.required'           => 'NIK/NIM harus diisi',
+            'nik.unique'             => 'NIK/NIM sudah terdaftar',
             'nomor_hp.required'      => 'Nomor HP harus diisi',
             'jenis_kelamin.required' => 'Jenis kelamin harus dipilih',
             'program_studi.required' => 'Program studi harus dipilih',

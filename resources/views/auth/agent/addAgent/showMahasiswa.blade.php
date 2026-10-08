@@ -91,7 +91,7 @@
                     <svg class="pointer-events-none absolute left-3.5 top-1/2 h-4 w-4 -translate-y-1/2 text-slate-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                         <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
                     </svg>
-                    <input x-model="search" type="text" placeholder="Cari nama, NIK, HP..." 
+                    <input x-model="search" type="text" placeholder="Cari nama, NIK/NIM, HP..." 
                         class="w-full rounded-xl border border-slate-200 bg-white pl-10 pr-4 py-2 text-xs font-medium text-slate-800 placeholder-slate-400 shadow-2xs focus:border-[#018FD7] focus:outline-none focus:ring-2 focus:ring-[#018FD7]/20 transition" />
                 </div>
 
@@ -116,7 +116,7 @@
                         <tr class="border-b border-slate-200/80 bg-slate-50/90 text-[11px] font-extrabold uppercase tracking-wider text-slate-500">
                             <th class="px-5 py-3.5 text-center w-12">No</th>
                             <th class="px-5 py-3.5">Nama Lengkap</th>
-                            <th class="px-5 py-3.5">NIK</th>
+                            <th class="px-5 py-3.5">NIK / NIM</th>
                             <th class="px-5 py-3.5">No. HP</th>
                             <th class="px-5 py-3.5">Program Studi</th>
                             <th class="px-5 py-3.5">Status</th>
@@ -172,7 +172,7 @@
                                     </div>
                                 </td>
 
-                                {{-- NIK --}}
+                                {{-- NIM --}}
                                 <td class="px-5 py-4">
                                     <span class="inline-block rounded-xl bg-slate-100/90 px-3 py-1 font-mono text-xs font-bold text-slate-800 border border-slate-200/80 shadow-2xs">
                                         {{ $item->nik }}
@@ -322,7 +322,7 @@
                     </div>
 
                     <div class="rounded-2xl border border-slate-100 bg-slate-50/80 p-4">
-                        <p class="text-[10px] font-bold uppercase tracking-wider text-slate-400">NIK</p>
+                        <p class="text-[10px] font-bold uppercase tracking-wider text-slate-400">NIK / NIM</p>
                         <p class="mt-1 text-sm font-mono font-bold text-slate-800" x-text="detail.nik"></p>
                     </div>
 

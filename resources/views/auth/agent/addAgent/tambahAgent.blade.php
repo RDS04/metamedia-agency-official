@@ -108,17 +108,17 @@
 
             <div class="p-4 grid grid-cols-1 md:grid-cols-2 gap-4">
 
-                <!-- NIK -->
+                <!-- NIK / NIM -->
                 <div>
                     <label class="block text-sm font-medium text-gray-700 mb-1.5">
-                        NIK <span class="text-red-500">*</span>
+                        NIK / NIM <span class="text-red-500">*</span>
                     </label>
 
                     <input
                         type="text"
                         name="nik"
                         value="{{ old('nik') }}"
-                        placeholder="Masukkan NIK"
+                        placeholder="Masukkan NIK / NIM"
                         required
                         class="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-1 focus:ring-gray-400 focus:border-gray-400 @error('nik') border-red-500 @enderror">
                     @error('nik')
@@ -162,10 +162,10 @@
                     @enderror
                 </div>
 
-                <!-- Tanggal Lahir (Optional) -->
+                <!-- Tanggal Daftar Ulang (Optional) -->
                 <div>
                     <label class="block text-sm font-medium text-gray-700 mb-1.5">
-                        Tanggal Lahir
+                        Tanggal Daftar Ulang
                     </label>
 
                     <input

@@ -13,7 +13,7 @@
 
         <form method="GET" action="{{ route('dataCamaba') }}" class="flex flex-col sm:flex-row gap-2">
             <input type="text" name="search" value="{{ request('search') }}"
-                placeholder="Cari nama, NIK, agent..."
+                placeholder="Cari nama, NIK/NIM, agent..."
                 class="rounded-lg border border-gray-300 px-4 py-2 text-sm text-gray-800 focus:border-[#018FD7] focus:ring-2 focus:ring-blue-100 outline-none transition">
 
             <select name="agent_id"
@@ -83,7 +83,7 @@
                             </td>
                             <td class="px-6 py-4">
                                 <p class="text-sm font-semibold text-gray-800">{{ $camaba->nama_lengkap }}</p>
-                                <p class="text-xs text-gray-400">NIK: {{ $camaba->nik }}</p>
+                                <p class="text-xs text-gray-400">NIK/NIM: {{ $camaba->nik }}</p>
                             </td>
                             <td class="px-6 py-4">
                                 <p class="text-sm text-gray-700">{{ $camaba->agent->name ?? 'Belum terhubung' }}</p>

@@ -120,7 +120,7 @@
                                                                 <tr class="bg-slate-50 border-b border-slate-200 text-slate-700">
                                                                     <th class="px-4 py-2.5 font-semibold">No</th>
                                                                     <th class="px-4 py-2.5 font-semibold">Nama Mahasiswa</th>
-                                                                    <th class="px-4 py-2.5 font-semibold">NIK</th>
+                                                                    <th class="px-4 py-2.5 font-semibold">NIK / NIM</th>
                                                                     <th class="px-4 py-2.5 font-semibold">No. HP</th>
                                                                     <th class="px-4 py-2.5 font-semibold">Program Studi</th>
                                                                     <th class="px-4 py-2.5 font-semibold">Sistem Kuliah</th>
