@@ -9,6 +9,23 @@
 
     <!-- Vite Assets (Tailwind v4) -->
     <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        brand: '#018FD7',
+                        'brand-dark': '#0073B1',
+                        'brand-light': '#E6F4FC',
+                        'brand-light-bg': '#F0F7FD',
+                        structure: '#1E293B',
+                        accent: '#018FD7',
+                        'accent-light': '#E6F4FC',
+                    }
+                }
+            }
+        }
+    </script>
 
     <!-- Preconnect Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -298,18 +315,29 @@
 
             {{-- Desktop Buttons + Mobile Hamburger --}}
             <div class="flex items-center gap-2">
-                @if(Auth::check())
-                    <a href="{{ route('dashboard') }}"
-                        class="bg-brand hover:bg-brand-dark text-white text-sm font-bold px-5 py-2.5 rounded-xl transition-all duration-200 shadow-md shadow-brand/10 hover:scale-[1.02] active:scale-[0.98]">
+                @php
+                    $isLoggedIn = Auth::check() || Auth::guard('agent_luar')->check() || Auth::guard('admin')->check();
+                    $dashboardUrl = route('dashboard');
+                    if (Auth::guard('admin')->check()) {
+                        $dashboardUrl = route('dashboard.admin');
+                    } elseif (Auth::guard('agent_luar')->check()) {
+                        $dashboardUrl = route('agent-luar.dashboard');
+                    }
+                @endphp
+
+                @if($isLoggedIn)
+                    <a href="{{ $dashboardUrl }}"
+                        class="bg-[#018FD7] hover:bg-[#0073B1] text-white text-sm font-bold px-5 py-2 rounded-xl transition-all duration-200 shadow-md shadow-sky-500/20 hover:scale-[1.02] active:scale-[0.98] inline-flex items-center gap-2">
+                        <i class="ti ti-layout-dashboard text-base"></i>
                         Dashboard
                     </a>
                 @else
                     <a href="{{ route('agent-luar.login') }}"
-                        class="hidden sm:inline-flex text-slate-700 hover:text-brand text-sm font-semibold px-4 py-2.5 rounded-xl border border-slate-200 hover:border-brand/40 hover:bg-slate-50 transition-all duration-200">
+                        class="hidden sm:inline-flex text-slate-700 hover:text-[#018FD7] text-sm font-semibold px-4 py-2.5 rounded-xl border border-slate-200 hover:border-[#018FD7]/40 hover:bg-slate-50 transition-all duration-200">
                         Login
                     </a>
                     <a href="{{ route('agent-luar.register') }}"
-                        class="hidden sm:inline-flex bg-[#018FD7] hover:bg-brand-dark text-white text-sm font-bold px-5 py-2.5 rounded-xl transition-all duration-200 shadow-md shadow-brand/10 hover:scale-[1.02] active:scale-[0.98]">
+                        class="hidden sm:inline-flex bg-[#018FD7] hover:bg-[#0073B1] text-white text-sm font-bold px-5 py-2.5 rounded-xl transition-all duration-200 shadow-md shadow-sky-500/20 hover:scale-[1.02] active:scale-[0.98]">
                         Daftar
                     </a>
                 @endif
@@ -330,11 +358,11 @@
             <a href="#keuntungan" class="mobile-nav-link">Keuntungan</a>
             <a href="#bonus" class="mobile-nav-link">Bonus</a>
             <a href="#cara-daftar" class="mobile-nav-link">Cara Daftar</a>
-            @if(Auth::check())
-                <a href="{{ route('dashboard') }}" class="mobile-cta">Dashboard</a>
+            @if($isLoggedIn)
+                <a href="{{ $dashboardUrl }}" class="mobile-cta">Dashboard</a>
             @else
-                <a href="{{ route('auth.login') }}" class="mobile-nav-link">Login</a>
-                <a href="{{ route('auth.register') }}" class="mobile-cta">Daftar Sekarang</a>
+                <a href="{{ route('agent-luar.login') }}" class="mobile-nav-link">Login</a>
+                <a href="{{ route('agent-luar.register') }}" class="mobile-cta">Daftar Sekarang</a>
             @endif
         </div>
     </nav>
