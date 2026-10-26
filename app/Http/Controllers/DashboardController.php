@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Exports\CamabaExport;
 use App\Helpers\StatusHelper;
 use App\Models\Agent;
 use App\Models\AgentLuar;
@@ -12,6 +13,7 @@ use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 use Illuminate\Support\Facades\Auth;
+use Maatwebsite\Excel\Facades\Excel;
 
 class DashboardController extends Controller
 {
@@ -345,7 +347,7 @@ class DashboardController extends Controller
 
     public function dataCamaba(Request $request)
     {
-        $camabas = Agent::with('agent')
+        $camabas = Agent::with(['agent', 'agentLuar'])
             ->when($request->filled('search'), function ($query) use ($request) {
                 $search = $request->input('search');
 
@@ -356,6 +358,9 @@ class DashboardController extends Controller
                         ->orWhere('program_studi', 'like', '%' . $search . '%')
                         ->orWhere('sistem_kuliah', 'like', '%' . $search . '%')
                         ->orWhereHas('agent', function ($query) use ($search) {
+                            $query->where('name', 'like', '%' . $search . '%');
+                        })
+                        ->orWhereHas('agentLuar', function ($query) use ($search) {
                             $query->where('name', 'like', '%' . $search . '%');
                         });
                 });
@@ -375,6 +380,12 @@ class DashboardController extends Controller
             ->get(['id', 'name', 'status']);
 
         return view('auth.admin.dashboard.dataCamaba', compact('camabas', 'statusOptions', 'agentOptions'));
+    }
+
+    public function exportCamaba(Request $request)
+    {
+        $filename = 'data_calon_mahasiswa_' . now()->format('Y-m-d_H-i-s') . '.xlsx';
+        return Excel::download(new CamabaExport($request->all()), $filename);
     }
 
     public function updateCamabaStatus(Request $request, Agent $camaba)

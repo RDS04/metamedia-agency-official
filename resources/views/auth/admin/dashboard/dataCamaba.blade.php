@@ -11,43 +11,54 @@
             <p class="text-gray-400 mt-1">Pantau camaba yang didaftarkan oleh agent.</p>
         </div>
 
-        <form method="GET" action="{{ route('dataCamaba') }}" class="flex flex-col sm:flex-row gap-2">
-            <input type="text" name="search" value="{{ request('search') }}"
-                placeholder="Cari nama, NIK/NIM, agent..."
-                class="rounded-lg border border-gray-300 px-4 py-2 text-sm text-gray-800 focus:border-[#018FD7] focus:ring-2 focus:ring-blue-100 outline-none transition">
+        <div class="flex flex-col sm:flex-row flex-wrap items-stretch sm:items-center gap-2">
+            <form method="GET" action="{{ route('dataCamaba') }}" class="flex flex-col sm:flex-row flex-wrap gap-2">
+                <input type="text" name="search" value="{{ request('search') }}"
+                    placeholder="Cari nama, NIK/NIM, agent..."
+                    class="rounded-lg border border-gray-300 px-4 py-2 text-sm text-gray-800 focus:border-[#018FD7] focus:ring-2 focus:ring-blue-100 outline-none transition">
 
-            <select name="agent_id"
-                class="rounded-lg border border-gray-300 px-4 py-2 text-sm text-gray-800 bg-white focus:border-[#018FD7] focus:ring-2 focus:ring-blue-100 outline-none transition">
-                <option value="">Semua agent</option>
-                @foreach($agentOptions as $agent)
-                    <option value="{{ $agent->id }}" {{ (string) request('agent_id') === (string) $agent->id ? 'selected' : '' }}>
-                    {{ \App\Helpers\StatusHelper::formatStatus($agent->status) }}
-                    </option>
-                @endforeach
-            </select>
+                <select name="agent_id"
+                    class="rounded-lg border border-gray-300 px-4 py-2 text-sm text-gray-800 bg-white focus:border-[#018FD7] focus:ring-2 focus:ring-blue-100 outline-none transition">
+                    <option value="">Semua agent</option>
+                    @foreach($agentOptions as $agent)
+                        <option value="{{ $agent->id }}" {{ (string) request('agent_id') === (string) $agent->id ? 'selected' : '' }}>
+                            {{ $agent->name }} ({{ \App\Helpers\StatusHelper::formatStatus($agent->status) }})
+                        </option>
+                    @endforeach
+                </select>
 
-            <select name="status"
-                class="rounded-lg border border-gray-300 px-4 py-2 text-sm text-gray-800 bg-white focus:border-[#018FD7] focus:ring-2 focus:ring-blue-100 outline-none transition">
-                <option value="">Semua status</option>
-                @foreach($statusOptions as $status => $class)
-                    <option value="{{ $status }}" {{ request('status') === $status ? 'selected' : '' }}>
-                        {{ $status }}
-                    </option>
-                @endforeach
-            </select>
+                <select name="status"
+                    class="rounded-lg border border-gray-300 px-4 py-2 text-sm text-gray-800 bg-white focus:border-[#018FD7] focus:ring-2 focus:ring-blue-100 outline-none transition">
+                    <option value="">Semua status</option>
+                    @foreach($statusOptions as $status => $class)
+                        <option value="{{ $status }}" {{ request('status') === $status ? 'selected' : '' }}>
+                            {{ $status }}
+                        </option>
+                    @endforeach
+                </select>
 
-            <button type="submit"
-                class="rounded-lg bg-[#018FD7] px-4 py-2 text-sm font-medium text-white hover:bg-[#0177BB] transition">
-                Filter
-            </button>
+                <button type="submit"
+                    class="rounded-lg bg-[#018FD7] px-4 py-2 text-sm font-medium text-white hover:bg-[#0177BB] transition shadow-sm">
+                    Filter
+                </button>
 
-            @if(request()->hasAny(['search', 'agent_id', 'status']))
-                <a href="{{ route('dataCamaba') }}"
-                    class="rounded-lg border border-gray-300 px-4 py-2 text-sm font-medium text-gray-600 hover:bg-gray-50 transition">
-                    Reset
-                </a>
-            @endif
-        </form>
+                @if(request()->hasAny(['search', 'agent_id', 'status']))
+                    <a href="{{ route('dataCamaba') }}"
+                        class="rounded-lg border border-gray-300 px-4 py-2 text-sm font-medium text-gray-600 hover:bg-gray-50 transition text-center">
+                        Reset
+                    </a>
+                @endif
+            </form>
+
+            <a href="{{ route('dataCamaba.export', request()->query()) }}"
+                class="inline-flex items-center justify-center gap-2 rounded-lg bg-emerald-600 hover:bg-emerald-700 px-4 py-2 text-sm font-medium text-white shadow-sm transition whitespace-nowrap"
+                title="Export data ke Excel">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
+                </svg>
+                Export Excel
+            </a>
+        </div>
     </div>
 
     @if(session('success'))
@@ -57,8 +68,16 @@
     @endif
 
     <div class="bg-white rounded-xl border border-gray-200 shadow-lg overflow-hidden">
-        <div class="border-b border-gray-200 px-6 py-5 bg-gradient-to-r from-[#018FD7] to-[#0177BB]">
+        <div class="border-b border-gray-200 px-6 py-4 bg-gradient-to-r from-[#018FD7] to-[#0177BB] flex items-center justify-between">
             <h2 class="text-white text-lg font-semibold">List Camaba</h2>
+            <a href="{{ route('dataCamaba.export', request()->query()) }}"
+                class="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg bg-white/20 hover:bg-white/30 text-white text-xs font-semibold backdrop-blur-sm transition border border-white/30"
+                title="Export data saat ini ke Excel">
+                <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
+                </svg>
+                Export Excel
+            </a>
         </div>
 
         <div class="overflow-x-auto">
@@ -86,9 +105,11 @@
                                 <p class="text-xs text-gray-400">NIK/NIM: {{ $camaba->nik }}</p>
                             </td>
                             <td class="px-6 py-4">
-                                <p class="text-sm text-gray-700">{{ $camaba->agent->name ?? 'Belum terhubung' }}</p>
+                                <p class="text-sm text-gray-700">{{ $camaba->agent->name ?? $camaba->agentLuar->name ?? 'Belum terhubung' }}</p>
                                 @if($camaba->agent)
                                     <p class="text-xs text-gray-400">{{ \App\Helpers\StatusHelper::formatStatus($camaba->agent->status) }}</p>
+                                @elseif($camaba->agentLuar)
+                                    <p class="text-xs text-gray-400">Agent Umum</p>
                                 @endif
                                 <p class="text-xs text-gray-400">{{ $camaba->created_at?->format('d M Y') ?? '-' }}</p>
                             </td>

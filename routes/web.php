@@ -100,6 +100,7 @@ Route::middleware('auth:admin')->prefix('agent')->group(function () {
         Route::put('/admin/priode/{periode}', 'periodeUpdate')->name('periode.update')->whereNumber('periode');
         Route::delete('/admin/priode/{periode}', 'periodeDestroy')->name('periode.destroy')->whereNumber('periode');
         Route::get('/admin/data-camaba', 'dataCamaba')->name('dataCamaba');
+        Route::get('/admin/data-camaba/export', 'exportCamaba')->name('dataCamaba.export');
         Route::patch('/admin/data-camaba/{camaba}/status', 'updateCamabaStatus')->name('dataCamaba.status')->whereNumber('camaba');
 
     });
